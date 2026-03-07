@@ -1,0 +1,9 @@
+function main a: integer returns integer;
+    b: integer is when a > 10, 1 : 0;
+begin
+    if b = 1 then
+        100;
+    else
+        50;
+    endif;
+end;

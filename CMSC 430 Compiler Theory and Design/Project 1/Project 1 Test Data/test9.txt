@@ -1,0 +1,12 @@
+-- Custom test case for mixed valid and invalid literals
+
+function main returns integer;
+    good_real: real is 7.25E-1;
+    good_hex: integer is #1Af;
+    tab_char: character is '\t';
+begin
+    bad_escape: character is '\x';
+    bad_hex: integer is #;
+    bad_real: real is 12.E+;
+    good_hex + 1;
+end;

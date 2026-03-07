@@ -1,0 +1,85 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Courier New;}}
+\fs22
+\b CMSC 430 Project 2 Documentation\b0\par
+Student: Joe Merrill\par
+Date: March 7, 2026\par
+\par
+\b 1. Approach\b0\par
+I started from the provided Project 2 skeleton and then rebuilt the scanner and parser to match the full grammar in the assignment requirements. The work was done incrementally so that each language feature could be added and verified before moving to the next one.\par
+\par
+The lexical analyzer was expanded first. The scanner now recognizes the complete Project 2 token set, including integer, real, and character literals; alternate comment styles using // and --; the required keywords such as if, elsif, endif, fold, left, right, real, and endfold; and all arithmetic, relational, and logical operators.\par
+\par
+The parser was then rewritten to remove the EBNF notation from the assignment grammar and replace it with recursive Bison productions. This included optional parameter declarations, zero or more variable declarations, zero or more elsif clauses, and zero or more switch cases. Operator precedence and associativity were encoded directly in the grammar instead of using Bison precedence directives, as required by the project. Separate productions were used for additive, multiplicative, exponentiation, unary negation, logical or, logical and, logical not, and relational expressions.\par
+\par
+After the full grammar was in place, syntax recovery was added using semicolon-based synchronization and targeted error productions. Recovery points were added for function headers, variable declarations, statements, when clauses, and malformed case clauses. The listing module was also updated so the compiler reports line-oriented errors and prints separate lexical, syntax, and semantic totals or Compiled Successfully when no errors are found.\par
+\par
+The completed parser was built with win_bison, win_flex, g++, and mingw32-make in the local Windows environment. The provided positive and negative test cases were run to confirm that valid programs parse successfully and malformed programs continue parsing after the first error when recovery is expected.\par
+\par
+\b 2. Test Plan\b0\par
+The following test set was used to validate grammar coverage and syntax recovery.\par
+\par
+\b Grammar coverage tests\b0\par
+test1.txt: arithmetic expression parsing in a minimal function body.\par
+test2.txt: when statement with relational and logical conditions.\par
+test3.txt: switch statement with case clauses and others clause.\par
+test4.txt: list declaration and indexed identifier use.\par
+test5.txt: real type, real literal, and character literal support.\par
+test6.txt: if statement with multiple elsif clauses.\par
+test7.txt: fold statement with left/right directions and list choices.\par
+test8.txt: multiple variable declarations before the function body.\par
+test9.txt: single parameter declaration in the function header.\par
+test10.txt: multiple parameter declarations and mixed numeric types.\par
+test11.txt: additive, multiplicative, remainder, exponentiation, and unary negation precedence.\par
+test12.txt: relational, and, or, and not operator precedence.\par
+test13.txt: comprehensive nested-if program using most language features.\par
+test14.txt: comprehensive nested-switch program using nested control flow and numeric operators.\par
+\par
+\b Error recovery tests\b0\par
+syntax1.txt: missing operator inside an expression.\par
+syntax2.txt: malformed function header with a missing colon.\par
+syntax3.txt: malformed variable declaration with a missing colon.\par
+syntax4.txt: malformed switch with a broken case clause and missing others clause.\par
+syntax5.txt: multiple syntax errors in one program, including header, expression, case, and switch recovery.\par
+\par
+\b Build verification\b0\par
+Command used: mingw32-make\par
+Expected result: compile.exe is built successfully.\par
+\par
+\b Representative run transcript\b0\par
+Command used: compile.exe < test14.txt\par
+Observed result: the file parsed completely and ended with Compiled Successfully.\par
+\par
+Command used: compile.exe < syntax5.txt\par
+Observed result: the parser reported five syntax errors and continued to the end of the file instead of aborting at the first error.\par
+\par
+\b 3. Lessons Learned\b0\par
+The main lesson from this project was that parser extensions are easier to debug when grammar changes are made in small steps. Adding one language feature at a time made it much easier to tell whether a new shift/reduce conflict or recovery problem came from the most recent change.\par
+\par
+Another lesson was that operator precedence is clearer and safer when it is encoded structurally in the grammar. Building separate nonterminals for each precedence level made the intended associativity explicit and avoided relying on precedence directives that were prohibited by the assignment.\par
+\par
+I also learned that error recovery needs to be designed around realistic synchronization points. Generic recovery rules can cause cascaded errors, while targeted recovery rules tied to semicolons, case clauses, and statement boundaries allow the parser to resume in a more stable state.\par
+\par
+If this project were extended further, the next improvement would be to automate the test suite so each supplied input file is run by a single script and compared against expected outcomes. Another useful improvement would be adding semantic analysis on top of the parser so duplicate declarations, undeclared identifiers, and type mismatches could be reported in the same listing format.\par
+\par
+\b 4. Submission Contents\b0\par
+Source files included in the project folder:\par
+scanner.l\par
+parser.y\par
+listing.h\par
+listing.cc\par
+makefile\par
+\par
+Generated build artifacts present locally for verification but not required in the submission zip:\par
+lex.yy.c\par
+parser.tab.c\par
+parser.tab.h\par
+parser.output\par
+scanner.o\par
+parser.o\par
+listing.o\par
+compile.exe\par
+\par
+\b 5. Notes\b0\par
+The rubric asks for screenshots of compiler runs. This document records the test cases and observed results in text. If image screenshots are strictly required for submission, they should be captured from the successful test and error-recovery runs already verified in the project workspace.\par
+}

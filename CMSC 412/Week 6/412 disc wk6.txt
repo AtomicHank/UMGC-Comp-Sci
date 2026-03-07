@@ -1,0 +1,81 @@
+Definition: File
+A file is a repository of information/record in one portion, acknowledged by a filename. It could be a text, image, voice data or executable file, or other forms of data.
+
+Operations on a file:
+Several operation can be performed on a file as listed below:
+It can be opened, saved, closed, erased, and copy/pasted into other file/folders.
+
+Types of File:
+Text files comprise doc files, PDFs (Portable Document Format), etc.
+Image format comprise JPEGs (Joint Photographers Expert Group), GIFs (Graphics Interchange Format), BMPs (BitMaP), and other forms like Photoshop images (PSDs).
+Voice and video files include MP3, MPEG (Motion Pictures Expert Group), and quite a few others.
+
+File Retrieval Process:
+File Retrieval Process describes the way in which the data of a file can be accessed.
+Few of the File Retrieval Process are described below:
+
+Sequential access
+Direct/Random access
+Indexed sequential access
+Sequential access:
+A sequential access is a file access method in which the data/information is retrieved in some order.
+
+Direct/Random access:
+Random access offers entry to the records instantly forthwith without deviation. Each data entry possesses its address.
+
+Indexed sequential access:
+This method is an extension of sequential access mechanism. An index for each record is stored and it encloses pointers address of quite a few blocks.
+
+Filesystem:
+A filesystem is the mechanism along with data structures that an OS employs to maintain record of files on a device/system.
+
+Types of File system:
+File systems can be categorized into two logical groupings:
+
+Shareable and non shareable file system
+Variable and static file system
+Shareable files can be acquired by both local system/users and by remote system/users;
+
+Non sharable files are only accessible to only local system/users.
+
+
+Definition: File
+A file is a repository of information/record in one portion, acknowledged by a filename. It could be a text, image, voice data or executable file, or other forms of data.
+
+Operations on a file:
+Several operation can be performed on a file as listed below:
+It can be opened, saved, closed, erased, and copy/pasted into other file/folders.
+
+Types of File:
+Text files comprise doc files, PDFs (Portable Document Format), etc.
+Image format comprise JPEGs (Joint Photographers Expert Group), GIFs (Graphics Interchange Format), BMPs (BitMaP), and other forms like Photoshop images (PSDs).
+Voice and video files include MP3, MPEG (Motion Pictures Expert Group), and quite a few others.
+
+File Retrieval Process:
+File Retrieval Process describes the way in which the data of a file can be accessed.
+Few of the File Retrieval Process are described below:
+
+Sequential access
+Direct/Random access
+Indexed sequential access
+Sequential access:
+A sequential access is a file access method in which the data/information is retrieved in some order.
+
+Direct/Random access:
+Random access offers entry to the records instantly forthwith without deviation. Each data entry possesses its address.
+
+Indexed sequential access:
+This method is an extension of sequential access mechanism. An index for each record is stored and it encloses pointers address of quite a few blocks.
+
+Filesystem:
+A filesystem is the mechanism along with data structures that an OS employs to maintain record of files on a device/system.
+
+Types of File system:
+File systems can be categorized into two logical groupings:
+
+Shareable and non shareable file system
+Variable and static file system
+Shareable files can be acquired by both local system/users and by remote system/users;
+
+Non sharable files are only accessible to only local system/users.
+

@@ -1,0 +1,5 @@
+Scene ParallelogramTest (600, 300)
+  Parallelogram Color(255, 0, 0) at (50, 50) (150, 150) Offset 0;
+  Parallelogram Color(0, 255, 0) at (200, 50) (300, 150) Offset 30;
+  Parallelogram Color(0, 0, 255) at (350, 50) (450, 150) Offset 60;
+ End.

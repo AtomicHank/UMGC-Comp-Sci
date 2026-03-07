@@ -1,0 +1,157 @@
+Week 1=============================================================================================================
+
+Pick one of the following scenarios and 
+
+model using at least 5 classes: one parent, two children, and two grandchildren of one of the child classes.
+Provide at least one field and one method that compellingly differentiates each class from the others.
+Do not include constructors, getters, or setters in your description.
+Scenarios - lots of them spring to mind, but I don't want the list to be too long. In this way, you can compare your ideas with those of other students, and I encourage to consider what other students have posted, you are also encouraged to make suggestions of other's postings and make additional postings updating your own ideas in light of the suggestions by others.
+
+An airplane
+A train
+An e-commerce company (eg, Amazon)
+A city government
+An airline (aspects of an entire company)
+A government organization (eg, EPA, Defense)
+NOTE: A general is not a kind of private, nor is a private a kind of general, for example.
+Also, a general is not a kind of Defense Department
+THUS: not all hierarchies are class hierarchies!
+Note: This problem is NOT asking for a full implementation of these classes - a UML diagram, or similar level of detail, is adequate.
+
+I would emphasize the following kinds of relationships among classes:
+
+is-a	
+parent/child relationship in a class hierarchy
+perhaps better to use the phrase "is a kind of", as in "a Private is a kind of Soldier" or "a SportsCar is a kind of Car"
+
+is-some	a data structure in which all the elements have the same type. 
+This is the place where one should use generic classes.
+This will not be the case in our project since we have a structure of Cave -> Party -> Creature -> Artifact and Treasure.
+
+has-a	an attribute (field) of one class inside another
+
+has-some	
+a 1-to-n relationship,
+in our case a Party will have may Creatures, and a Creature will have many Artifacts and will also have many Treasures
+
+Week 1 Discussion Post – Object-Oriented Concepts Using a Tank Example
+
+The example I chose is a tank. A tank is a useful example of an object because it combines state (data) and behavior (actions).
+
+The tank itself would be an object created from a Tank class. The state of the tank could include attributes such as armor thickness, fuel level, ammunition count, speed, and crew size. These are variables that describe the current condition of the tank at any given moment. The behavior of the tank would be represented by methods such as move(), fireWeapon(), reload(), refuel(), or takeDamage().
+
+Inheritance can also be demonstrated with a tank. A Tank class could be extended into more specific subclasses like MainBattleTank, LightTank, or SelfPropelledGun. Each subclass would inherit common attributes and behaviors from the Tank class while adding or modifying features unique to that type. For instance, a MainBattleTank might override the fireWeapon() method to represent a larger caliber gun or advanced fire-control system.
+
+Encapsulation is shown by restricting direct access to sensitive data, such as armor integrity or ammunition status. Instead of allowing other parts of the program to directly change these values, methods like takeDamage() or useAmmo() would control how the internal state is modified, ensuring the tank always remains in a valid condition.
+
+A tank is an useful example as an object because it illustrates how objects bundle data and behavior together, how inheritance creates specialization, and how encapsulation protects internal state while allowing access to only what is necessary for interaction.
+
+
+is-a (Inheritance / Class Hierarchy)
+MainBattleTank → Tank → GroundVehicle
+LightTank → Tank → GroundVehicle
+SelfPropelledGun → Tank → GroundVehicle
+
+A MainBattleTank is a Tank
+A Tank is a GroundVehicle
+
+has-a (Attributes / Fields)
+Tank has a hullArmorThickness
+Tank has a turretArmorThickness
+Tank has a fuelLevel
+Tank has a ammunitionCount
+
+FireControlSystem has a targetingComputer
+EngineSystem has a horsepowerRating
+
+has-some (1-to-many Relationships)
+Tank has some crewMembers
+Tank has some weapons
+Tank has some sensors
+
+CrewManagement has some crewMembers
+WeaponSystem has some ammunitionTypes
+
+Example Class Responsibilities
+
+Tank
+Controls movement and combat state
+Coordinates subsystems
+
+CrewManagement
+Assigns crew to roles (commander, gunner, driver)
+Tracks crew readiness
+
+WeaponSystem
+Fires main gun and secondary weapons
+Tracks ammunition usage
+
+EngineSystem
+Manages speed, acceleration, and fuel consumption
+
+
+
+Week 2=============================================================================================================
+
+Pick a pair of concrete classes in the JDK in a parent-child relationship and discuss a few polymorphic and/or overloaded methods.
+
+Do not use Object as the parent class - it is too trivial to address the issues to be addressed here, and in any case, Object is the final parent of all classes in Java.
+
+Week 3=============================================================================================================
+
+Pick an interface in the JDK, describe the method(s) that interface requires, and describe a good use of it.
+
+Week 4=============================================================================================================
+
+Using the readings and videos from this week as your guide, create your own simple GUI. Provide the code, describe the functionality and demonstrate it compiles and runs as designed.
+
+Week 5=============================================================================================================
+
+For this week, please describe in your own words what multithreading is and how can multiple threads run simultaneously on a single-processor system? You don't need to provide code examples, just try to describe the principles in your own words.
+
+Week 6=============================================================================================================
+
+For this week,
+
+take one of the topics in the readings,
+find a reference outside our readings talking about that topic
+cite your reference
+tell us a little about how the two presentations relate to each other
+tell us what you have learned about that topic from your readings
+Some suggested topics:
+
+Spin locks
+Atomic read/write operations vs the real world
+Sequentially consistent memory
+Memory barrier instructions
+Test and set locks: getAndSet (), compareAndSet ()
+Monitors, locks, conditions
+Locked queue
+Lost wake up events
+Readers writers locks
+Reentrant locks
+Semaphores
+Threads - creating and running them
+Thread structure of the JVM and the Java GUI classes
+Race conditions and deadlocks
+Writing a concurrent program
+condition variables
+producer-consumer problem
+finding objects
+active, passive and control objects
+
+Week 7=============================================================================================================
+
+(a) Give an example where an executor pool is appropriate.
+
+(b) Why are some of the methods in the Thread class deprecated? Give a short explanation.
+
+Week 8=============================================================================================================
+
+a) Describe an application that can deadlock, or starve a thread.
+
+(b) Describe a testing strategy that would detect such a problem efficiently.
+
+(c) Tell us what you liked about this class.
+
+(d) Tell us what you did not like about this class.

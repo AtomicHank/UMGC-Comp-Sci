@@ -1,0 +1,4 @@
+Scene LargeCoords (800, 600)
+   RegularPolygon Color(255, 0, 255) at (400, 300) Sides 6 Radius 250;
+   Text Color(0, 0, 0) at (350, 310) "Center";
+End.

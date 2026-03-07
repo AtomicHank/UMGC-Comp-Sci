@@ -1,0 +1,237 @@
+CMSC 335 — Homework 3 (Answers)
+
+1) (5 pts) What events do the following components generate in either Swing or JavaFX?
+
+A) Swing
+• JButton
+  - ActionEvent (primary: button press/click triggers ActionListener.actionPerformed)
+  - (Also possible: MouseEvent, FocusEvent, KeyEvent if listeners are attached, but the “main” semantic event is ActionEvent.)
+
+• JTextField
+  - ActionEvent (pressing Enter triggers ActionListener.actionPerformed)
+  - DocumentEvent (changes to the underlying Document trigger DocumentListener insertUpdate/removeUpdate/changedUpdate)
+  - KeyEvent (KeyListener: keyPressed/keyReleased/keyTyped), FocusEvent (FocusListener), etc., if those listeners are registered.
+
+• JComboBox
+  - ActionEvent (selection changes often fire an ActionEvent)
+  - ItemEvent (ItemListener: itemStateChanged when an item becomes selected/deselected)
+  - PopupMenuEvent (PopupMenuListener: popupMenuWillBecomeVisible/Invisible/Canceled) when the dropdown opens/closes.
+
+B) JavaFX
+• Button
+  - ActionEvent (setOnAction / EventHandler<ActionEvent> for clicks/activation)
+  - (Also: MouseEvent/KeyEvent if handlers are attached, but ActionEvent is the primary one.)
+
+• TextField
+  - ActionEvent (pressing Enter)
+  - KeyEvent (onKeyPressed/onKeyReleased/onKeyTyped)
+  - Focus changes via focusedProperty listeners; text changes via textProperty listeners (observable change notifications rather than Swing-style DocumentEvent).
+
+• ComboBox
+  - ActionEvent (selection/commit triggers onAction)
+  - Selection changes observed through selectionModel.selectedItemProperty() (change listeners)
+  - Showing/hiding can be observed via showingProperty (similar conceptually to Swing’s popup events).
+
+--------------------------------------------------------------------------------
+
+2) (5 pts) What methods does JTable implement which are required by the interfaces it implements beyond those from parent classes?
+
+JTable extends JComponent (and ultimately Container/Component) but also implements several interfaces. The “must implement” methods that come from those interfaces (not inherited defaults) include:
+
+A) javax.swing.Scrollable
+• java.awt.Dimension getPreferredScrollableViewportSize()
+• int getScrollableUnitIncrement(java.awt.Rectangle visibleRect, int orientation, int direction)
+• int getScrollableBlockIncrement(java.awt.Rectangle visibleRect, int orientation, int direction)
+• boolean getScrollableTracksViewportWidth()
+• boolean getScrollableTracksViewportHeight()
+
+B) javax.swing.event.TableModelListener
+• void tableChanged(javax.swing.event.TableModelEvent e)
+
+C) javax.swing.event.TableColumnModelListener
+• void columnAdded(javax.swing.event.TableColumnModelEvent e)
+• void columnRemoved(javax.swing.event.TableColumnModelEvent e)
+• void columnMoved(javax.swing.event.TableColumnModelEvent e)
+• void columnMarginChanged(javax.swing.event.ChangeEvent e)
+• void columnSelectionChanged(javax.swing.event.ListSelectionEvent e)
+
+D) javax.swing.event.ListSelectionListener
+• void valueChanged(javax.swing.event.ListSelectionEvent e)
+
+E) javax.swing.event.CellEditorListener
+• void editingStopped(javax.swing.event.ChangeEvent e)
+• void editingCanceled(javax.swing.event.ChangeEvent e)
+
+F) javax.accessibility.Accessible
+• javax.accessibility.AccessibleContext getAccessibleContext()
+  (JTable provides/overrides an AccessibleContext implementation appropriate for tables.)
+
+Note: The question’s wording (“beyond those interfaces implemented by the various parent classes”) is basically asking you to list methods JTable must provide because of the interfaces it directly implements, rather than methods inherited from superclasses.
+
+--------------------------------------------------------------------------------
+
+3) (5 pts) Differences among layout managers, focusing on behavior as the container is resized
+
+(Using JavaFX terms; Swing equivalents noted.)
+
+a) FlowPane (Swing: FlowLayout)
+• Behavior: Lays out children in a row (or column), wrapping to the next line when there isn’t enough space.
+• Resizing larger: more items fit per row; fewer wraps; extra space is distributed via gaps/alignment.
+• Resizing smaller: items wrap more; height often grows as rows increase; children keep their preferred sizes unless constrained.
+
+b) GridPane (Swing: GridLayout)
+• JavaFX GridPane: grid of rows/columns; supports per-row/per-column constraints.
+  - Resizing larger: extra space can be distributed based on constraints (grow priorities); some cells/controls can stretch.
+  - Resizing smaller: columns/rows can shrink; controls may compress to min sizes; if too small, content can clip.
+• Swing GridLayout: forces all cells to be equal size.
+  - Resizing larger/smaller: every component resizes uniformly to fill its grid cell.
+
+c) AnchorPane (JavaFX only; closest Swing idea is absolute positioning with null layout, though that’s discouraged)
+• Behavior: Anchors child nodes to container edges with fixed offsets (top/left/right/bottom anchors).
+• Resizing larger: if both left+right (or top+bottom) anchors are set, the node stretches to maintain offsets.
+• Resizing smaller: anchored nodes maintain offsets; stretching can compress the node; may clip if min sizes exceed space.
+• Key idea: very deterministic “pin to edges” layout.
+
+d) TilePane (JavaFX)
+• Behavior: Places children in uniformly sized “tiles,” flowing like a grid that wraps.
+• Resizing larger: more tiles per row (or column) depending on orientation; overall layout becomes less tall.
+• Resizing smaller: fewer tiles per row; more wrapping; overall layout becomes taller.
+• Key idea: every child gets the same tile size (based on the largest preferred size unless set explicitly).
+
+e) Another layout (choice): BorderPane (JavaFX) / BorderLayout (Swing)
+• Behavior: five regions (Top, Bottom, Left, Right, Center).
+• Resizing larger: Center region expands the most; side regions keep preferred sizes unless set to grow.
+• Resizing smaller: Center shrinks first; if too small, center content can clip; top/bottom keep height; left/right keep width.
+
+--------------------------------------------------------------------------------
+
+4) (10 pts) Dining Philosophers
+
+a) What is wrong with everyone doing:
+1 think
+2 get left chopstick
+3 get right chopstick
+4 eat
+5 return left
+6 return right
+7 repeat
+
+This can deadlock:
+• If all philosophers pick up their left chopstick at the same time, each holds one chopstick and waits forever for the right one.
+• That is a classic circular wait: P1 waits for P2’s right, P2 waits for P3’s right, …, P5 waits for P1’s right.
+
+b) How to fix to avoid deadlocks (one valid solution)
+Option 1: Impose a global ordering on resources (break circular wait)
+• Number chopsticks 0–4.
+• Each philosopher always picks up the lower-numbered chopstick first, then the higher-numbered.
+• Because everyone follows the same ordering, you cannot form a cycle of “hold-and-wait,” so deadlock is prevented.
+
+(Other acceptable fixes: allow at most 4 philosophers to try to eat at once using a semaphore; make one philosopher pick up right then left; use a “waiter”/arbiter that grants permission to pick up both.)
+
+c) Is your solution starvation free?
+• The resource-ordering fix is deadlock-free, but starvation is not automatically guaranteed.
+  - In an unfair scheduling situation, a philosopher could repeatedly lose races to acquire chopsticks and wait a long time.
+• To be starvation-free you typically add fairness:
+  - Use fair locks (e.g., ReentrantLock(true)) for chopsticks or a fair semaphore/arbiter, so requests are served roughly FIFO.
+  - Or use a waiter that queues philosophers and grants turns.
+
+So: “deadlock-free” does not necessarily mean “starvation-free” unless fairness is part of the design.
+
+--------------------------------------------------------------------------------
+
+5) (10 pts) What methods must a class implementing java.util.concurrent.locks.Lock implement? Expected characteristics?
+
+The Lock interface requires these methods:
+
+• void lock()
+  - Acquires the lock, possibly blocking indefinitely until it becomes available.
+  - Not responsive to interruption (the thread stays blocked even if interrupted).
+
+• void lockInterruptibly() throws InterruptedException
+  - Acquires the lock unless the current thread is interrupted.
+  - If interrupted while waiting, it throws InterruptedException (useful for responsive cancellation).
+
+• boolean tryLock()
+  - Attempts to acquire the lock immediately without blocking.
+  - Returns true if acquired, false otherwise.
+
+• boolean tryLock(long time, TimeUnit unit) throws InterruptedException
+  - Attempts to acquire within a given timeout.
+  - Blocks up to the time limit; returns true if acquired, false if timed out.
+  - Can be interrupted while waiting.
+
+• void unlock()
+  - Releases the lock.
+  - Typically must be called by the thread that acquired it; otherwise IllegalMonitorStateException-like behavior may occur (implementation-dependent but conceptually “wrong owner”).
+
+• Condition newCondition()
+  - Creates a Condition associated with this lock.
+  - Conditions provide wait/notify-style coordination (await/signal/signalAll), but tied to Lock rather than intrinsic monitors.
+
+General expectations:
+• Correctness: lock/unlock must bracket critical sections reliably.
+• Memory visibility: successful unlock “publishes” changes; subsequent lock “sees” them (happens-before semantics).
+• Optional policies: implementations may provide fairness (e.g., queueing), reentrancy, etc.
+
+--------------------------------------------------------------------------------
+
+6) (5 pts) What does the JVM do when it encounters a synchronized directive?
+
+In Java, “synchronized” is implemented using an intrinsic monitor associated with an object (or a Class object for static synchronized):
+
+• For a synchronized block: synchronized(someObject) { ... }
+  - The JVM executes a monitorenter on someObject’s monitor at entry.
+  - If another thread holds that monitor, the current thread blocks until the monitor is released.
+  - On normal exit (or if an exception occurs), the JVM executes monitorexit, releasing the monitor.
+
+• For a synchronized instance method:
+  - Equivalent to synchronizing on “this” (the current object instance).
+
+• For a synchronized static method:
+  - Equivalent to synchronizing on the Class object (e.g., MyClass.class).
+
+Also important:
+• Synchronization provides mutual exclusion and memory visibility guarantees:
+  - An unlock (monitorexit) happens-before a subsequent lock (monitorenter) on the same monitor.
+
+--------------------------------------------------------------------------------
+
+7) (10 pts) Difference between Lock interface and synchronized keyword
+
+Key differences:
+
+1) Flexibility & features
+• synchronized:
+  - Simple syntax; automatic release on scope exit (including exceptions).
+  - One condition queue per monitor (wait/notify/notifyAll).
+  - No built-in timeout and no non-blocking “try” acquisition.
+
+• Lock (java.util.concurrent.locks.Lock):
+  - More flexible: tryLock(), timed tryLock(), lockInterruptibly().
+  - Multiple Conditions per lock via newCondition() (more precise coordination than a single wait-set).
+  - Can implement fairness policies (e.g., ReentrantLock(true)) and advanced patterns.
+
+2) Safety & boilerplate
+• synchronized:
+  - Harder to misuse because lock release is automatic.
+• Lock:
+  - Must be released manually; best practice is:
+    lock.lock();
+    try { ... } finally { lock.unlock(); }
+  - Forgetting unlock() can cause deadlock.
+
+3) Interruption behavior
+• synchronized:
+  - Threads blocked entering a synchronized region are not interruptible in the same clean way.
+• Lock:
+  - lockInterruptibly() allows interrupting a waiting thread.
+
+4) Performance/implementation considerations
+• synchronized:
+  - JVM can optimize (biased locking, thin locks, etc., depending on JVM/version).
+• Lock:
+  - Implemented in Java libraries; can be faster for some contention patterns and offers features unavailable with synchronized.
+
+Bottom line:
+• Use synchronized for simple, structured mutual exclusion.
+• Use Lock when you need timed acquisition, interruptible waits, multiple conditions, or fairness/advanced coordination.

@@ -1,0 +1,6 @@
+Scene PolygonTest (600, 400)
+  RegularPolygon Color(255, 0, 0) at (100, 200) Sides 3 Radius 60;
+  RegularPolygon Color(0, 255, 0) at (250, 200) Sides 4 Radius 60;
+  RegularPolygon Color(0, 0, 255) at (400, 200) Sides 8 Radius 60;
+  RegularPolygon Color(128, 0, 128) at (550, 200) Sides 12 Radius 60;
+ End.

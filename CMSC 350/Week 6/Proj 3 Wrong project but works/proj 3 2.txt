@@ -1,0 +1,620 @@
+BinarySearchTreeSortGUI.java
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+
+@SuppressWarnings("serial")
+public class BinarySearchTreeSortGUI extends JFrame implements ActionListener
+{
+   // Create an instance of the BinarySearchTree, that will be used to create the tree from the contents of the original list.
+   @SuppressWarnings("rawtypes")
+   private BinarySearchTree tree;
+  
+   private String sortedList = "";
+  
+   /***
+   * @param args
+   * @throws IOException
+   */
+   public static void main(String[] args) throws IOException{
+       new BinarySearchTreeSortGUI();
+   }
+
+   public BinarySearchTreeSortGUI() throws IOException
+   {
+        // Creates the label which will be used to show where the user can enter the original list that needs to be sorted
+        JLabel originalListLabel = new JLabel("Original List");
+        
+        // Create a panel, which will be used to contain the TextField where the user will enter the original list that needs to be sorted.
+        JPanel originalListPanel = new JPanel();
+
+        // Creates the textfield which will hold the original list the user wants sorted.
+       JTextField originalListTextField = new JTextField();
+       originalListTextField.setPreferredSize(new Dimension(280, 25));      
+      
+        //Add the JLabel and JTextField for entering the original list that needs to be sorted
+       originalListPanel.add(originalListLabel, BorderLayout.EAST);
+       originalListPanel.add(originalListTextField, BorderLayout.EAST);
+
+      
+        // Creates the label which will be used to show where the sorted list will be displayed.
+        JLabel sortedListLabel = new JLabel("Sorted List");
+        // Create a panel, which will be used to contain the TextField containing the sorted list.  
+        JPanel sortedListPanel = new JPanel();
+
+        // Creates the textfield which will hold the sorted list.
+       JTextField sortedListTextField = new JTextField();
+       sortedListTextField.setPreferredSize(new Dimension(280, 25));      
+       sortedListTextField.setEditable (false ); // set textArea non-editable
+
+        //Add the JLabel and JTextField for displaying the sorted list.
+       sortedListPanel.add(sortedListLabel, BorderLayout.EAST);
+       sortedListPanel.add(sortedListTextField, BorderLayout.EAST);
+      
+      
+
+        // Create a button panel, which will be used to contain the "Perform Sort" button.
+        JPanel buttonPane = new JPanel();
+
+       // Button that will be used to perform the sort function when clicked
+       JButton performSortButton = new JButton("Perform Sort");
+      
+       buttonPane.add(performSortButton, BorderLayout.EAST);
+      
+
+      
+        // Create a radio button panel, which will be used to contain the radio buttons for selecting the Ascending and Descending options to sort the list.
+        JPanel radioButton1Panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        radioButton1Panel.setBorder ( new TitledBorder ( new EtchedBorder (), "Sort Order" ) );
+        radioButton1Panel.setPreferredSize(new Dimension(220, 80));
+      
+        // Create the radio button panel components, which include the Ascending and Descending radio button options
+        JRadioButton ascendingButton = new JRadioButton("Ascending");
+        ascendingButton.setSelected(true);
+        JRadioButton descendingButton = new JRadioButton("Descending");
+      
+        // Create a container that will hold the Ascending and Descending radio button options in one column and separate rows.
+        Container sortOrderRadioButtons = new Container();
+        sortOrderRadioButtons.setLayout(new BoxLayout(sortOrderRadioButtons, BoxLayout.Y_AXIS));
+        sortOrderRadioButtons.add(ascendingButton);
+        sortOrderRadioButtons.add(descendingButton);
+      
+      
+        //Add the sortOrderRadioButtons into the radioButton1Panel
+        radioButton1Panel.add(sortOrderRadioButtons);
+      
+        //Group the radio buttons.
+        ButtonGroup group1 = new ButtonGroup();
+        group1.add(ascendingButton);
+        group1.add(descendingButton);
+      
+      
+        // Create a radio button panel, which will be used to contain the radio buttons for selecting the Integer and Fraction numeric type options to sort the list.
+        JPanel radioButton2Panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        radioButton2Panel.setBorder ( new TitledBorder ( new EtchedBorder (), "Numeric Type" ) );
+        radioButton2Panel.setPreferredSize(new Dimension(220, 80));
+
+        // Create the radio button panel components, which include the Integer and Fraction radio button options
+        JRadioButton integerButton = new JRadioButton("Integer");
+        integerButton.setSelected(true);
+        JRadioButton fractionButton = new JRadioButton("Fraction");
+      
+      
+        // Create a container that will hold the Integer and Fraction radio button options in one column and separate rows.
+        Container numericTypeRadioButtons = new Container();
+        numericTypeRadioButtons.setLayout(new BoxLayout(numericTypeRadioButtons, BoxLayout.Y_AXIS));
+        numericTypeRadioButtons.add(integerButton);
+        numericTypeRadioButtons.add(fractionButton);
+      
+        //Add the numericTypeRadioButtons into the radioButton1Panel
+        radioButton2Panel.add(numericTypeRadioButtons);
+
+      
+        //Group the radio buttons.
+        ButtonGroup group2 = new ButtonGroup();
+        group2.add(integerButton);
+        group2.add(fractionButton);
+      
+      
+       // Panel that will contain both radio button sections created for the GUI
+       JPanel radioButtonSectionPanel = new JPanel();  
+        // Arrange both the radio button sections side by side in the same row.
+        radioButtonSectionPanel.add(radioButton1Panel, BorderLayout.WEST );
+        radioButtonSectionPanel.add(radioButton2Panel, BorderLayout.EAST);
+
+      
+      
+       // Event handler for when the user clicks on the "Perform Sort" button, which will sort the original list the user inputs.
+       performSortButton.addActionListener(new ActionListener()
+       {
+           @SuppressWarnings("unchecked")
+           public void actionPerformed(ActionEvent ae)
+           {
+               // extract the list entered by the user from the originalListTextField
+               String originalList = originalListTextField.getText();
+              
+               // initialize the sortedListTextField to be blank
+               sortedListTextField.setText("");
+              
+               // if the originalListTextField is blank, then prompt the user to enter a list to be sorted.
+               if(originalList.equals(""))
+               {
+                   JOptionPane.showMessageDialog(null, "Enter the data to sort");
+               }
+                              
+               // Separate the integers or fractions from the original list, into an array, using the spaces as delimiters.
+               String data[] = originalList.split(" ");
+              
+               // If the Integer button is selected
+               if (integerButton.isSelected())
+               {
+                   // Use a try catch, in order to catch any exceptions thrown for non integer inputs.
+                   try
+                   {
+                       //Initialize the data type of the BinarySearchTree class to be an Integer
+                       tree = new BinarySearchTree<Integer>();
+                      
+                       // convert each element in the original list String data[] array into Integer values, and place them into a new Integer array.
+                       Integer integerArray[] = new Integer[data.length];
+                      
+                       for (int i = 0; i < data.length; i++)
+                       {                              
+                           // If the element cannot be converted into an Integer, then it will throw an exception, which will be caught and a "non numeric" message will display.
+                           integerArray[i] = Integer.parseInt(data[i]);
+                       }
+                      
+                       // Create the binary tree using the integer array extracted from the the original list.
+                       TreeNode<Integer> root = tree.createBST(integerArray);
+                      
+                      
+                       // If the ascending radio button is selected, then sort in ascending order
+                       if (ascendingButton.isSelected())
+                       {
+                           sortedList = tree.sortTreeAscending(root);
+                       }
+                       // else if the descending radio button is selected, then sort in ascending order
+                       else if (descendingButton.isSelected())
+                       {
+                           sortedList = tree.sortTreeDescending(root);
+                       }
+                      
+                       // set the sorted integers list into the sortedListTextField
+                       sortedListTextField.setText(sortedList);
+                   }
+                   catch (Exception e)
+                   {
+                       //If a non integer input is caught while the "Integer" Numeric Type is selected, then display "Non integer Input":
+                       JOptionPane.showMessageDialog(null, "Non integer Input");
+                      
+                       e.printStackTrace();
+                   }
+               }
+               // otherwise, the fraction button will be selected
+               else
+               {
+                   // Use a try catch, in order to catch any exceptions thrown for non numeric inputs, when the fraction type is selected.
+                   try
+                   {
+                       //initalize the data type of the BinarySearchTree class to be a Fraction
+                       tree = new BinarySearchTree<Fraction>();
+
+                      
+                       // convert each element in the original list String data[] array into Fraction data types, and place them into a new Fraction array.
+                       Fraction fractionArray[] = new Fraction[data.length];
+                      
+                       for (int i = 0; i < data.length; i++)
+                       {                          
+                           String[] fractionElements = data[i].split("/");
+                          
+                           // If there are more than 2 elements after splitting the string fraction data[i] using "/", then it's an improperly formatted fraction.
+                           // There should only be one number before the "/" and one number after, to make up the fraction.
+                           if(fractionElements.length > 2)
+                           {
+                               throw new NumberFormatExpression("Non numeric Input");
+                           }
+                           // If the string fraction data[i] doesn't contain a "/", then check to see if it's an integer.
+                           if( !data[i].contains("/"))
+                           {
+                               // convert the string in data[i] into an integer
+                               // This will automatically throw an exception if the string cannot be parsed into an integer, meaning its a non-numeric number.
+                                Integer.parseInt(data[i]);
+
+                                // Add an "/1" next to the integer, to turn the integer into a fraction form. This will make it easier to compare fractions in the compareTo method.
+                                data[i] = data[i] + "/1";
+                           }
+                          
+                           Fraction f = new Fraction(data[i]);
+                          
+                            // put the newly converted fraction into the fraction array
+                            fractionArray[i] = f;
+                       }
+                  
+                       // Create the binary tree using the fraction array extracted from the the original list.
+                       TreeNode<Fraction> root = tree.createBST(fractionArray);
+                      
+                      
+                       // If the ascending radio button is selected, then sort in ascending order
+                       if (ascendingButton.isSelected())
+                       {
+                           sortedList = tree.sortTreeAscending(root);
+                       }
+                       // else if the descending radio button is selected, then sort in ascending order
+                       else if (descendingButton.isSelected())
+                       {
+                           sortedList = tree.sortTreeDescending(root);
+                       }                      
+
+                       // set the sorted fractions list into the sortedListTextField
+                       sortedListTextField.setText(sortedList);
+                   }
+                   catch (NumberFormatExpression e)
+                   {
+                       //If there is a fraction that is improperly formatted, such as "3/4/8", then, it should cause a NumberFormatExpression to be thrown,
+                       //where a JOptionPane window should be displayed containing the error message "Non numeric Input."
+                       JOptionPane.showMessageDialog(null, "Non numeric Input");
+                      
+                       e.printStackTrace();
+                   }
+                   catch (Exception e)
+                   {
+                       //Should there be an non integer in the list, then also catch that exception and display error message "Non numeric Input."
+                       JOptionPane.showMessageDialog(null, "Non numeric Input");
+                      
+                       e.printStackTrace();
+                   }
+               }
+           }
+       });
+              
+        // Create a container that will hold the original list textfield, sorted list textfield, "Perform Sort" button,
+        // and the radio buttons all in one column in separate rows.
+        Container pane = new Container();
+        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+      
+        pane.add(originalListPanel);
+        pane.add(Box.createRigidArea(new Dimension(0,35)));
+        pane.add(sortedListPanel);
+        pane.add(Box.createRigidArea(new Dimension(0,35)));
+        pane.add(buttonPane);
+        pane.add(Box.createRigidArea(new Dimension(0,35)));
+        pane.add(radioButtonSectionPanel);
+       
+
+       // Create a frame that will be used to properly display all the components in the GUI
+        JFrame displayFrame = new JFrame ();
+        displayFrame.setTitle("Binary Search Tree Sort");
+        displayFrame.setPreferredSize(new Dimension(466, 328));
+        displayFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
+        // Add the Container pane holding the contents of the GUI onto the diplayFrame, which will display it.
+        displayFrame.add(pane);
+
+        displayFrame.pack ();
+        displayFrame.setLocationRelativeTo(null);
+        displayFrame.setVisible(true);
+   }
+
+   @Override
+   public void actionPerformed(ActionEvent e) {
+   }
+
+}
+
+
+NumberFormatException.java
+
+@SuppressWarnings("serial")
+public class NumberFormatExpression extends Exception
+{
+   /**
+   * no-arg Constructor
+   */
+   public NumberFormatExpression()
+   {  
+   }
+  
+   /**
+   * Constructor that will take in a message, which will be displayed if NumberFormatExpression is thrown.
+   *
+   * @param message the error message that will be shown if the exception is thrown
+   */
+   public NumberFormatExpression(String message)
+   {  
+       super(message);  
+   }
+
+
+}
+
+Fraction.java
+
+import javax.swing.JOptionPane;
+
+
+@SuppressWarnings("rawtypes")
+public class Fraction implements Comparable
+{
+   private String fraction; // String that will hold the string representation of a fraction.
+  
+   /**
+   * Constructor that accepts a valid string representation of a fraction.
+   *
+   * @param frac string representation of a fraction
+   */
+   public Fraction(String frac) throws NumberFormatExpression
+   {
+       fraction = frac;
+      
+       //Take the string representation of the fraction from the constructor, and splits the numerator and denominator, using the "/" as a delimiter
+       String values[] = fraction.split("/");
+      
+       //The denominator cannot be a negative integer. This is to ensure a proper result when comparing negative fractions in the compareTo method.
+       if(values[1].charAt(0) ==('-'))
+       {  
+           throw new NumberFormatExpression("Error. If a fraction is negative, then the '-' sign should be placed in the numerator and not the denominator of the fraction");  
+       }  
+   }
+  
+   /**
+   * Compare method, which will compare two fractions.
+   *
+   * @return an integer value of 1 if a is greater than b, 0 if a is equal to b, and -1 if a is less than b.
+   */
+   @Override
+   public int compareTo(Object o)
+   {
+       String values[] = fraction.split("/");
+      
+       int fraction1Numerator = Integer.valueOf(values[0]);
+       int fraction1Denominator = Integer.valueOf(values[1]);
+      
+      
+       //Take the string representation of the fraction in the methods parameter, and splits the numerator and denominator, using the "/" as a delimiter
+       String s = o.toString();
+       values = s.split("/");
+      
+       int fraction2Numerator = Integer.valueOf(values[0]);
+       int fraction2Denominator = Integer.valueOf(values[1]);
+      
+
+        // cross multiply the two fractions, so that the denominator will be the same for both.
+       int numerator1 = fraction1Numerator * fraction2Denominator;
+       int numerator2 = fraction2Numerator * fraction1Denominator;
+
+  
+       // returns an integer value of 1 if numerator1 is greater than numerator2 after the cross multiplication
+       if(numerator1 < numerator2)
+       {
+           return -1;
+       }
+       // If numerator1 is equal to numerator2 after the cross multiplication, then return 0
+       else if(numerator1 == numerator2)
+       {
+           return 0;
+       }
+       // return 1 in all other scenarios, which will signify that numerator1 is greater than numerator2 after the cross multiplication.
+       else
+       {
+           return 1;
+       }  
+   }
+  
+  
+   /**
+   * @return the string representation of the fraction
+   */
+   @Override
+   public String toString()
+   {
+       // TODO Auto-generated method stub
+       return fraction;
+   }
+}
+
+
+TreeNode.java
+public class TreeNode<T>
+{
+    protected T data;                // The information that will be stored in the node.
+    protected TreeNode<T> left;     // The nodes left child
+    protected TreeNode <T>right;     // The nodes right child
+
+   /**
+   * The constructor, which creates a new Node with left and right child set to null and data set to the dataNode.
+   *
+   * @param dataNode the data to be stored in the TreeNode
+   */
+   public TreeNode (T dataNode)
+   {  
+       this.data = dataNode;
+       this.left= null;
+       this.right = null;
+   }
+  
+   /**
+   * Return the data within this TreeNode
+   *
+   * @return the data within the TreeNode
+   */
+   public T getData()
+   {
+       return data;
+   }
+  
+  
+   /**
+   * @return a string of how the operator node should be displayed in in-order form.
+   */
+   @Override
+   public String toString()
+   {
+       return data + " ";
+   }
+}
+
+
+BinarySearchTree.java
+
+public class BinarySearchTree<T>
+{
+   // Will hold the sorted numbers of the BST
+   private String sortedList = "";
+  
+   // A TreeNode that will hold the BST that is created, using the array of numbers that the user wants sorted.
+   private TreeNode<T> bstTree;
+  
+  
+   /**
+   * Constructor
+   */
+   public BinarySearchTree()
+   {
+       bstTree = null;  
+   }
+   public TreeNode<T> createBST(T array[])
+   {
+       // Every time a new tree is created, remove any existing contents from the bstTree
+       bstTree = null;
+      
+       // Will hold each input from the array as a new TreeNode
+       TreeNode<T> newNode;  
+      
+       for (int i = 0; i < array.length; i++)
+       {
+           // Will create a new tree node containing the data from the current iteration of the data array.
+           newNode = new TreeNode<T>((T)array[i]);
+          
+           //add the newly created tree node to the tree, in order to build the BST.
+           bstTree = insertValue(bstTree, newNode);
+       }  
+       return bstTree;
+   }
+  
+   TreeNode<T> insertValue(TreeNode<T> tree, TreeNode<T> nodeToAdd)
+   {
+       // base case of the recursion
+       // if the tree is null, or we have recursively traversed the tree until a null node has been reached, then return the nodeToAdd
+       if (tree == null)
+       {
+           return nodeToAdd;
+       }
+      
+       // If the tree contains Integers as the numeric type
+       if (tree.data instanceof Integer)
+       {
+           //if the nodeToAdd already exists in the tree, then add the duplicate to the right child.
+           if ((Integer)nodeToAdd.data == (Integer)tree.data)
+           {
+               tree.right = insertValue(tree.right, nodeToAdd);
+           }
+           //if the nodeToAdd integer is greater than the current node of the tree, then traverse to the right
+           else if ((Integer)nodeToAdd.data > (Integer)tree.data)
+           {
+               tree.right = insertValue(tree.right, nodeToAdd);
+           }
+           //if the nodeToAdd integer is less than the current node of the tree, then traverse to the left
+           else if ((Integer)nodeToAdd.data < (Integer)tree.data)
+           {
+               tree.left = insertValue(tree.left, nodeToAdd);
+           }
+         
+           // return the node that contains the BST, with the new node added into it.
+           return tree;  
+       }
+       // else, the tree will contain Fractions as the numeric type
+       else
+       {
+           //if the nodeToAdd already exists in the tree, then add the duplicate to the right child.
+           if (((Fraction)nodeToAdd.data).compareTo(((Fraction)tree.data)) == 0)
+           {
+           tree.right = insertValue(tree.right, nodeToAdd);
+           }
+          
+           //if the nodeToAdd fraction is greater than the current node of the tree, then traverse to the right
+           else if (((Fraction)nodeToAdd.data).compareTo(((Fraction)tree.data)) > 0)
+           {
+              tree.right = insertValue(tree.right, nodeToAdd);
+                  
+           }
+           //if the nodeToAdd fraction is less than the current node of the tree, then traverse to the left
+           else if (((Fraction)nodeToAdd.data).compareTo(((Fraction)tree.data)) < 0)
+           {
+              tree.left = insertValue(tree.left, nodeToAdd);
+           }
+          
+           // return the node that contains the BST, with the new node added into it.
+           return tree;  
+       }
+   }
+  
+   /**
+   * A method that performs a recursive in-order tree traversal to sort the contents of the tree into a string in ascending order
+   *
+   * @param tree the node containing the BST beginning at the root node.
+   */
+   String sortTreeAscending(TreeNode<T> tree)
+   {
+       // base case, where if the node is null, then return the sorted list string.
+       if (tree == null)
+       {
+           return sortedList;  
+       }
+      
+       // visits left node first, to get the smallest value
+       sortTreeAscending(tree.left);
+      
+       // then visits the parent node, which is greater than the left node, but less than the right node.
+       sortedList += String.valueOf(tree.data + " ");
+      
+       // then visits the right node, which is greater than both the left and parent node
+       sortTreeAscending(tree.right);
+      
+       // return the ascending order sorted list
+       return sortedList;
+   }
+  
+   /**
+   * A method that performs a recursive in-order tree traversal to sort the contents of the tree into a string in descending order
+   *
+   * @param tree the node containing the BST beginning at the root node.
+   */  
+   String sortTreeDescending(TreeNode<T> tree)
+   {
+       // base case, where if the node is null, then return the sorted list string.
+       if (tree == null)
+       {
+           return sortedList;
+       }
+      
+       // visits right node first to get the largest value
+       sortTreeDescending(tree.right);
+      
+       // then visits the parent node, which is less than the right node, but greater than the left node.
+       sortedList += String.valueOf(tree.data + " ");
+
+       // then visits the left node, which is less than both the right and parent node
+       sortTreeDescending(tree.left);
+              
+       // return the descending order sorted list
+       return sortedList;
+   }  
+}

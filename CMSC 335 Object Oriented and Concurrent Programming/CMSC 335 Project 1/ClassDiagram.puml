@@ -1,0 +1,182 @@
+@startuml ShapesClassDiagram
+
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FFFFFF
+skinparam class {
+    BackgroundColor #E8F4F8
+    BorderColor #2E86AB
+    ArrowColor #2E86AB
+}
+
+' Abstract Base Class
+abstract class Shape {
+    - numberOfDimensions : int
+    + Shape(numberOfDimensions : int)
+    + getNumberOfDimensions() : int
+    + {abstract} getShapeName() : String
+}
+
+' Abstract 2D Shape
+abstract class TwoDimensionalShape {
+    + TwoDimensionalShape()
+    + {abstract} getArea() : double
+    + toString() : String
+}
+
+' Abstract 3D Shape
+abstract class ThreeDimensionalShape {
+    + ThreeDimensionalShape()
+    + {abstract} getVolume() : double
+    + toString() : String
+}
+
+' 2D Concrete Classes
+class Circle {
+    - radius : double
+    + Circle(radius : double)
+    + getRadius() : double
+    + getArea() : double
+    + getShapeName() : String
+}
+
+class Rectangle {
+    - length : double
+    - width : double
+    + Rectangle(length : double, width : double)
+    + getLength() : double
+    + getWidth() : double
+    + getArea() : double
+    + getShapeName() : String
+}
+
+class Square {
+    - side : double
+    + Square(side : double)
+    + getSide() : double
+    + getArea() : double
+    + getShapeName() : String
+}
+
+class Triangle {
+    - base : double
+    - height : double
+    + Triangle(base : double, height : double)
+    + getBase() : double
+    + getHeight() : double
+    + getArea() : double
+    + getShapeName() : String
+}
+
+' 3D Concrete Classes
+class Sphere {
+    - radius : double
+    + Sphere(radius : double)
+    + getRadius() : double
+    + getVolume() : double
+    + getShapeName() : String
+}
+
+class Cube {
+    - side : double
+    + Cube(side : double)
+    + getSide() : double
+    + getVolume() : double
+    + getShapeName() : String
+}
+
+class Cone {
+    - radius : double
+    - height : double
+    + Cone(radius : double, height : double)
+    + getRadius() : double
+    + getHeight() : double
+    + getVolume() : double
+    + getShapeName() : String
+}
+
+class Cylinder {
+    - radius : double
+    - height : double
+    + Cylinder(radius : double, height : double)
+    + getRadius() : double
+    + getHeight() : double
+    + getVolume() : double
+    + getShapeName() : String
+}
+
+class Torus {
+    - majorRadius : double
+    - minorRadius : double
+    + Torus(majorRadius : double, minorRadius : double)
+    + getMajorRadius() : double
+    + getMinorRadius() : double
+    + getVolume() : double
+    + getShapeName() : String
+}
+
+' Menu Class
+class ShapeMenu {
+    - scanner : Scanner
+    + ShapeMenu()
+    + run() : void
+    - displayMenu() : void
+    - getValidMenuChoice() : int
+    - processShapeConstruction(choice : int) : void
+    - constructCircle() : Circle
+    - constructRectangle() : Rectangle
+    - constructSquare() : Square
+    - constructTriangle() : Triangle
+    - constructSphere() : Sphere
+    - constructCube() : Cube
+    - constructCone() : Cone
+    - constructCylinder() : Cylinder
+    - constructTorus() : Torus
+    - getPositiveDouble(prompt : String) : double
+    - askToContinue() : boolean
+    - displayExitMessage() : void
+    + {static} main(args : String[]) : void
+}
+
+' Inheritance Relationships
+Shape <|-- TwoDimensionalShape
+Shape <|-- ThreeDimensionalShape
+
+TwoDimensionalShape <|-- Circle
+TwoDimensionalShape <|-- Rectangle
+TwoDimensionalShape <|-- Square
+TwoDimensionalShape <|-- Triangle
+
+ThreeDimensionalShape <|-- Sphere
+ThreeDimensionalShape <|-- Cube
+ThreeDimensionalShape <|-- Cone
+ThreeDimensionalShape <|-- Cylinder
+ThreeDimensionalShape <|-- Torus
+
+' Dependencies
+ShapeMenu ..> Circle : creates
+ShapeMenu ..> Rectangle : creates
+ShapeMenu ..> Square : creates
+ShapeMenu ..> Triangle : creates
+ShapeMenu ..> Sphere : creates
+ShapeMenu ..> Cube : creates
+ShapeMenu ..> Cone : creates
+ShapeMenu ..> Cylinder : creates
+ShapeMenu ..> Torus : creates
+
+note right of Shape
+  Abstract base class
+  Defines common property:
+  numberOfDimensions
+end note
+
+note right of TwoDimensionalShape
+  All 2D shapes have
+  an area property
+end note
+
+note right of ThreeDimensionalShape
+  All 3D shapes have
+  a volume property
+end note
+
+@enduml

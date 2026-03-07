@@ -1,0 +1,43 @@
+Week 1
+
+Software engineering is defined as a broad field  that touches on all aspects of developing and supporting a software system.
+
+In this discussion, you will select two principles of the field of software engineering. You will explain the meaning of your selected principles and how they are applied in developing and supporting software systems.
+
+To prepare for this discussion:
+
+1) Review the module's learning resources and its references.
+
+To complete this discussion:
+
+1) Explain the meaning of two principles of software engineering of your choice.
+2) Explain how your two selected principles are applied in developing and supporting software systems.
+
+Week 2
+
+Analyze, with Examples, Two Software Requirements Techniques
+
+Week 3
+
+Decompose a Use Case Using Functional and Object-Oriented Decomposition Techniques
+
+Week 4
+
+Explain Two Desirable Attributes of Good Object-Oriented Design, Their Advantages, and Their Disadvantages
+
+Week 5
+
+Evaluate the Pros and Cons of Two Ways of Using Comments in a Computer Program
+
+Week 6
+
+Analyze, with Examples, One Black-Box Testing Technique and One White-Box Testing Technique
+
+Week 7
+
+Explain How Two Configuration Management Tools Relate to the Software Development Process
+
+Week 8
+
+Evaluate the Applicability of Two New Software Trends to Your Software Development Projects
+

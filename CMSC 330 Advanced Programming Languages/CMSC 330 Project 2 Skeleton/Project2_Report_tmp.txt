@@ -1,0 +1,149 @@
+﻿A. Discussion of Approach
+
+I approached the project in four passes:
+
+1. Parser generalization
+- Replaced the original +/- only subexpression parser with a dispatcher that handles all required expression forms inside parentheses: operand-only, unary postfix (~), binary (+ - * / % ^ < > &), ternary (?), and quaternary (#).
+- Kept recursion through Operand::parse and SubExpression::parse so nested expressions still work naturally.
+
+2. Evaluation model extension
+- Added dedicated expression classes for each new arity:
+  UnaryExpression
+  BinaryExpression
+  TernaryExpression
+  QuaternaryExpression
+- Implemented operator semantics exactly as specified:
+  < = minimum, > = maximum, & = average
+  ? and # conditional rules per assignment text.
+
+3. Token/literal updates
+- Updated variable scanning to accept underscores after the first character.
+- Changed literal parsing from integer-only to floating-point (double) and used it in both expressions and assignments.
+
+4. State and error correctness
+- Reset symbol table before each statement evaluation to prevent value carryover.
+- Added runtime exception handling for:
+  Uninitialized variable access
+  Duplicate variable initialization within the same statement
+
+
+B. Test Plan and Outputs
+
+All tests were executed by running the compiled program against input.txt.
+Output shown below is the actual produced output.
+
+Test 1
+Purpose: Unary postfix negation ~
+Input: ((a + 4) ~), a = 3;
+Expected: Negate (3+4)
+Output: Value = -7
+
+Test 2
+Purpose: Multiplication + float literals
+Input: ((x * 2.6) + (y - 3)), x = 1.5, y = 6;
+Expected: Float arithmetic
+Output: Value = 6.9
+
+Test 3
+Purpose: Division + exponent + underscore variable
+Input: (( 7 / z_1) + (z_1 ^ 2)), z_1 = 2;
+Expected: 7/2 + 2^2
+Output: Value = 7.5
+
+Test 4
+Purpose: Remainder % + minimum <
+Input: ((6 % b) < 5), b = 4;
+Expected: min(6%4,5)=min(2,5)
+Output: Value = 2
+
+Test 5
+Purpose: Maximum >
+Input: (c > d), c = 9, d = 7;
+Expected: max(9,7)
+Output: Value = 9
+
+Test 6
+Purpose: Average &
+Input: (e & 8), e = 5;
+Expected: (5+8)/2
+Output: Value = 6.5
+
+Test 7
+Purpose: Ternary ? false branch
+Input: (f ? 1 2), f = 0;
+Expected: choose second operand
+Output: Value = 2
+
+Test 8
+Purpose: Ternary ? true branch
+Input: (f ? 1 2), f = 2;
+Expected: choose first operand
+Output: Value = 1
+
+Test 9
+Purpose: Quaternary # negative branch
+Input: (g # 1 2 3), g = -5;
+Expected: choose first after #
+Output: Value = 1
+
+Test 10
+Purpose: Quaternary # zero branch
+Input: (g # 1 2 3), g = 0;
+Expected: choose second after #
+Output: Value = 2
+
+Test 11
+Purpose: Quaternary # positive branch
+Input: (g # 1 2 3), g = 2;
+Expected: choose third after #
+Output: Value = 3
+
+Test 12
+Purpose: Uninitialized variable detection
+Input: (tt + ss), tt = 2;
+Expected: error for ss
+Output: Uninitialized variable ss
+
+Test 13
+Purpose: Duplicate assignment detection
+Input: (aa + 1), aa = 1, aa = 2;
+Expected: duplicate init error
+Output: Duplicate initialization of variable aa
+
+Test 14
+Purpose: Symbol table reset per statement
+Input: (x + 1), y = 4;
+Expected: x should not persist from previous line
+Output: Uninitialized variable x
+
+Full run excerpt:
+((a + 4) ~), a = 3; Value = -7
+((x * 2.6) + (y - 3)), x = 1.5, y = 6; Value = 6.9
+(( 7 / z_1) + (z_1 ^ 2)), z_1 = 2; Value = 7.5
+((6 % b) < 5), b = 4; Value = 2
+(c > d), c = 9, d = 7; Value = 9
+(e & 8), e = 5; Value = 6.5
+(f ? 1 2), f = 0; Value = 2
+(f ? 1 2), f = 2; Value = 1
+(g # 1 2 3), g = -5; Value = 1
+(g # 1 2 3), g = 0; Value = 2
+(g # 1 2 3), g = 2; Value = 3
+(tt + ss), tt = 2; Uninitialized variable ss
+(aa + 1), aa = 1, aa = 2; Duplicate initialization of variable aa
+(x + 1), y = 4; Uninitialized variable x
+
+
+C. Lessons Learned and Potential Improvements
+
+Lessons learned
+- Designing the parser around expression arity (unary/binary/ternary/quaternary) made the grammar extension much easier than adding many one-off cases.
+- Separating parse-time structure from runtime symbol checks improved clarity and made error handling straightforward.
+- Moving to double everywhere early prevented mixed-type bugs later when adding floating literals.
+- Explicit error types (EvaluationError) made runtime failures predictable and easier to test.
+
+Potential improvements
+- Add memory management with smart pointers (std::unique_ptr) to avoid manual new allocations.
+- Add unit tests for parser and evaluator classes instead of only end-to-end file tests.
+- Improve numeric handling for equality checks around zero in quaternary logic using tolerance (epsilon) if required.
+- Add syntax validation and better diagnostics (line/column/operator context), even though the assignment says syntax checks are not required.
+- Remove system("pause") and use standard console behavior for portability across platforms.

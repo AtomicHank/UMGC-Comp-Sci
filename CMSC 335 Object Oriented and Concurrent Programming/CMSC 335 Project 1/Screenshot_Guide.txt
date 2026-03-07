@@ -1,0 +1,319 @@
+SCREENSHOT CAPTURE GUIDE FOR TEST DOCUMENTATION
+===============================================
+
+This guide explains how to capture high-quality screenshots for your test plan
+documentation to satisfy the CMSC 335 Project 1 requirements.
+
+
+WHAT YOU NEED TO CAPTURE
+=========================
+
+You need 30 screenshots total, one for each test case in the test plan.
+Each screenshot should show the terminal/command prompt with:
+1. The command being executed (java ShapeMenu or java ShapeTest)
+2. The program output
+3. Your input (what you typed)
+4. The results
+
+
+HOW TO CAPTURE SCREENSHOTS
+===========================
+
+WINDOWS USERS:
+--------------
+
+Method 1: Snipping Tool (Recommended)
+1. Press Windows key + Shift + S
+2. Click and drag to select the terminal window area
+3. The screenshot is copied to clipboard
+4. Open Paint or Word and press Ctrl+V to paste
+5. Save as PNG: File > Save As > PNG
+
+Method 2: Print Screen
+1. Click on the terminal window to make it active
+2. Press Alt + Print Screen (captures active window only)
+3. Open Paint and press Ctrl+V
+4. Save as PNG
+
+Method 3: Windows Snipping Tool App
+1. Search for "Snipping Tool" in Start menu
+2. Click "New"
+3. Select the area you want to capture
+4. Click File > Save As > PNG
+
+
+MAC USERS:
+----------
+
+Method 1: Screenshot Selection (Recommended)
+1. Press Command + Shift + 4
+2. Click and drag to select the terminal area
+3. Screenshot saves automatically to Desktop as PNG
+
+Method 2: Window Screenshot
+1. Press Command + Shift + 4, then press Spacebar
+2. Click on the terminal window
+3. Screenshot saves to Desktop as PNG
+
+
+LINUX USERS:
+------------
+
+Ubuntu/GNOME:
+1. Press Print Screen key
+2. Click and drag to select area
+3. Screenshot saves to Pictures folder
+
+Or use gnome-screenshot command:
+gnome-screenshot -a  (for area selection)
+
+
+SCREENSHOT NAMING CONVENTION
+=============================
+
+Save each screenshot with a descriptive name matching the test number:
+
+test01_welcome_message.png
+test02_select_rectangle.png
+test03_invalid_menu_option.png
+test04_non_numeric_input.png
+test05_circle_construction.png
+test06_rectangle_4x95.png
+test07_square_construction.png
+test08_triangle_construction.png
+test09_sphere_construction.png
+test10_cube_construction.png
+test11_cone_construction.png
+test12_cylinder_construction.png
+test13_torus_construction.png
+test14_negative_input.png
+test15_zero_input.png
+test16_text_input.png
+test17_decimal_input.png
+test18_large_number.png
+test19_continue_Y.png
+test20_continue_N.png
+test21_invalid_continue.png
+test22_lowercase_y.png
+test23_yes_input.png
+test24_exit_option.png
+test25_date_time_format.png
+test26_invalid_torus.png
+test27_multiple_shapes.png
+test28_all_shapes_sequence.png
+test29_shapetest_output.png
+test30_error_handling.png
+
+
+SCREENSHOT QUALITY CHECKLIST
+=============================
+
+Before saving each screenshot, verify:
+
+✓ Text is readable (terminal font size 11pt or larger)
+✓ Full command prompt is visible (shows current directory)
+✓ Both your input AND program output are captured
+✓ No sensitive information is visible (if applicable)
+✓ Window borders are included for context
+✓ Screenshot is not blurry or pixelated
+✓ Colors are clear (white text on black background is fine)
+
+
+STEP-BY-STEP EXAMPLE: Test Case #6 (Rectangle)
+===============================================
+
+This is the test from the project specification (length=4, width=9.5)
+
+1. PREPARE THE TERMINAL:
+   - Make terminal window large enough to be readable
+   - Set font size to at least 11pt
+   - Clear previous output with 'cls' (Windows) or 'clear' (Mac/Linux)
+
+2. RUN THE COMMAND:
+   java ShapeMenu
+
+3. PERFORM THE TEST:
+   - When menu appears, type: 2
+   - When prompted "What is the length?", type: 4
+   - When prompted "What is the Width?", type: 9.5
+   - Wait for output to display
+
+4. CAPTURE THE SCREENSHOT:
+   - The screenshot should show:
+     * The "Select from the menu below:" prompt
+     * Your input: 2
+     * The message: "You have selected a Rectangle"
+     * The prompt: "What is the length?"
+     * Your input: 4
+     * The prompt: "What is the Width?"
+     * Your input: 9.5
+     * The output: "The area of the Rectangle is 38.00"
+     * The continue prompt: "Would you like to continue? (Y or N)"
+
+5. SAVE THE SCREENSHOT:
+   - Save as: test06_rectangle_4x95.png
+
+6. VERIFY:
+   - Open the saved file
+   - Zoom in to confirm all text is readable
+   - Check file size (should be 100KB - 2MB for PNG)
+
+
+INSERTING SCREENSHOTS INTO YOUR DOCUMENT
+=========================================
+
+MICROSOFT WORD:
+1. Place cursor where you want the screenshot
+2. Click Insert > Pictures > This Device
+3. Select your screenshot file
+4. Click Insert
+5. Right-click image > Wrap Text > In Line with Text
+6. Resize if needed (click and drag corners)
+
+Add a caption:
+1. Click on the image
+2. Click References > Insert Caption
+3. Label: "Figure"
+4. Type description: "Test #6: Rectangle Construction (4 × 9.5)"
+
+
+GOOGLE DOCS:
+1. Click Insert > Image > Upload from computer
+2. Select screenshot file
+3. Click and drag to resize
+4. Right-click > Image options to adjust
+
+Add caption:
+1. Click below image
+2. Type: "Figure 6: Test #6 - Rectangle Construction"
+3. Format as italic
+
+
+ORGANIZING MULTIPLE SCREENSHOTS
+================================
+
+Create a folder structure:
+
+Project_Documentation/
+├── screenshots/
+│   ├── test01_welcome_message.png
+│   ├── test02_select_rectangle.png
+│   ├── ... (all 30 screenshots)
+├── CMSC335_Project1_Documentation.docx
+├── UML_Diagram.png
+└── Source_Code/
+
+
+TIPS FOR BETTER SCREENSHOTS
+============================
+
+1. CONSISTENCY:
+   - Use the same terminal size for all screenshots
+   - Use the same font and font size throughout
+   - Keep the same color scheme
+
+2. CLARITY:
+   - Increase terminal font size before capturing
+   - Use high contrast (black background, white text works well)
+   - Avoid capturing extra desktop elements
+
+3. CONTEXT:
+   - Show enough of the terminal to include the command prompt
+   - Include the line where you typed "java ShapeMenu"
+   - Show file path in prompt (helps prove it's your work)
+
+4. ANNOTATION (Optional but helpful):
+   - Use image editing software to add arrows or highlights
+   - Circle important output
+   - Add text labels to clarify what you're showing
+   - Windows: Use Paint 3D or Paint
+   - Mac: Use Preview > Markup toolbar
+   - Free tools: GIMP, Paint.NET
+
+
+COMMON MISTAKES TO AVOID
+=========================
+
+❌ Screenshot too small - text unreadable
+✓ Use larger terminal window and font
+
+❌ Only capturing part of the interaction
+✓ Capture the full sequence: menu → input → output
+
+❌ Screenshots in different sizes/formats
+✓ Use consistent format (all PNG) and similar dimensions
+
+❌ Missing the command prompt showing directory
+✓ Include enough context to show where you're running from
+
+❌ Blurry or low-resolution images
+✓ Save as PNG (not JPG) for text clarity
+
+❌ Not showing your actual input
+✓ Make sure what you typed is visible in the screenshot
+
+
+ALTERNATIVE: SCREEN RECORDING
+==============================
+
+Instead of 30 individual screenshots, you could:
+
+1. Record your screen while performing all tests
+2. Use Windows Game Bar (Win + G) or Mac QuickTime
+3. Save as video file
+4. Extract frames at key moments
+5. Or submit the video alongside screenshots
+
+Tools:
+- Windows: Xbox Game Bar (Win + G), OBS Studio
+- Mac: QuickTime Player (File > New Screen Recording)
+- Cross-platform: OBS Studio (free)
+
+
+VERIFYING YOUR SCREENSHOTS BEFORE SUBMISSION
+============================================
+
+Go through this checklist:
+
+□ All 30 screenshots captured
+□ All files named correctly
+□ All files are PNG format
+□ All text is readable when zoomed to 100%
+□ Each screenshot shows the complete test case
+□ File sizes are reasonable (100KB - 2MB each)
+□ Screenshots inserted into documentation
+□ Captions added to each screenshot
+□ Screenshots match the test descriptions in the test plan
+□ No duplicate screenshots
+□ No corrupted or blank images
+
+
+FINAL SUBMISSION CHECKLIST
+===========================
+
+Your documentation should include:
+
+□ Developer's Guide (text document)
+□ UML Class Diagram (image or PDF)
+□ Test Plan with all 30 test cases (table format)
+□ 30 screenshots showing test execution
+□ Screenshots clearly labeled and referenced
+□ All documents formatted per APA requirements:
+   - 12-point font
+   - 1-inch margins
+   - Double-spaced paragraphs
+   - Proper figure labels
+
+
+NEED HELP?
+==========
+
+If screenshots aren't working:
+1. Verify your operating system's screenshot hotkeys
+2. Try a different screenshot tool
+3. Update your graphics drivers
+4. Ask classmates what tools they're using
+5. Consult your instructor during office hours
+
+Remember: The screenshots prove your program works correctly.
+Take your time to make them clear and professional!

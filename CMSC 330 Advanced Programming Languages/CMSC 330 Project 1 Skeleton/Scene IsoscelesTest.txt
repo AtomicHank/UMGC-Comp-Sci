@@ -1,0 +1,6 @@
+Scene IsoscelesTest (500, 400)
+  Isosceles Color(255, 0, 0) at (100, 50) Height 100 Width 50;
+  Isosceles Color(0, 255, 0) at (250, 50) Height 100 Width 100;
+  Isosceles Color(0, 0, 255) at (400, 50) Height 100 Width 200;
+  Isosceles Color(255, 128, 0) at (250, 250) Height 50 Width 150;
+ End.

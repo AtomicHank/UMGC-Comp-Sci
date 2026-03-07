@@ -1,0 +1,273 @@
+CMSC 330 Advanced Programming Languages - Project 1 Report
+Joe Merrill
+2 FEB 2026
+
+================================================================================
+PART A: APPROACH
+================================================================================
+
+1. Understanding the Existing Architecture
+-------------------------------------------
+Before writing any code, I studied the skeleton project to understand the
+existing class hierarchy and design patterns. The project uses an inheritance-
+based architecture for drawing shapes:
+
+   Image (abstract base class)
+      |
+      +-- Polygon_ (abstract, manages polygon vertices)
+             |
+             +-- HollowPolygon (draws outlines using drawPolygon)
+                    |
+                    +-- RightTriangle
+                    +-- Rectangle
+
+The Parser class uses a recursive descent parsing approach, where each grammar
+production is handled by a method that consumes tokens from the Lexer.
+
+2. Planning the New Classes
+-------------------------------------------
+Based on the UML diagram and grammar in the requirements, I identified 
+5 new classes to create:
+
+* SolidPolygon - parallel to HollowPolygon but uses fillPolygon
+* IsoscelesTriangle - extends SolidPolygon
+* Parallelogram - extends SolidPolygon
+* RegularPolygon - extends SolidPolygon
+* Text - extends Image directly (not a polygon)
+
+and 3 existing files to modify:
+* Token.java - add new token types
+* Lexer.java - handle string literals
+* Parser.java - parse new image types
+
+3. Implementation Order
+-------------------------------------------
+I implemented the changes in dependency order:
+
+Step 1: Token.java - Added PARALLELOGRAM, REGULAR_POLYGON, ISOSCELES, TEXT,
+SIDES, RADIUS, OFFSET, STRING tokens
+
+Step 2: Lexer.java - Added string token recognition for quoted strings
+
+Step 3: SolidPolygon.java - Created base class for filled polygons
+
+Step 4: IsoscelesTriangle.java - Used trigonometry to compute vertices
+from top point, height, and width
+
+Step 5: Parallelogram.java - Computed 4 vertices from two corner points
+and an offset value
+
+Step 6: RegularPolygon.java - Used polar-to-Cartesian conversion to
+compute vertices evenly distributed around a center point
+
+Step 7: Text.java - Simple class that stores text and location, draws
+using Graphics.drawString()
+
+Step 8: Parser.java - Added else-if branches for each new image type,
+following the grammar rules for token sequences
+
+4. Design Decisions
+-------------------------------------------
+- SolidPolygon mirrors HollowPolygon's structure exactly, differing only in
+calling fillPolygon() vs drawPolygon(). This maintains consistency.
+
+- For IsoscelesTriangle, the "at" point is the top vertex, with the base
+centered below it (width/2 on each side).
+
+- For RegularPolygon, vertices are computed using the parametric circle
+equations: 
+x = center.x + radius * cos(2*PI*i/sides)
+y = center.y + radius * sin(2*PI*i/sides)
+
+- The Text class extends Image directly since it's not a polygon and doesn't
+need vertex management.
+
+
+================================================================================
+PART B: TEST PLAN
+================================================================================
+
+Test Case 1: Basic Scene with All Image Types
+----------------------------------------------
+Input file (scene.txt):
+   Scene Polygons (500, 500)
+     RightTriangle Color (255, 0, 0) at (50, 30) Height 100 Width 300;
+     Rectangle Color (0, 128, 255) at (100, 100) Height 200 Width 100;
+     Isosceles Color (255, 0, 0) at (120, 120) Height 100 Width 200;
+     Parallelogram Color (0, 0, 255) at (340, 50) (440, 120) Offset 30;
+     RegularPolygon Color(255, 0, 255) at (300, 300) Sides 6 Radius 80;
+     Text Color(0, 0, 0) at (400, 200) "Hello World";
+   End.
+
+Expected Output:
+   - Window titled "Polygons" of size 500x500
+   - Red hollow right triangle in upper left
+   - Blue hollow rectangle below the triangle
+   - Red solid isosceles triangle (filled)
+   - Blue solid parallelogram in upper right (slanted rectangle)
+   - Magenta solid hexagon in lower center
+   - Black text "Hello World" on right side
+
+Result: PASS - All shapes render correctly with proper colors and positions.
+
+
+Test Case 2: Regular Polygon with Different Side Counts
+--------------------------------------------------------
+Input file (Scene PolygonTest.txt):
+   Scene PolygonTest (600, 400)
+     RegularPolygon Color(255, 0, 0) at (100, 200) Sides 3 Radius 60;
+     RegularPolygon Color(0, 255, 0) at (250, 200) Sides 4 Radius 60;
+     RegularPolygon Color(0, 0, 255) at (400, 200) Sides 8 Radius 60;
+     RegularPolygon Color(128, 0, 128) at (550, 200) Sides 12 Radius 60;
+   End.
+
+Expected Output:
+   - Red triangle (3 sides)
+   - Green diamond/square (4 sides)
+   - Blue octagon (8 sides)
+   - Purple dodecagon (12 sides)
+
+Result: PASS - All regular polygons render with correct number of sides.
+
+
+Test Case 3: Text with Various Strings
+---------------------------------------
+Input file (Scene TextTest.txt):
+   Scene TextTest (500, 300)
+     Text Color(255, 0, 0) at (50, 50) "Red Text";
+     Text Color(0, 128, 0) at (50, 100) "Green Text";
+     Text Color(0, 0, 255) at (50, 150) "Blue Text";
+     Text Color(0, 0, 0) at (50, 200) "Numbers 12345";
+     Text Color(128, 128, 128) at (50, 250) "Special: Hello, World!";
+   End.
+
+Expected Output:
+   - Five lines of text in different colors
+   - Text positioned at specified coordinates
+   - Strings display exactly as written (including numbers and punctuation)
+
+Result: PASS - All text strings render with correct colors and content.
+
+
+Test Case 4: Parallelogram Offset Variations
+---------------------------------------------
+Input file (Scene ParallelogramTest.txt):
+   Scene ParallelogramTest (600, 300)
+     Parallelogram Color(255, 0, 0) at (50, 50) (150, 150) Offset 0;
+     Parallelogram Color(0, 255, 0) at (200, 50) (300, 150) Offset 30;
+     Parallelogram Color(0, 0, 255) at (350, 50) (450, 150) Offset 60;
+   End.
+
+Expected Output:
+   - Red parallelogram with no slant (appears as rectangle)
+   - Green parallelogram with moderate slant
+   - Blue parallelogram with significant slant
+
+Result: PASS - Offset correctly affects the slant of parallelograms.
+
+
+Test Case 5: Isosceles Triangle Dimensions
+-------------------------------------------
+Input file (Scene IsoscelesTest.txt):
+   Scene IsoscelesTest (500, 400)
+     Isosceles Color(255, 0, 0) at (100, 50) Height 100 Width 50;
+     Isosceles Color(0, 255, 0) at (250, 50) Height 100 Width 100;
+     Isosceles Color(0, 0, 255) at (400, 50) Height 100 Width 200;
+     Isosceles Color(255, 128, 0) at (250, 250) Height 50 Width 150;
+   End.
+
+Expected Output:
+   - Narrow red isosceles triangle
+   - Medium green isosceles triangle
+   - Wide blue isosceles triangle
+   - Short, wide orange isosceles triangle
+
+Result: PASS - Height and width parameters correctly control triangle shape.
+
+
+Test Case 6: Syntax Error Handling
+-----------------------------------
+Input file (Scene ErrorTest.txt):
+   Scene ErrorTest (500, 500)
+     Rectangle Color (255, 0, 0) at (50, 50) Height 100;
+   End.
+
+Expected Output:
+- Console message: "Syntax Error on Line: 2 Expecting token WIDTH not SEMICOLON"
+
+Result: PASS - Parser correctly identifies missing WIDTH keyword.
+
+
+Test Case 7: Edge Case - Large Coordinate Values
+-------------------------------------------------
+Input file (Scene LargeCoords.txt):
+Scene LargeCoords (800, 600)
+   RegularPolygon Color(255, 0, 255) at (400, 300) Sides 6 Radius 250;
+   Text Color(0, 0, 0) at (350, 310) "Center";
+   End.
+
+Expected Output:
+- Large hexagon centered in window
+- Text label at center
+
+Result: PASS - Large shapes render correctly without overflow issues.
+
+
+================================================================================
+PART C: LESSONS LEARNED
+================================================================================
+
+1. Importance of Understanding Existing Code
+---------------------------------------------
+Before adding new features, thoroughly understanding the existing architecture
+was essential. The skeleton project used inheritance effectively - once I
+understood how HollowPolygon and RightTriangle worked, creating SolidPolygon
+and the new shapes followed naturally.
+
+2. Grammar-Driven Parser Design
+--------------------------------
+The recursive descent parser directly mirrors the grammar structure. Each
+grammar production corresponds to parsing logic in the code. This made
+extending the parser straightforward - I simply added new branches following
+the same pattern as the existing Rectangle and RightTriangle parsing.
+
+3. Separation of Concerns
+--------------------------
+The project demonstrates good separation between:
+- Lexical analysis (Lexer) - breaking input into tokens
+- Syntax analysis (Parser) - understanding token structure
+- Rendering (Image subclasses) - drawing shapes
+
+This separation made modifications localized and manageable.
+
+4. Coordinate System Considerations
+------------------------------------
+Java's coordinate system has (0,0) at the top-left with Y increasing downward.
+This affected how I computed vertices, particularly for IsoscelesTriangle
+where "height" extends downward from the top vertex.
+
+5. Potential Improvements
+--------------------------
+a) Error Messages: Could be more descriptive, showing expected syntax
+
+b) Color Names: Supporting named colors (e.g., "red", "blue") in addition
+to RGB values would improve usability
+
+c) More Shapes: Could add circles, ellipses, arcs, and bezier curves
+
+d) Transformations: Adding rotation, scaling, and translation would make
+the scene description language more powerful
+
+e) Z-ordering: Currently shapes are drawn in file order. Adding explicit
+layer ordering would give more control over overlapping shapes
+
+f) Input Validation: Adding bounds checking for color values (0-255) and
+validating that dimensions are positive would improve robustness
+
+6. Skills Developed
+--------------------
+- Reading and extending existing Java code
+- Implementing recursive descent parsers
+- Working with Java 2D graphics (Graphics class, Polygon, Color)
+- Applying trigonometry for geometric calculations
+- Following established coding patterns and conventions

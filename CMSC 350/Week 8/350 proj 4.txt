@@ -1,0 +1,306 @@
+Here is the code for your question. Comments are inline. Run the GraphUI class. Sample input and output screens are attached. Enter a file path and click build graph button. Later enter a class name (case sensitive) and press topological order button. Please do rate the answer if you you find the program good.
+
+GraphUI.java
+
+===========
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+//Builds a UI with textfields for accepting filename to load and class name to find topological order.
+public class GraphUI extends JFrame {
+   JTextField txtFileName,txtClassName,txtOrder;
+   JButton build,order;
+   Graph<String> graph;
+   public GraphUI() {
+       init();
+   }
+  
+   public void init() {
+       //creates the different labels , textfields and butttons and adds them
+       setTitle("Class Dependency Graph");
+       setSize(500, 150);
+       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       Container pane;
+       pane=getContentPane();
+       pane.setLayout(new BoxLayout(pane,BoxLayout.Y_AXIS));
+      
+       JPanel panel1=new JPanel();
+       panel1.setLayout(new GridLayout(2, 3));
+       panel1.add(new JLabel("Input file name:"));
+       panel1.add(txtFileName=new JTextField());
+       panel1.add(build=new JButton("Build Directed Graph"));
+         
+      
+         
+       //panel1.setLayout(new BoxLayout(panel1,BoxLayout.X_AXIS ));
+      
+       panel1.add(new JLabel("Class to recompile:"));
+       panel1.add(txtClassName=new JTextField());
+       panel1.add(order=new JButton("Topological order"));
+       pane.add(panel1);
+       JPanel panel2=new JPanel();
+       panel2.setLayout(new GridLayout(1, 1));
+       panel2.add(txtOrder=new JTextField(" "));
+      
+       pane.add(panel2);
+       final JFrame uiwindow=this;
+      
+      
+       build.addActionListener(new ActionListener() {
+          
+           @Override
+           public void actionPerformed(ActionEvent e) {
+              
+               try {
+                   graph=Graph.initialize(txtFileName.getText());
+                   JOptionPane.showMessageDialog(uiwindow, "Graph built successfully!");
+               } catch (IOException e1) {
+                   JOptionPane.showMessageDialog(uiwindow, "File could not load!");
+               }
+           }
+       });
+      
+       order.addActionListener(new ActionListener() {
+          
+           @Override
+           public void actionPerformed(ActionEvent e) {
+              
+              
+                   try {
+                       txtOrder.setText(graph.topologicalOrder(txtClassName.getText()));
+                   } catch (GraphException e1) {
+                       JOptionPane.showMessageDialog(uiwindow, e1.getMessage());
+                   }
+                  
+              
+           }
+       });
+       setVisible(true);
+   }
+  
+   public static void main(String[] args) {
+       GraphUI uiApp = new GraphUI();      
+   }
+
+}
+
+======
+
+Graph.java
+
+========
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+//user defined exception class to throw exception for cycle detected or unknown class name
+class GraphException extends Exception
+{
+  
+   public GraphException(String s)
+   {
+       super(s);
+   }
+}
+  
+public class Graph<T> {
+  
+   //This is an arraylist of list of integers. So each element in the array is set of integers
+   //adjacent to the vertext. The mapping from vertext number to vertex name is stored in the
+   //vertexMap. for example if 0 =classA 1=classB 2=classC in vertexmap and B and C are dependent on A,
+   //vertices will have 0[1 2]
+   ArrayList<LinkedList<Integer>> vertices;
+   HashMap<T,Integer> vertexMap;
+  
+   private Graph()
+   {
+       vertices=new ArrayList<LinkedList<Integer>>();
+       vertexMap=new HashMap<T,Integer>();
+   }
+  
+     
+   //adds a edge in graph. If source or destination was not yet in graph , they are added to vertices list
+   //and assigned a id based on how many vertices were already in the list. The adjacency list of the
+   //source node is updated with the destination
+   private void addEdge(T source,T destination )
+   {
+       Integer id1=vertexMap.get(source),id2=vertexMap.get(destination);
+       LinkedList<Integer> adjacent;
+       if(id1==null)
+       {
+           id1=vertices.size();
+          
+           vertexMap.put(source, id1);
+           vertices.add(adjacent=new LinkedList<Integer>());
+          
+       }
+       else
+           adjacent=vertices.get(id1);
+      
+       if(id2==null)
+       {
+           id2=vertices.size();
+          
+           vertexMap.put(destination, id2);
+           vertices.add(new LinkedList<Integer>());
+       }
+      
+       adjacent.add(id2);
+   }
+  
+   //calls the depth_first_search() and then pops out th e stack that was populated in the function
+   public String topologicalOrder(T vertex) throws GraphException
+   {
+       ArrayList<Integer> visited=new ArrayList<Integer>(),finished=new ArrayList<Integer>() ;
+       Stack<Integer> stack=new Stack<Integer>();
+       Integer id=vertexMap.get(vertex);
+       if(id==null)
+           throw new GraphException("Vertex "+vertex+" not found in graph!");
+       depthFirstSearch(id, visited, finished, stack);
+       StringBuffer str=new StringBuffer();
+       while(!stack.isEmpty())
+       {
+           str.append(getKeyFromValue(stack.pop())+" ");
+       }
+       return str.toString();
+   }
+  
+   //returns the key for the given value from vertexMap. Suppose you pass 1, then if 1 is a value
+   //for some key, it returns the key i.e the class name associated with value 1
+   private T getKeyFromValue(int value) {
+       for (T o : vertexMap.keySet())
+       {
+       if (vertexMap.get(o).equals(value))
+       {
+       return o;
+       }
+       }
+       return null;
+   }
+     
+   //implements the algorithm for topological order
+   private void depthFirstSearch(int start,ArrayList visited,ArrayList finished,Stack<Integer> stack) throws GraphException
+   {
+         
+         
+       if(visited.contains(start))
+           throw new GraphException("Cycle detected for "+getKeyFromValue(start));
+       else if(finished.contains(start))
+       {
+           return ;
+       }
+       else
+       {
+           visited.add(start);
+           LinkedList adj=vertices.get(start);
+           for(int i=0;i<adj.size();i++)
+           {
+              
+               depthFirstSearch((int)adj.get(i), visited,finished, stack);
+           }
+           finished.add(start);
+           stack.push(start);
+       }
+          
+   }
+   //this function returns a graph built based on the input filename
+   public static Graph<String> initialize(String filename) throws IOException {
+         
+           Graph<String> graph=new Graph<String>();
+          
+             
+               File file = new File(filename);
+               FileReader fileReader = new FileReader(file);
+               BufferedReader bufferedReader = new BufferedReader(fileReader);
+               String line;
+               while((line=bufferedReader.readLine())!=null)
+               {
+
+                   //break up the dependency string into token using space delimmiter
+                   StringTokenizer tokenizer=new StringTokenizer(line, " ");
+                   String src=tokenizer.nextToken();
+                   while(tokenizer.hasMoreTokens())
+                   {
+                       //add an edge for each name appearing in the list
+                       graph.addEdge(src,tokenizer.nextToken());
+                   }
+                     
+                     
+               }
+          
+               bufferedReader.close();
+               return graph;
+          
+       }
+   //function to display the graph, used for testing purpose
+   public void display()
+   {
+       for (T name: vertexMap.keySet()){
+
+   System.out.println(vertexMap.get(name)+"="+name);
+       }
+      
+       LinkedList list;
+       for(int i=0;i<vertices.size();i++)
+       {
+           list=vertices.get(i);
+           System.out.println("\n"+i+":[");
+           for(int j=0;j<list.size();j++)
+               System.out.print(list.get(j)+",");
+           System.out.print("]");
+          
+       }
+   }
+   //testing the Graph class
+   /*public static void main(String[] args) {
+       String filename="c:\\test\\input.txt";
+       try {
+           Graph<String> g=Graph.initialize(filename);
+           g.display();
+           System.out.println(g.topologicalOrder("ClassA"));
+          
+       } catch (IOException e) {
+           // TODO Auto-generated catch block
+           e.printStackTrace();
+       } catch (GraphException e) {
+           // TODO Auto-generated catch block
+           e.printStackTrace();
+       }
+      
+   }*/
+}
+
+==========
+
+sample input.txt
+
+========
+
+ClassA ClassC ClassE
+ClassB ClassD ClassG
+ClassE ClassB ClassF ClassH
+ClassI ClassC
+
+========

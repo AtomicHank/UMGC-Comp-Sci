@@ -1,0 +1,127 @@
+SMALL B&B RESERVATION SYSTEM - DETAILED UML CLASS DIAGRAM
+==========================================================
+
+
+┌──────────────────────────────┐          ┌──────────────────────────────┐
+│           Guest              │          │          Calendar            │
+├──────────────────────────────┤          ├──────────────────────────────┤
+│ - guestId: int               │          │ - calendarId: int            │
+│ - firstName: String          │          │ - year: int                  │
+│ - lastName: String           │          │ - month: int                 │
+│ - address: String            │          ├──────────────────────────────┤
+│ - city: String               │          │ + getAvailableRooms(start:   │
+│ - state: String              │          │     Date, end: Date): Room[] │
+│ - zipCode: String            │          │ + checkAvailability(roomId:  │
+│ - phoneNumber: String        │          │     int, start: Date,        │
+│ - creditCardNumber: String   │          │     end: Date): boolean      │
+│ - creditCardExpiry: Date     │          │ + blockDates(roomId: int,    │
+├──────────────────────────────┤          │     start: Date,             │
+│ + createGuest(): void        │          │     end: Date): void         │
+│ + updateGuest(): void        │          │ + releaseDates(roomId: int,  │
+│ + deleteGuest(): void        │          │     start: Date,             │
+│ + getGuestById(id: int):     │          │     end: Date): void         │
+│     Guest                    │          └──────────────────────────────┘
+│ + searchGuest(name: String): │                        │
+│     Guest[]                  │                        │ 1
+│ + validateCreditCard():      │                        │
+│     boolean                  │                        │
+└──────────────────────────────┘                        │
+              │                                         │
+              │ 1                                       │
+              │                                         │
+              │ makes                                   │ shows
+              │                                         │ availability
+              │ *                                       │
+              ▼                                         │
+┌──────────────────────────────┐       1        *      │
+│        Reservation           │◆─────────────────────────────────────────┐
+├──────────────────────────────┤                       │                  │
+│ - reservationId: int         │                       │                  │
+│ - guestId: int               │                       │                  │
+│ - roomId: int                │                       ▼                  │
+│ - startDate: Date            │          ┌──────────────────────────────┐│
+│ - endDate: Date              │          │           Room               ││
+│ - totalPrice: decimal        │          ├──────────────────────────────┤│
+│ - guaranteeDeadline: Date    │          │ - roomId: int                ││
+│ - isGuaranteed: boolean      │          │ - roomNumber: String         ││
+│ - status: ReservationStatus  │          │ - roomType: String           ││
+│ - createdDate: DateTime      │          │ - pricePerNight: decimal     ││
+├──────────────────────────────┤          │ - description: String        ││
+│ + createReservation(): void  │          │ - isActive: boolean          ││
+│ + cancelReservation(): void  │          ├──────────────────────────────┤│
+│ + updateReservation(): void  │          │ + getRoomById(id: int): Room ││
+│ + getReservationById(id:     │          │ + getAllRooms(): Room[]      ││
+│     int): Reservation        │          │ + updateRoom(): void         ││
+│ + checkGuaranteeStatus():    │          │ + calculatePrice(nights:     ││
+│     boolean                  │          │     int): decimal            ││
+│ + dropExpiredReservations(): │          └──────────────────────────────┘│
+│     void                     │                       △                  │
+│ + getReservationsByDate(     │                       │                  │
+│     date: Date):             │          ┌───────────┼───────────┐      │
+│     Reservation[]            │          │           │           │      │
+│ + getReservationsByGuest(    │          │           │           │      │
+│     guestId: int):           │ ┌────────┴───┐ ┌─────┴─────┐ ┌───┴──────┤
+│     Reservation[]            │ │RoomWithBath│ │RoomWithView│ │NormalRoom│
+└──────────────────────────────┘ ├────────────┤ ├───────────┤ ├──────────┤
+              │                  │-hasTub:    │ │-viewType: │ │          │
+              │                  │  boolean   │ │  String   │ │          │
+              │ 1                │-hasShower: │ │-floor:    │ │          │
+              │                  │  boolean   │ │  int      │ │          │
+              │                  ├────────────┤ ├───────────┤ ├──────────┤
+              │ has              │+getAmenity │ │+getView   │ │          │
+              │                  │  List():   │ │  Descrip- │ │          │
+              │ 0..1             │  String[]  │ │  tion():  │ │          │
+              ▼                  └────────────┘ │  String   │ └──────────┘
+┌──────────────────────────────┐               └───────────┘
+│          Payment             │
+├──────────────────────────────┤    ┌──────────────────────────────┐
+│ - paymentId: int             │    │    <<enumeration>>           │
+│ - reservationId: int         │    │    ReservationStatus         │
+│ - amount: decimal            │    ├──────────────────────────────┤
+│ - paymentDate: DateTime      │    │ PENDING                      │
+│ - paymentType: PaymentType   │    │ GUARANTEED                   │
+│ - creditCardLast4: String    │    │ CHECKED_IN                   │
+│ - transactionId: String      │    │ COMPLETED                    │
+│ - isRefunded: boolean        │    │ CANCELLED                    │
+├──────────────────────────────┤    │ DROPPED                      │
+│ + processPayment(): boolean  │    └──────────────────────────────┘
+│ + refundPayment(): boolean   │
+│ + getPaymentById(id: int):   │    ┌──────────────────────────────┐
+│     Payment                  │    │    <<enumeration>>           │
+│ + getPaymentsByReservation(  │    │      PaymentType             │
+│     resId: int): Payment[]   │    ├──────────────────────────────┤
+│ + calculateGuaranteeAmount(  │    │ GUARANTEE                    │
+│     pricePerNight: decimal): │    │ FULL_PAYMENT                 │
+│     decimal                  │    │ REFUND                       │
+└──────────────────────────────┘    └──────────────────────────────┘
+
+
+RELATIONSHIPS SUMMARY
+=====================
+
+Relationship              | Type          | Multiplicity
+--------------------------|---------------|--------------------
+Guest --> Reservation     | Association   | 1 Guest : * Reservations
+Reservation --> Room      | Association   | * Reservations : 1 Room
+Reservation --> Payment   | Composition   | 1 Reservation : 0..1 Payment
+Room --> Calendar         | Association   | * Rooms : 1 Calendar
+RoomWithBath --> Room     | Inheritance   | extends
+RoomWithView --> Room     | Inheritance   | extends
+NormalRoom --> Room       | Inheritance   | extends
+
+
+UML NOTATION KEY
+================
+
+Symbol    | Meaning
+----------|----------------------------------
+-         | Private attribute/method
++         | Public attribute/method
+#         | Protected attribute/method
+△         | Inheritance (arrow points to parent)
+◆         | Composition (filled diamond)
+◇         | Aggregation (hollow diamond)
+-->       | Association (dependency)
+*         | Many (zero or more)
+1         | Exactly one
+0..1      | Zero or one (optional)

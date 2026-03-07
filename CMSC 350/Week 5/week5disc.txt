@@ -1,0 +1,8 @@
+There are generally considered to be four distinct binary tree traversals: preorder, inorder, postorder and level-order. Consider the following questions about these different kinds of traversals. Answer one of them that has not already been answered.
+
+What is the result of the various tree traversals when performed on an arithmetic expression tree?
+Which of the traversals are depth-first? Which are breadth-first?
+Which kind of traversal of a binary search tree produces the values in sorted order?
+Which of the traversals lend themselves to recursive solutions? Why are those solutions much simpler than their iterative counterparts?
+Provide the outline of the algorithm for a level-order traversal.
+Choose one type of tree traversal and give an example of a situation, in which it would be useful.

@@ -1,0 +1,199 @@
+# UML Class Diagram - CMSC 335 Project 2
+## Shape Viewer Application
+
+Author: Joe Merrill
+Date: February 1, 2026
+
+==================================================================================
+LEGEND:
+  ├──▷  = Inheritance (is-a relationship - extends)
+  ◇──   = Composition (has-a relationship - contains)
+  ───   = Association (uses relationship)
+==================================================================================
+
+                                    ┌─────────────────────┐
+                                    │      <<abstract>>   │
+                                    │        Shape        │
+                                    │─────────────────────│
+                                    │ # dimensions: int   │
+                                    │─────────────────────│
+                                    │ + getNumberOfDimensions(): int │
+                                    │ + getName(): String <<abstract>> │
+                                    └─────────────────────┘
+                                             △
+                      ┌──────────────────────┴──────────────────────┐
+                      │                                              │
+         ┌────────────▷──────────┐                  ┌────────────▷──────────┐
+         │      <<abstract>>     │                  │      <<abstract>>     │
+         │ TwoDimensionalShape   │                  │ ThreeDimensionalShape │
+         │───────────────────────│                  │───────────────────────│
+         │ + dimensions = 2      │                  │ + dimensions = 3      │
+         │───────────────────────│                  │───────────────────────│
+         │ + getArea(): double   │                  │ + getVolume(): double │
+         │   <<abstract>>        │                  │   <<abstract>>        │
+         └───────────────────────┘                  └───────────────────────┘
+                    △                                         △
+         ┌──────────┼───────┬──────────┐          ┌──────────┼──────────┬───────────┬──────────┐
+         │          │       │          │          │          │          │           │          │
+    ┌────▷────┐┌───▷───┐┌──▷──────┐┌──▷──────┐┌──▷──────┐┌──▷────┐┌────▷────┐┌────▷─────┐┌───▷────┐
+    │ Circle  ││Square ││Rectangle││Triangle ││ Sphere  ││ Cube  ││  Cone   ││Cylinder ││ Torus  │
+    │─────────││───────││─────────││─────────││─────────││───────││─────────││─────────││────────│
+    │- radius ││- side ││- width  ││- base   ││- radius ││- side ││- radius ││- radius ││- majorR│
+    │         ││       ││- height ││- height ││         ││       ││- height ││- height ││- minorR│
+    │─────────││───────││─────────││─────────││─────────││───────││─────────││─────────││────────│
+    │+getArea││+getArea││+getArea ││+getArea ││+getVolume││+getVol││+getVol  ││+getVol  ││+getVol │
+    │+getName││+getName││+getName ││+getName ││+getName ││+getName││+getName ││+getName ││+getName│
+    └─────────┘└───────┘└─────────┘└─────────┘└─────────┘└───────┘└─────────┘└─────────┘└────────┘
+         (has radius)  (has side)  (has w,h)  (has b,h)  (has radius) (has side) (has r,h)  (has r,h) (has R,r)
+
+
+==================================================================================
+
+┌────────────────────────────────────────────────────────────────────┐
+│                        ShapeFactory                                │
+│                       <<utility class>>                            │
+│────────────────────────────────────────────────────────────────────│
+│ + createShape(shapeName: String, params: double[]): Shape          │
+│ + getParameterLabels(shapeName: String): String[]                  │
+└────────────────────────────────────────────────────────────────────┘
+                                │
+                                │ creates ──→ Shape (and subclasses)
+                                │
+
+==================================================================================
+
+┌────────────────────────────────────────────────────────────────────┐
+│                          ShapePanel                                │
+│                      extends JPanel                                │
+│────────────────────────────────────────────────────────────────────│
+│ - currentShape: Shape  ◇───────┐ (has-a Shape)                    │
+│ - statusText: String           │                                   │
+│────────────────────────────────────────────────────────────────────│
+│ + setShape(shape: Shape): void │                                   │
+│ + setStatus(text: String): void│                                   │
+│ # paintComponent(g: Graphics): void                                │
+│ - render2DShape(g2: Graphics2D, shape: Shape, cx: int, cy: int)   │
+│ - render3DShape(g2: Graphics2D, shape: Shape, cx: int, cy: int)   │
+│ - renderSphere(...), renderCube(...), etc.                        │
+└────────────────────────────────────────────────────────────────────┘
+                                │
+                                │
+                                ▽
+                             Shape
+
+
+==================================================================================
+
+┌────────────────────────────────────────────────────────────────────┐
+│                          ShapeGUI                                  │
+│        extends JFrame implements ActionListener, ItemListener     │
+│────────────────────────────────────────────────────────────────────│
+│ - shapeSelector: JComboBox<String>  ◇────┐ (has-a components)    │
+│ - param1Label: JLabel                    │                        │
+│ - param2Label: JLabel                    │                        │
+│ - param1Field: JTextField                │                        │
+│ - param2Field: JTextField                │                        │
+│ - displayButton: JButton                 │                        │
+│ - clearButton: JButton                   │                        │
+│ - shapePanel: ShapePanel  ◇──────────────┘ (has-a ShapePanel)    │
+│────────────────────────────────────────────────────────────────────│
+│ + ShapeGUI()                                                       │
+│ - buildControlPanel(): JPanel                                     │
+│ + itemStateChanged(e: ItemEvent): void  ← implements ItemListener │
+│ + actionPerformed(e: ActionEvent): void ← implements ActionListener│
+│ - updateParameterFields(shapeName: String): void                   │
+│ - handleClearAction(): void                                       │
+│ - handleDisplayAction(): void                                     │
+│ - readParameters(shapeName: String): double[]                     │
+│ + main(args: String[]): void                                      │
+└────────────────────────────────────────────────────────────────────┘
+                                │
+                                │ uses
+                                │
+                                ▽
+                        ShapeFactory.createShape()
+                                │
+                                ▽
+                              Shape
+
+
+==================================================================================
+                        RELATIONSHIP SUMMARY
+==================================================================================
+
+IS-A RELATIONSHIPS (Inheritance - Generalization):
+  - Circle IS-A TwoDimensionalShape IS-A Shape
+  - Square IS-A TwoDimensionalShape IS-A Shape
+  - Rectangle IS-A TwoDimensionalShape IS-A Shape
+  - Triangle IS-A TwoDimensionalShape IS-A Shape
+  - Sphere IS-A ThreeDimensionalShape IS-A Shape
+  - Cube IS-A ThreeDimensionalShape IS-A Shape
+  - Cone IS-A ThreeDimensionalShape IS-A Shape
+  - Cylinder IS-A ThreeDimensionalShape IS-A Shape
+  - Torus IS-A ThreeDimensionalShape IS-A Shape
+  - ShapeGUI IS-A JFrame
+  - ShapePanel IS-A JPanel
+
+HAS-A RELATIONSHIPS (Composition/Aggregation):
+  - Circle HAS-A radius (double)
+  - Square HAS-A side (double)
+  - Rectangle HAS-A width and height (double, double)
+  - Triangle HAS-A base and height (double, double)
+  - Sphere HAS-A radius (double)
+  - Cube HAS-A side (double)
+  - Cone HAS-A radius and height (double, double)
+  - Cylinder HAS-A radius and height (double, double)
+  - Torus HAS-A majorRadius and minorRadius (double, double)
+  - ShapePanel HAS-A currentShape (Shape)
+  - ShapeGUI HAS-A shapePanel (ShapePanel)
+  - ShapeGUI HAS-A GUI components (JComboBox, JTextField, JButton, JLabel)
+
+USES RELATIONSHIPS (Dependency/Association):
+  - ShapeGUI USES ShapeFactory to create shapes
+  - ShapePanel USES Shape subclasses for rendering
+  - ShapeFactory USES Shape subclasses for instantiation
+
+IMPLEMENTS RELATIONSHIPS (Interface Realization):
+  - ShapeGUI IMPLEMENTS ActionListener
+  - ShapeGUI IMPLEMENTS ItemListener
+
+==================================================================================
+                    DESIGN PATTERNS EMPLOYED
+==================================================================================
+
+1. FACTORY PATTERN
+   - ShapeFactory.createShape() encapsulates object creation
+   - Client code (ShapeGUI) doesn't need to know concrete classes
+   - Makes adding new shapes easier (Open/Closed Principle)
+
+2. TEMPLATE METHOD PATTERN
+   - Abstract methods (getArea(), getVolume()) defined in base classes
+   - Concrete implementations in subclasses
+   - Common behavior in abstract classes, specific behavior in concrete classes
+
+3. STRATEGY PATTERN (rendering)
+   - Different rendering strategies for 2D vs 3D shapes
+   - render2DShape() and render3DShape() switch based on shape type
+   - Each 3D shape has specific rendering method (renderSphere, renderCube, etc.)
+
+4. MODEL-VIEW-CONTROLLER (MVC)
+   - Model: Shape classes (business logic and data)
+   - View: ShapePanel (presentation)
+   - Controller: ShapeGUI (user interaction and flow control)
+
+==================================================================================
+
+CLASS COUNTS:
+  - Abstract Classes: 3 (Shape, TwoDimensionalShape, ThreeDimensionalShape)
+  - Concrete Shape Classes: 9 (Circle, Square, Rectangle, Triangle,
+                                 Sphere, Cube, Cone, Cylinder, Torus)
+  - Utility Classes: 1 (ShapeFactory)
+  - GUI Classes: 2 (ShapeGUI, ShapePanel)
+
+  Total Classes: 15
+
+INTERFACE IMPLEMENTATIONS:
+  - ActionListener (ShapeGUI)
+  - ItemListener (ShapeGUI)
+
+==================================================================================

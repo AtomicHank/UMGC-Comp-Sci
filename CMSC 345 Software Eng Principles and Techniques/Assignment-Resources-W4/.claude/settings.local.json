@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Expand-Archive -Path ''SW-Dev-Req-Small-BB-Reservation-Sys.docx'' -DestinationPath ''temp_sw_req'' -Force\")",
+      "Bash(copy \"SW-Dev-Req-Small-BB-Reservation-Sys.docx\" \"SW-Dev-Req-Small-BB-Reservation-Sys.zip\")",
+      "Bash(powershell -Command \"Expand-Archive -Path ''SW-Dev-Req-Small-BB-Reservation-Sys.zip'' -DestinationPath ''temp_sw_req'' -Force\")",
+      "Bash(where:*)",
+      "Bash(python -c:*)",
+      "Bash(python:*)",
+      "Bash(javac:*)"
+    ]
+  }
+}

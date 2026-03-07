@@ -1,0 +1,7 @@
+Scene TextTest (500, 300)
+  Text Color(255, 0, 0) at (50, 50) "Red Text";
+  Text Color(0, 128, 0) at (50, 100) "Green Text";
+  Text Color(0, 0, 255) at (50, 150) "Blue Text";
+  Text Color(0, 0, 0) at (50, 200) "Numbers 12345";
+  Text Color(128, 128, 128) at (50, 250) "Special: Hello, World!";
+ End.

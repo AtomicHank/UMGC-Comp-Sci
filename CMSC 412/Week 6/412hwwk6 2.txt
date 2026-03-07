@@ -1,0 +1,943 @@
+FileManagerOperations.java
+
+//Import required packages
+
+import java.io.BufferedReader;
+
+import java.io.BufferedWriter;
+
+import java.io.File;
+
+import java.io.FileNotFoundException;
+
+import java.io.FileReader;
+
+import java.io.FileWriter;
+
+import java.io.IOException;
+
+import java.util.InputMismatchException;
+
+import java.util.Scanner;
+
+import java.util.logging.Level;
+
+import java.util.logging.Logger;
+
+//Define the class
+
+public class FileManagerOperations
+
+{
+
+//Declare the local variables
+
+private String currentWorkingDirectory;
+
+//stores the directory of the active working directory
+
+private File currentWorkingFile;
+
+//This used to exit the program, when it is true.
+
+private boolean exit;
+
+//Default constructor
+
+public FileManagerOperations()
+
+{
+
+currentWorkingDirectory = "";
+
+exit = false;
+
+}
+
+// This function displays the menu of the program
+
+public void menuSelection()
+
+{
+
+System.out.println("\t\tMAIN MENU");
+
+System.out.println("\t0) Eixt");
+
+System.out.println("\t1) Select Directory");
+
+System.out.println("\t2) List Directory Content (First level)");
+
+System.out.println("\t3) List Directory Content (all levels)");
+
+System.out.println("\t4) Delete File");
+
+System.out.println("\t5) Display Files(Hexadecimal View)");
+
+System.out.println("\t6) Encrypt Files(XOR with password");
+
+System.out.println("\t7) Decrypt Files(XOR with password\n\n\n");
+
+}
+
+//Implement the exit function
+
+public void exit()
+
+{
+
+this.exit = true;
+
+}
+
+//This function used to select a directory from the system
+
+private void selectDirectory()
+
+{
+
+//Create scanner object to read the class
+
+Scanner sc = new Scanner(System.in);
+
+//Prompt the user to enter the path of directory
+
+System.out.print("Enter the absolute path of the directory:\n");
+
+//set current working directory to the given path
+
+this.currentWorkingDirectory = sc.next();
+
+//create a new currentWorkingFile object
+
+currentWorkingFile = new File(currentWorkingDirectory);
+
+//check if currentWorkingFile is not a directory and does not exist
+
+//ask the user to enter the currentWorkingFile again
+
+while(!(currentWorkingFile.exists() && currentWorkingFile.isDirectory()))
+
+{
+
+//If the given directory not exists,then reprompt
+
+System.out.print("\n\""+currentWorkingDirectory+
+
+"\"Does not exist:\n");
+
+System.out.print("Enter the absolute path of the directory:\n");
+
+//user Scanner to recieve user's input
+
+sc = new Scanner(System.in);
+
+this.currentWorkingDirectory = sc.next();
+
+//create a new currentWorkingFile object
+
+currentWorkingFile = new File(currentWorkingDirectory);
+
+}
+
+System.out.println("Your Current Working Directory is: \'"
+
++ currentWorkingDirectory+"\'");
+
+}
+
+// This function to display the First level of files
+
+private String[] listFirstLevelOneFiles()
+
+{
+
+//Declare the array of string files
+
+String[] fileList;
+
+int fileIndex = 0;
+
+File nextLevelFile;
+
+//display all the folders and currentWorkingFile in the first level
+
+fileList = currentWorkingFile.list();
+
+System.out.println("List of files in "+ currentWorkingDirectory + "\n");
+
+//use while loop to list all the immediate
+
+//files and directories
+
+while(fileIndex < fileList.length)
+
+{
+
+nextLevelFile = new File (currentWorkingFile+"/"+fileList[fileIndex]);
+
+if(nextLevelFile.isDirectory())
+
+{
+
+System.out.println((fileIndex+1)+") "+fileList[fileIndex]+" | Dir ");
+
+}
+
+else
+
+{
+
+System.out.println((fileIndex+1)+") "+fileList[fileIndex]);
+
+}
+
+fileIndex++;
+
+}
+
+return fileList;
+
+}//listDirectory(boolean) Ends
+
+//This function list a files content, recursively
+
+private void listAllFilesRecursively(File file)
+
+{
+
+//Declare the array of string files
+
+String[] fileList;
+
+int fileIndex = 0;
+
+File nextLevelFile;
+
+//display all the folders and currentWorkingFile in the first level
+
+fileList = file.list();
+
+//use while loop to list all the immediate
+
+//files and directories
+
+while(fileIndex < fileList.length){
+
+//create a currentWorkingFile object out of each
+
+//currentWorkingFile in the directory
+
+nextLevelFile = new File(file.getAbsoluteFile().toString() +"/"+fileList[fileIndex]);
+
+//print out this formate if currentWorkingFile is a directory
+
+if(nextLevelFile.isDirectory())
+
+{
+
+System.out.println((fileIndex+1)+") "+fileList[fileIndex]+
+
+" | Dir |Parent "+ nextLevelFile.getParentFile());
+
+}
+
+else
+
+{
+
+System.out.println((fileIndex+1)+") "+fileList[fileIndex]
+
++" | Dir |Parent "+ nextLevelFile.getParentFile());
+
+}
+
+//check whether the newly created currentWorkingFile
+
+//object is a Directory
+
+if(nextLevelFile.isDirectory())
+
+{
+
+//recursively list the content of the directory
+
+listAllFilesRecursively(nextLevelFile);
+
+}//if ends
+
+fileIndex++;
+
+}//while Ends
+
+System.out.println("");
+
+}
+
+//This function deletes files specified by the user
+
+private void deleteFile()
+
+{
+
+//Prompt the file name to delete  
+
+System.out.print("\nEnter the name of the file you want to delete: ");
+
+//recieve the files index from the user,
+
+//specifying the currentWorkingFile to be deleted
+
+@SuppressWarnings("resource")
+
+String fileName = new Scanner(System.in).next();
+
+//delete the currentWorkingFile
+
+File fileToDelete = new File
+
+(currentWorkingFile.getAbsoluteFile()+"/"+fileName);
+
+//ask again for correct file name
+
+if(!fileToDelete.exists())
+
+{
+
+System.out.println("***[ERROR: The file you entered "
+
++ "does not exist]***"); return;
+
+}
+
+//delete the currentWorkingFile
+
+fileToDelete.delete();
+
+System.out.println("You have successfully deleted the following file: \'"
+
++fileName);
+
+}//deleteFile() Ends
+
+private void displayFileInHexFormat() throws IOException
+
+{
+
+//Promp the file name to display
+
+System.out.print("\nEnter the name of the file you want to display: ");
+
+//recieve the files index from the user,
+
+//specifying the currentWorkingFile to be deleted
+
+@SuppressWarnings("resource")
+
+String fileName = new Scanner(System.in).next();
+
+//check to make sure that user's input is valid
+
+BufferedReader bf = null;
+
+//create a currentWorkingFile Object from the
+
+//choosen currentWorkingFile
+
+File fileToDisplay = new File(currentWorkingFile.getAbsoluteFile()
+
++"/"+fileName);
+
+//ask again for correct file name
+
+if(!fileToDisplay.exists())
+
+{
+
+System.out.println("***[ERROR: The file you entered "
+
++ "does not exist]***"); }
+
+if(currentWorkingFile.isDirectory())
+
+{
+
+System.out.println("The file you selected is a Directory \n");
+
+}
+
+//Use try catch blocl to displat the file in hexa decimal view
+
+try
+
+{
+
+//Display the content of the currentWorkingFile
+
+System.out.println("Hexadecimal display of: \'"+fileName+"\'\n");
+
+//Encrypt the Fie the content of the currentWorkingFile
+
+bf = new BufferedReader(new FileReader(fileToDisplay));
+
+int count= 0;
+
+int charCode;
+
+while(bf.ready())
+
+{
+
+charCode = bf.read();
+
+System.out.print(" "+String.format("%x", charCode));
+
+if(count==30)
+
+{
+
+System.out.print("\n");
+
+count=0;
+
+}
+
+count++;
+
+}
+
+bf.close();
+
+}
+
+catch (FileNotFoundException ex)
+
+{
+
+Logger.getLogger(FileManagerOperations.
+
+class.getName()).log(Level.SEVERE, null, ex);
+
+}
+
+catch (IOException ex)
+
+{
+
+Logger.getLogger(FileManagerOperations.
+
+class.getName()).log(Level.SEVERE, null, ex);
+
+}
+
+finally
+
+{
+
+bf.close();
+
+}//Try-catch-finally block Ends
+
+}//displayFileInHexFormat() Ends
+
+//This function encrypts files using the XOR scheme
+
+private void encryptFile() throws InputMismatchException, IOException
+
+{
+
+//String to read the file name
+
+String nameOfFile = "";
+
+//ask user to enter the input
+
+System.out.print("\nEnter the name of the file you want to Encrypt: ");
+
+//recieve the files index from the user, specifying the currentWorkingFile to //be Encrypt
+
+String fileName = new Scanner(System.in).next();
+
+//create a currentWorkingFile Object from the choosen currentWorkingFile
+
+File fileToEncrypt = new File(this.currentWorkingDirectory+"/"+fileName);
+
+//ask again for correct file name
+
+if(!fileToEncrypt.exists())
+
+{
+
+System.out.println("***[ERROR: The file you entered "
+
++ "does not exist]***");
+
+}
+
+//ask user to enter the input
+
+System.out.print("\nEnter Password: ");
+
+//recieve the files index from the user,
+
+//specifying the currentWorkingFile to be Encrypt
+
+@SuppressWarnings("resource")
+
+String password = new Scanner(System.in).next();
+
+//use buffered read and writer to read and write to files
+
+BufferedReader bf = null;
+
+BufferedWriter bw = null;
+
+//create a file to store the encryption content
+
+File encryptedFile = new File(this.currentWorkingDirectory+
+
+"/"+fileName+"_encrypted.txt");
+
+if(fileToEncrypt.isDirectory())
+
+{
+
+System.out.println("The file you selected is a Directory");
+
+return;
+
+}
+
+try
+
+{
+
+//EncrypFie the content of the currentWorkingFile
+
+bf = new BufferedReader(new FileReader(fileToEncrypt));
+
+bw = new BufferedWriter(new FileWriter(encryptedFile));
+
+int passwordIndex = 0;
+
+char charCode;
+
+char encryptChar;
+
+// while loop reads and encrypts all
+
+//characters of the specified file and the saves the encrypted
+
+//contented into a new file, and delete the original one
+
+while(bf.ready())
+
+{
+
+if(passwordIndex==password.length()){
+
+passwordIndex = 0;
+
+}//if Ends
+
+charCode = (char)bf.read();
+
+encryptChar=(char)(password.charAt(passwordIndex)
+
+^(char)charCode);
+
+bw.append(encryptChar);
+
+passwordIndex++;
+
+}
+
+bf.close();
+
+}
+
+catch (FileNotFoundException ex)
+
+{
+
+Logger.getLogger(FileManagerOperations.
+
+class.getName()).log(Level.SEVERE, null, ex);
+
+}
+
+catch (IOException ex)
+
+{
+
+Logger.getLogger(FileManagerOperations.
+
+class.getName()).log(Level.SEVERE, null, ex);
+
+}
+
+finally{
+
+bw.flush();
+
+bf.close();
+
+bw.close();
+
+fileToEncrypt.delete();
+
+}//Try-catch-finally-ends
+
+}//encriptFile() ends
+
+//This function is used to decrypt files
+
+//which have been encrypted by this program
+
+private void decrypteFile() throws IOException
+
+{
+
+String pathOfFile;
+
+BufferedReader bf = null;
+
+BufferedWriter bw = null;
+
+//ask user to enter the input
+
+System.out.print("\nEnter the name of the file you want to decrypt: ");
+
+//recieve the files index from the user, specifying the currentWorkingFile to //be Encrypt
+
+String fileName = new Scanner(System.in).next();
+
+//store the asolute path of the file
+
+pathOfFile = this.currentWorkingDirectory+"/"+fileName;
+
+//create a currentWorkingFile Object from the choosen currentWorkingFile
+
+File fileTDeEncrypt = new File(pathOfFile);
+
+//print error message if file does not exist
+
+if(!fileTDeEncrypt.exists())
+
+{
+
+System.out.println("***[ERROR: The file you entered "
+
++ "does not exist]***");
+
+return;
+
+}
+
+//ask user to enter the input
+
+System.out.print("\nEnter Password: ");
+
+//recieve the files index from the user, specifying the currentWorkingFile to //be Encrypt
+
+String password = new Scanner(System.in).next();
+
+//remove the "_encrypted.txt" from the filename
+
+pathOfFile = pathOfFile.replaceAll("(_encrypted.txt)", "");
+
+//create file were the decryted content will be stored.
+
+File encryptedFile = new File(pathOfFile);
+
+try
+
+{
+
+//EncrypFie the content of the currentWorkingFile
+
+bf = new BufferedReader(new FileReader(fileTDeEncrypt));
+
+bw = new BufferedWriter(new FileWriter(encryptedFile));
+
+int passwordIndex = 0;
+
+char charCode;
+
+char encryptChar;
+
+// while loop reads and encrypts all characters of the specified file
+
+//and the saves the encrypted contented into a new file,
+
+//and delete the original one
+
+while(bf.ready()){
+
+if(passwordIndex==password.length()){
+
+passwordIndex = 0;
+
+}//if Ends
+
+charCode = (char)bf.read();
+
+encryptChar = (char) (password.charAt(passwordIndex)
+
+^ (char)charCode);
+
+bw.append(encryptChar);
+
+passwordIndex++;
+
+}
+
+bf.close();
+
+}
+
+catch (FileNotFoundException ex)
+
+{
+
+Logger.getLogger(FileManagerOperations.class.getName())
+
+.log(Level.SEVERE, null, ex);
+
+}
+
+catch (IOException ex)
+
+{
+
+Logger.getLogger(FileManagerOperations.class.getName())
+
+.log(Level.SEVERE, null, ex);
+
+}finally{
+
+bw.flush();
+
+bf.close();
+
+bw.close();
+
+fileTDeEncrypt.delete();
+
+}//Try-catch-finally-ends
+
+}//decrypteFile Ends
+
+// This function calls each of the above functions
+
+//and executes the base on the user's menu selection
+
+public void runFileManager() throws IOException
+
+{
+
+while(exit==false)
+
+{
+
+//display the menu
+
+menuSelection();
+
+//ask user to make a menu selection
+
+System.out.print("Make a selection from the menu: ");
+
+//store user's input
+
+String menuSelection = new Scanner(System.in).next();
+
+//make sure that user can not use program
+
+//if current working directory has not been selected
+
+if(this.currentWorkingFile != null ||
+
+menuSelection.equals("1") || menuSelection.equals("0"))
+
+{
+
+//use the Switch-case conditional
+
+//perform the action selected
+
+switch(menuSelection)
+
+{
+
+//Exit option
+
+case "0":
+
+this.exit();
+
+break;
+
+//Select Directory
+
+case "1":
+
+this.selectDirectory();
+
+break;
+
+//Level one files
+
+case "2":
+
+try{
+
+this.listFirstLevelOneFiles();
+
+}catch(NullPointerException ex){
+
+}
+
+break;
+
+//Allfiles
+
+case "3":
+
+try{
+
+this.listAllFilesRecursively(currentWorkingFile);
+
+}catch(NullPointerException ex){
+
+}
+
+break;
+
+case "4":
+
+try{
+
+this.deleteFile();
+
+}
+
+catch (InputMismatchException | ArrayIndexOutOfBoundsException ex )
+
+{
+
+System.out.println("ERROR: You Entered an Invalid "
+
++ "Index. Try again");
+
+this.deleteFile();
+
+}//try-catch ends
+
+break;
+
+case "5":
+
+try {
+
+this.displayFileInHexFormat();
+
+}catch (InputMismatchException | FileNotFoundException
+
+| ArrayIndexOutOfBoundsException ex ) {
+
+System.out.println("ERROR: You Entered an Invalid " + "Index. Try again");
+
+this.displayFileInHexFormat();
+
+}//try-catch ends
+
+break;
+
+case "6":
+
+try {
+
+this.encryptFile();
+
+}catch (InputMismatchException|
+
+FileNotFoundException| ArrayIndexOutOfBoundsException ex ) {
+
+System.out.println("ERROR: You Entered an Invalid " + "Index. Try again");
+
+this.encryptFile();
+
+}//try-catch ends
+
+break;
+
+case "7":
+
+try {
+
+this.decrypteFile();
+
+}catch (InputMismatchException | FileNotFoundException|
+
+ArrayIndexOutOfBoundsException ex ) {
+
+System.out.println("ERROR: You Entered an Invalid " + "Index. Try again");
+
+this.decrypteFile();
+
+}
+
+break;
+
+default:
+
+System.out.println("***[Error: You made an invalid menu "
+
++ "selection]***"); break;
+
+}//Switch-case Ends
+
+if(!menuSelection.equalsIgnoreCase("0"))
+
+{
+
+System.out.print("\n\nPress 'Enter' to continue: ");
+
+new Scanner(System.in).nextLine();
+
+}
+
+}//if Ends
+
+else
+
+{
+
+System.out.println("You must choose a current working directory ");
+
+}
+
+}
+
+System.out.println("Thank You for stopping by. Bye bye");
+
+}//runFileManager() Ends
+
+//Define the main function to run the program
+
+public static void main(String[] args) throws IOException
+
+{
+
+//create a FileManager object
+
+FileManagerOperations fileObject = new FileManagerOperations();
+
+//run the application
+
+fileObject.runFileManager();
+
+}//main Ends
+
+}

@@ -1,0 +1,46 @@
+//main.c
+//Joe Merrill
+//CMSC 412 Homework 2
+
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/wait.h>
+
+int main()
+{
+  
+   int pid,stat,x;
+      
+   pid=fork();  
+   if(pid==0)
+   {
+       int pid1;
+      
+       x=getppid();
+       pid1=fork();
+
+       //child process id 
+       if(pid1==0)
+       {
+           //print child
+           printf("I am the child process C and my pid is %d.",getpid()) ;
+           printf(" My parent P has pid %d.",getppid());
+           printf(" My grandparent G has pid Z %d.\n\n",x);
+       }
+       //parent process id 
+       else
+       {
+           wait(&stat);
+           //print parent
+           printf("I am the parent process P and my pid is %d.",getpid());
+           printf("My parent G has pid %d.\n\n",getppid());
+       }
+   }
+   //grandpaerent process id
+   else
+   {
+       wait(&stat);
+       //print grandparent 
+       printf("I am the grandparent process G and my pid is %d.\n",getpid());
+   }
+}

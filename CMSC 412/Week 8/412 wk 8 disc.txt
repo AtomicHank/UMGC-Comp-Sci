@@ -1,0 +1,20 @@
+The purpose or the prime duty of the operating system is to provide the user a convenient medium to use the hardware resources for their uses effectively.
+
+The course of action that should be followed in the design of an operating system
+
+Effective utilization of the hardware
+
+The hardware should be use effectively while performing their functions.
+The modern operating systems employ either multiprocessing or sharing of the hardware resources while performing their functions.
+There should develop a good hardware utilization algorithm to manage the resources in the effective manner.
+The algorithm should incorporate a good deadlock detecting and handling algorithm to manage the deadlocks.
+The algorithm is in such a way that it should result in the better throughput and hassle free operation of the system.
+Software Support:
+
+The operating system should in design in the platform that supports the existing software else it is difficult to make it a success.
+Better software design manners should be follow else maintaining of the system will be burden in future.
+Better user interface environment:
+
+Even if the operating system is great in all other terms except user interface it is difficult to make it a success.
+Thus the user interface should be very attractive and it should aid the user in effective ways.
+The user interface should minimize the work load of the user by giving user specific aids by artificial intelligence.

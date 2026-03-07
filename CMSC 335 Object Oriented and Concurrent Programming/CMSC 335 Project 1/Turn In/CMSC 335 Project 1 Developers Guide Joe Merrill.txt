@@ -1,0 +1,289 @@
+Developer's Guide and Test Documentation
+Student: Joseph A. Merrill
+Course: CMSC 335 - Object Oriented and Concurrent Programming
+Date: 18JAN2026
+Project: Shape Inheritance Hierarchy
+═══════════════════════════════════════════════════════════════════════════════
+
+TABLE OF CONTENTS
+
+1. Introduction
+2. System Requirements
+3. Project Structure
+4. Installation and Setup
+5. Compilation Instructions
+6. Execution Instructions
+7. Design Assumptions
+8. Lessons Learned
+9. Future Improvements
+═══════════════════════════════════════════════════════════════════════════════
+
+1. INTRODUCTION
+
+This project implements a comprehensive object-oriented Java application that 
+demonstrates inheritance, polymorphism, and encapsulation through a shape 
+hierarchy. The application allows users to construct various two-dimensional 
+and three-dimensional shapes through an interactive command-line menu interface.
+
+The project satisfies all required IS-A and HAS-A relationships as specified 
+in the assignment requirements.
+═══════════════════════════════════════════════════════════════════════════════
+
+2. SYSTEM REQUIREMENTS
+
+Hardware Requirements:
+- Processor: Intel Core i3 or equivalent
+- RAM: 2 GB minimum
+- Storage: 50 MB available space
+
+Software Requirements:
+- Operating System: Windows 10/11, macOS 10.14+, or Linux
+- Java Development Kit (JDK): Version 8 or higher
+- Recommended: JDK 11 or later
+- Text Editor or IDE: Optional (VS Code, Eclipse, IntelliJ IDEA, or Notepad++)
+
+To verify Java installation:
+Open Command Prompt/Terminal and type:
+    java -version
+    javac -version
+
+Both commands should display version 8 or higher.
+═══════════════════════════════════════════════════════════════════════════════
+
+3. PROJECT STRUCTURE
+
+The project follows a standard Java package structure:
+
+ShapesProject/
+│
+├── README.md                        # Project overview and quick start
+│
+└── src/                             # Source code directory
+    ├── Shape.java                   # Abstract base class
+    ├── TwoDimensionalShape.java     # Abstract 2D shape class
+    ├── ThreeDimensionalShape.java   # Abstract 3D shape class
+    ├── Circle.java                  # Concrete 2D shape
+    ├── Rectangle.java               # Concrete 2D shape
+    ├── Square.java                  # Concrete 2D shape
+    ├── Triangle.java                # Concrete 2D shape
+    ├── Sphere.java                  # Concrete 3D shape
+    ├── Cube.java                    # Concrete 3D shape
+    ├── Cone.java                    # Concrete 3D shape
+    ├── Cylinder.java                # Concrete 3D shape
+    ├── Torus.java                   # Concrete 3D shape
+    ├── ShapeMenu.java               # Main interactive menu
+    └── ShapeTest.java               # Automated test suite
+═══════════════════════════════════════════════════════════════════════════════
+
+4. INSTALLATION AND SETUP
+
+4.1 Step 1: Extract the Project
+----------------------------
+4.1.1. Locate the downloaded ShapesProject.zip file
+4.1.2. Right-click the file and select "Extract All..." (Windows) or double-click (Mac)
+4.1.3. Choose a destination folder (e.g., Desktop or Documents)
+4.1.4. Click "Extract"
+
+4.2 Step 2: Verify File Structure
+------------------------------
+Navigate to the extracted folder and confirm the following structure:
+- A README.md file in the root directory
+- A 'src' folder containing 14 .java files
+
+4.3 Step 3: Open Command Prompt/Terminal
+-------------------------------------
+- Press Win + R
+- Type "cmd" and press Enter
+- Navigate to the project: cd "path\to\ShapesProject\src"
+═══════════════════════════════════════════════════════════════════════════════
+
+5. COMPILATION INSTRUCTIONS
+
+IMPORTANT: All compilation and execution must be performed from the 'src' 
+directory.
+
+Step-by-Step Compilation:
+--------------------------
+
+5.1. Navigate to the src directory:
+   Windows:
+       cd C:\path\to\ShapesProject\src
+   
+   Mac/Linux:
+       cd /path/to/ShapesProject/src
+
+5.2. Compile all Java files:
+       javac *.java
+
+5.3. Verify compilation:
+   - Check that .class files were created for each .java file
+   - You should see 14 .class files in the src directory
+   - If you see error messages, verify:
+     a. You are in the correct directory (src folder)
+     b. Java JDK is properly installed
+     c. All .java files are present
+
+Expected Output:
+----------------
+5.4 If compilation is successful, you will see no output and will return to the 
+command prompt. The following .class files will be created:
+
+- Shape.class
+- TwoDimensionalShape.class
+- ThreeDimensionalShape.class
+- Circle.class
+- Rectangle.class
+- Square.class
+- Triangle.class
+- Sphere.class
+- Cube.class
+- Cone.class
+- Cylinder.class
+- Torus.class
+- ShapeMenu.class
+- ShapeTest.class
+
+5.5 Troubleshooting Compilation Errors:
+------------------------------------
+Error: "javac is not recognized as an internal or external command"
+Solution: Java JDK is not installed or not in system PATH. Install JDK and 
+         add to PATH environment variable.
+
+Error: "cannot find symbol"
+Solution: Ensure all .java files are present in the src directory.
+═══════════════════════════════════════════════════════════════════════════════
+
+6. EXECUTION INSTRUCTIONS
+
+The project provides two executable programs:
+
+6.1. Interactive Menu Program (Primary Application)
+--------------------------------------------------
+Command:
+    java ShapeMenu
+
+This launches the interactive command-line interface where users can:
+- Select shapes from a numbered menu
+- Input dimensions for each shape
+- View calculated area or volume
+- Continue with multiple shapes or exit
+
+6.2. Automated Test Suite
+------------------------
+Command:
+    java ShapeTest
+
+This runs automated tests for all shape classes and displays:
+- Test results for 2D shapes (area calculations)
+- Test results for 3D shapes (volume calculations)
+- Error handling verification
+- Test summary
+═══════════════════════════════════════════════════════════════════════════════
+
+7. DESIGN ASSUMPTIONS
+
+The following assumptions were made during implementation and are documented 
+in the source code:
+
+7.1 Triangle Implementation:
+- Assumes base and height are provided
+- Uses the formula: Area = 0.5 × base × height
+- This formula works for all triangle types (right, isosceles, equilateral)
+
+7.2 Cone Implementation:
+- Assumes a right circular cone
+- Uses the formula: Volume = (1/3) × π × r² × h
+- Radius is measured at the base
+
+7.3 Cylinder Implementation:
+- Assumes a right circular cylinder
+- Uses the formula: Volume = π × r² × h
+- Radius is constant along the height
+
+7.4 Torus Implementation:
+- Assumes a circular torus (donut shape)
+- Major radius: distance from center of torus to center of tube
+- Minor radius: radius of the tube itself
+- Constraint: minor radius must be less than major radius
+- Uses the formula: Volume = 2 × π² × R × r²
+  where R = major radius, r = minor radius
+
+7.5 Input Validation:
+- All dimensions must be positive numbers
+- Invalid input prompts user to re-enter
+- Type mismatches (entering text for numbers) are caught and handled
+
+7.6 Number Formatting:
+- Areas and volumes are displayed with 2 decimal places
+- Mathematical constant π is used (Math.PI) for accurate calculations
+═══════════════════════════════════════════════════════════════════════════════
+
+8. LESSONS LEARNED
+
+8.1. 
+ **IS-A vs HAS-A Relationships**
+   Lesson: Understanding the distinction between inheritance (IS-A) and 
+   composition (HAS-A) is crucial for proper design.
+   
+   A Circle IS-A TwoDimensionalShape (inheritance) but HAS-A radius 
+   (composition). This distinction guided the entire class hierarchy design. 
+   Misunderstanding this could have led to improper use of inheritance.
+
+8.2. **Polymorphism in Practice**
+   Lesson: Polymorphism allows treating different shapes uniformly.
+   
+   In ShapeMenu, all shapes are referenced through the Shape base class type in 
+   processShapeConstruction(). This demonstrates polymorphism - different shape 
+   types can be handled by the same code because they share a common interface.
+
+8.3. **Encapsulation Benefits**
+   Lesson: Private fields with public getters protect data integrity.
+   
+   All shape dimensions are private with public getter methods. This prevents 
+   external code from modifying dimensions after construction, ensuring shape 
+   properties remain valid throughout the object's lifetime.
+
+8.4. **Incremental Development**
+    Lesson: Building and testing one component at a time reduces complexity.
+    
+    I developed shapes in order: base classes first, then 2D shapes, then 3D 
+    shapes, and finally the menu system. Testing each component before moving to 
+    the next made debugging much easier than if I had built everything at once.
+
+8.5. **Code Reusability**
+    Lesson: Identifying common patterns leads to reusable methods.
+    
+    The getPositiveDouble() method emerged after noticing that every shape 
+    needed positive numeric input validation. Extracting this into a separate 
+    method eliminated dozens of lines of duplicate code.
+
+8.6. **Documentation During Development**
+    Lesson: Writing documentation while coding is more effective than after.
+    
+    Documenting assumptions (e.g., "Triangle uses base-height formula") as I 
+    implemented each class made creating this guide much easier. Trying to 
+    remember design decisions weeks later would have been difficult.
+
+8.7. **Torus Formula Complexity**
+    Challenge: The torus volume formula was more complex than other shapes.
+    Solution: Thoroughly researched the formula and validated with online 
+    calculators. Added extra documentation explaining major/minor radius.
+
+8.8. **Date/Time Formatting**
+    Challenge: Java's date/time formatting required learning DateTimeFormatter.
+    Solution: Studied Java documentation and used a custom pattern to match the 
+    required output format exactly.
+
+9. FUTURE IMPROVEMENTS:
+
+9.1. **GUI Interface**: Create a graphical user interface using JavaFX or Swing 
+   for better user experience.
+
+9.2. **Shape Visualization**: Add ability to draw/display shapes visually using 
+   graphics libraries.
+
+9.3. **Save/Load Functionality**: Allow users to save created shapes to a file 
+   and load them later.
+═══════════════════════════════════════════════════════════════════════════════
+
+END OF DEVELOPER'S GUIDE

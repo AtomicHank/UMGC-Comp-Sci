@@ -1,0 +1,38 @@
+The First come First Serve Scheduling algorithm as an example to define its characteristics.
+
+1) This is easy to be executed as the jobs are given priority based on first come basis.
+
+2) This is non-preemptive scheduling algorithm'
+
+3) Quiet easy to understand as well as implement
+
+4) The implementation is on the basis of FIFO technique
+
+5) Performance is poor as it is having a high average waiting time.
+
+The other algorithms are as follows:
+
+Round Robin, Shortest Remaining time, Shortest job next, priority scheduling, and multi level queue.
+
+
+Scheduling algorithm name: FCFS (First come first serve)
+
+Selection : The process which request first that will be executed first.Means process runs in order of their arrival time.
+Non-preemptive: The process will not give processor until process gets exucuted or it is blocked for an input-output event or some other events.
+Implementation: The algorithm can be simply implemented by using FIFO (first in first out) queue. When CPU becomes free , a process from first position in a queue is selected to further run.
+Batch System:Because it runs one process , when it finishes it goes for next tot run.
+Advantages:
+
+It is very easy to implement and understand.
+No starvation.(Each process gets a chance to run.)
+Uses simple fundament of first come first service.
+Disadvantages:
+
+It is a non-preemptive (Process don't give CPU by voluntarily)
+Waiting time is too high compare to other scheduling algorithm.
+Convoy effect is possible. (Some important I/O event have to wait until CPU becomes free from some bound process.)
+
+I wanted to pick an algorithm that had not been brought up yet. Although it is not noted in our readings, an algorithm that is easy to implement and gives results just as predictable is lottery scheduling. 
+The basic idea is to allocate different processes lottery tickets for various system resources such as CPU time. Whenever a scheduling decision must be made, a ticket is chosen, and the process allocated that ticket gets the resource. When applied to CPU scheduling, the system might hold a lottery 50 times a second, with each winner getting 25 msec of CPU time as a prize. 
+Just the same as a regular lottery, priority processes can be given extra tickets to increase their odds of winning. If there are 100 tickets in play, a particular process will have a 20% chance of winning the lottery if it holds 20 tickets. The math is fairly simple, a process holding a fraction of n tickets will get about that same fraction of the resource in question, over time. This makes lottery scheduling extremely responsive. 
+Lottery scheduling can be used to solve problems that may be more difficult to handle using other methods. Use a video server feeding video streams to their clients via several processes, but at different frame rates, as an example. If the processes needs frames at 20, 30, and 40 frames/sec, allocating these processes 20, 30, and 40 tickets apportions them access to the CPU in correct quantities. 

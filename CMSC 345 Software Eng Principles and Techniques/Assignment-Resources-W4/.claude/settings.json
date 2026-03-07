@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Expand-Archive -Path ''Submission-Template-W4-LName-FName.docx'' -DestinationPath ''temp_template'' -Force\")"
+    ]
+  }
+}

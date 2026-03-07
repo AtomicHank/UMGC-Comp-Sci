@@ -1,0 +1,24 @@
+Unit 5 Assignment: Test Plan
+In this assignment, the project team will be submitting a document outlining the structure and components of a comprehensive test plan for their group project. The document should consist of a breakdown of the proposed test plan’s structure: objectives, types of testing, test cases and automated testing strategies.
+
+The project team should include effective test cases that cover functionality, performance, and user experience. The document should also list the assigned responsibilities for developing and documenting test cases within the project team.
+
+The team should work collaboratively and submit a Word document (PDF or RTF is also acceptable) that contains the test plan with following topics outlined:
+
+Introduction: Provide a brief overview of the software project and its testing scope.
+Testing Objectives: Clearly define the objectives of the testing effort, including the quality attributes to be assessed.
+Test Strategy: Outline the overall approach to testing, including the types of testing to be performed and the testing methodologies to be employed.
+Test Scope: Define the boundaries and limitations of the testing effort, including what is included and excluded.
+Test Cases: Provide detailed descriptions of the test cases designed to cover various aspects of the software's functionality, performance, and usability.
+Testing Procedures: Document the specific steps and procedures for executing the test cases, including test data preparation and test environment configuration.
+Testing Schedule: Develop a detailed testing schedule with deadlines for each testing phase.
+Testing Resources: Identify and allocate the necessary resources for the testing effort, including personnel, equipment, and budget.
+Defect Management: Establish a process for identifying, reporting, and tracking defects or bugs encountered during testing.
+
+Guidelines for the format and submission of the paper are as follows:
+
+The paper should be 5-7 pages of text in length. (This minimum and maximum length should not include the title page, separate figures and tables, or the list of references);
+The paper should include a cover page containing the project's title and the names of project team members. All team members should submit the same document to the assignment submission area.
+Careful attention should be given to source citations, and a proper listing of references.
+The paper should be well formatted and well organized with proper formatting of all graphs, images, tables etc.
+The students should submit their original work. Work prepared for other courses or use of material obtained for this course from other students, past or present, is expressly prohibited and can result in a grade of zero for an assignment and/or course failure.

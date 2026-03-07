@@ -1,0 +1,29 @@
+Unit 6 Assignment: Phase 2 Source
+The learning objective is to master the Phase II Final Source Code. This week, your team’s assignments will unlock the keys to crafting a stellar final document. Summarize the crucial insights from your readings, map out the document's structure, and begin building your group's masterpiece. Prepare insightful questions to hone your peers' work and remember, collaboration is key to code perfection.
+
+Phase II Source Code Outline:
+
+Phase II Source Code should lay the foundation for the capstone project's final software development stage. It should encompass the following key elements:
+
+Finalize Project Setup: Re-examine and finalize the project's development environment, including completion and verification of all project steps setup by reviewing and completing all coding tools, source libraries, and dependencies.
+Finalize Core Functionality: Implement the production level core functionalities of the project, focusing on all critical chosen features and algorithms.
+Complete Unit Testing: Fully implement unit tests to verify and finalize the correctness and robustness of code modules.
+Provide Full Documentation: Finalize and document all program code using detailed comments, code blocks, and external documentation files to enhance readability and maintainability.
+Team collaboration and Implementation
+
+Collaborate with your project team on finalization and implementation of Phase II Source Code, ensure all project specifications, coding standards, and best practices are finalized.
+Finalize all code review processes and fully address issues, inconsistencies, or inefficiencies within the codebase.
+Finish all testing and finalization of the program code, ensure code quality and stability by thoroughly testing and addressing any bugs or errors. 
+Peer Review Preparation:
+
+Formulate questions to guide the peer review of your group members' Phase II Final Source Code documents.
+Focus on questions that assess the clarity, completeness, and accuracy of the document.
+Prepare to provide constructive feedback to your group members during the peer review process.
+
+Guidelines for the format and submission of the paper are as follows:
+
+The paper should be 5-7 pages of text in length. (This minimum and maximum length should not include the title page, separate figures and tables, or the list of references); 
+The paper should include a cover page containing the project's title and the names of project team members. All team members should submit the same document to the assignment submission area. 
+Careful attention should be given to source citations, and a proper listing of references. 
+The paper should be well formatted and well organized with proper formatting of all graphs, images, tables etc. 
+The students should submit their original work. Work prepared for other courses or use of material obtained for this course from other students, past or present, is expressly prohibited and can result in a grade of zero for an assignment and/or course failure. 

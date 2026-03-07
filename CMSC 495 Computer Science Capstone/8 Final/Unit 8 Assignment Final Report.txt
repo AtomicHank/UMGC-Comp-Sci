@@ -1,0 +1,35 @@
+Unit 8 Assignment: Final Report
+This unit, the project team will be required to submit their final project, which includes a final written report describing their project and the final code of the project. The team should incorporate all feedback provided for their previous submissions.
+
+The report should include the project's background and motivation and a brief overview of related and similar work, with at least 3 references. This formal report will be a culmination of previous reports submitted and should include a detailed description of the implemented system, including what it does, how it works, and how it is used. The report should address all the feedback provided in previous submissions. The report should also detail the group’s accomplishments and reflect on their experience.  
+
+Continue working on the Final Report document and submission for your assigned group.
+Review the Sample Final Project to guide your work.
+Develop a 5-minute Project Presentation that effectively communicates your capstone project. Upload your Project Presentation to the Week 8 discussion area for other groups to review. 
+
+The submission should be a Word document (PDF or RTF is also acceptable) that contains the following topics as outlined:
+
+Final Report Outline: 
+
+Introduction – Brief summary of your project, context and motivation  
+Process Overview - brief description of your approach, tools and artifacts used, including summary of individual contributions 
+Requirements Specification – summary of functional and non-functional requirements 
+Project Design – architecture and implementation of your project and how it works 
+Project Evaluation: Testing strategy, Test Plan and Results, Validation  
+Design and Alternate Designs – changes made to the source code due to testing results 
+Development History: Project timeline 
+Discussion: Lessons learned, design strengths, limitations and suggestions for future improvement 
+Conclusion 
+Acknowledgement (optional) 
+References 
+Appendix 
+System specification: technical specifications, minimum hardware requirements of the project implemented 
+User Guide 
+Other appendices (optional) 
+Guidelines for the format and submission of the paper are as follows: 
+
+The paper should be 15-20 pages in length. (This minimum and maximum length should not include the title page, appendix, separate figures and tables, or the list of references); 
+The paper should include a cover page containing the project's title and the names of project team members. All team members should submit the same document to the assignment submission area. 
+Careful attention should be given to source citations, and a proper listing of references. 
+The paper should be well formatted and well organized with proper formatting of all graphs, images, tables etc. 
+The students should submit their original work. Work prepared for other courses or use of material obtained for this course from other students, past or present, is expressly prohibited and can result in a grade of zero for an assignment and/or course failure. 

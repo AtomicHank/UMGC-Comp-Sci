@@ -1,0 +1,89 @@
+Unit 1
+This is an ungraded discussion, however it is crucial that students complete this discussion and inform the instructor of the team formation. For this discussion, team members should form a group and select a project idea that they would like to work on. Team members should brainstorm the project scope and vision and come up with a project overview. 
+
+One member of each team should post the names of the group members for the group, including the topic for the selected project and a short project overview in the format given below. Each of the members named in that team simply needs to respond that they agree to being in the group, or let the group know they are already in another group.
+
+Project Topic: (Name of your project)
+Team members: (List of group members)
+Project Overview: (A paragraph including the problem/needs your project would be addressing, goal of your project/software, who will be using the project/software)
+
+Unit 2
+For this unit’s discussion, complete the assigned readings for the unit on Project Planning and discuss the key concepts and insights you have gained. In your discussion, include the essential elements of a project plan and reflect on the critical components that should be included in a well-defined project plan.
+
+You can base your discussion on your group's project plan, including (but not limited to) the following topics:
+
+How do you define the goals, objectives and deliverables of your project
+What are the limitations of your project
+How do you assign responsibilities to team members
+How do you develop project timeline and milestones
+What resources will be required for your project
+What tools you will be using for communication among team members
+Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+
+Unit 3
+For this unit’s discussion, complete the assigned readings for the unit on Project Design and discuss the key concepts and insights you have gained. In your discussion, include what are the fundamental elements of an effective project design for successful project execution.
+
+You can base your discussion on your group's user guide, including (but not limited to) the following topics:
+
+How do you define the project's objectives and deliverables
+How do you define the boundaries and limitations of your project
+How do you develop project timeline and milestones
+How do you establish criteria for evaluating the project's success
+Challenges and potential pitfalls associated with the project design
+Any lessons learned from past experiences/observations with project design
+Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+
+Unit 4
+For this unit’s discussion, complete the assigned readings for the unit on Phase I Source Code. Students will be collaborating and implementing the initial phase of their project's source code within their assigned groups this unit and using this discussion forum to communicate.
+
+You can base your discussion on your group's Phase I Sources Code, including (but not limited to) the following topics:
+
+What are the essential components of a well-structured and documented Phase I Source Code.
+How do you define and implement the core functionalities of the project
+What are the coding standards and best practices for documentation
+How do test, refine and track changes in your code
+Challenges anticipated and strategies for overcoming these challenges to ensure code quality
+Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+
+Unit 5
+For this unit’s discussion, complete the assigned readings for the unit on Software Testing methodologies and discuss the key concepts and insights you have gained. In your discussion, outline the essential components and structure of a test plan and discuss the importance of a well-defined test plan to the overall quality of the software project.
+
+You can base your discussion on your group's test plan, including (but not limited to) the following topics:
+
+Which testing methodologies will be employed to ensure quality and functionality
+How to develop effective test cases
+How will you incorporate automated testing 
+What metrics will be used to measure the effectiveness of testing
+What reporting format will you use to document the test results
+Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+
+Unit 6
+For this unit’s discussion, complete the assigned readings for the unit on Phase II Source Code. Students will be collaborating and implementing the final source code within their assigned groups this unit and using this discussion forum to communicate.
+
+You can base your discussion on your group's Phase I Sources Code, including (but not limited to) the following topics:
+
+What were your group's strategies to ensure clarity, completeness and accuracy of the sources code document.
+How do you collaborate with team members to refine and enhance the project source code documentation.
+How to provide constructive feedback to your group members during per review process
+Challenges and strategies for overcoming the challenges and ensure code quality
+Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+
+Unit 7
+For this unit’s discussion, complete the assigned readings for the unit on User Guide and discuss the key concepts and insights you have gained. In your discussion, include the most important aspects of a User Guide.
+
+You can base your discussion on your group's user guide, including (but not limited to) the following topics:
+
+Key takeaways from the unit readings for the User Guide
+Challenges you anticipate in developing a comprehensive User Guide for your project
+Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+
+Unit 8
+For this week’s discussion, develop a short video (5-7 minutes in length) in which you present your project to the class. You can use slides, screenshots, voiceover, and/or live action. Your video should include your project’s title, name of all team members, and any other details that you’d like to convey to the viewers.   
+
+Your presentation should effectively communicate your team’s capstone project and include the following topics: 
+
+The purpose and significance of your capstone project 
+A quick demonstration of your capstone project 
+Lessons learned, what went well, what did not and what you could have done better.
+Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+

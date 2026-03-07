@@ -1,0 +1,21 @@
+Unit 3 Assignment: Project Design
+In this assignment, the project team will be submitting a design document for their group project. The design document should be based on the Project Plan document. A comprehensive project design should be a roadmap for the capstone project's successful execution. The document should consist of an analysis of the project’s requirements, work breakdown of the proposed project, project schedule, risk plans and an evaluation plan. 
+
+The submission should be a Word document (PDF or RTF is also acceptable) that contains the following topics as outlined:
+
+Project Plan Outline:
+
+Project Scope: Clearly defined objectives, deliverables, boundaries, and limitations.
+Project Requirements: Specify the functional and non-functional requirements that the project must fulfill.
+Project Methodology: Outline the chosen project management approach, such as Agile or Waterfall, and justify its suitability for the project.
+Work breakdown/Project Tasks: Break down the project into manageable tasks, estimating time and resource requirements for each task.
+Project Schedule: Develop a detailed project timeline, including milestones, deadlines, and dependencies between tasks.
+Project Risks: Anticipate potential risks that could impact the project's success and outline mitigation strategies.
+Project Evaluation Plan: Establish clear criteria for evaluating the project's progress and outcomes.
+
+Guidelines for the format and submission of the paper are as follows:
+
+The paper should be 7-9 pages of text in length. (This minimum and maximum length should not include the title page, separate figures and tables, or the list of references);
+The paper should include a cover page containing the project's title and the names of project team members. All team members should submit the same document to the assignment submission area.
+Careful attention should be given to source citations, and a proper listing of references.
+The paper should be well formatted and well organized with proper formatting of all graphs, images, tables etc.

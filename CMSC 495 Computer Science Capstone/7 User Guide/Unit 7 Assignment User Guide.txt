@@ -1,0 +1,31 @@
+Unit 7 Assignment: User Guide
+The User Guide should be a comprehensive and easy-to-navigate document that provides users with all the information they need to use the software successfully. In this assignment, the project team will be submitting a User Guide document for their group project.
+
+The document should consist of step-by-step instructions on how to make the best use of their product including the standards & guidelines, troubleshooting guides, installation process, and additional information that aids customers in solving problems on their own. The document should be comprehensive and incorporate annotated screenshots and diagrams for easy navigation.
+
+The team should work collaboratively and submit a Word document (PDF or RTF is also acceptable) with following topics outlined:
+
+User Guide Outline:
+
+Introduction
+Overview of the software
+Purpose of the User Guide
+Target audience
+Getting Started
+Installation instructions
+System requirements
+User interface overview
+Using the Software
+Step-by-step instructions for using the software's main features
+Troubleshooting tips
+Reference
+Glossary of terms
+Index
+
+Guidelines for the format and submission of the paper are as follows:
+
+The paper should be 5-7 pages of text in length. (This minimum and maximum length should not include the title page, separate figures and tables, or the list of references);
+The paper should include a cover page containing the project's title and the names of project team members. All team members should submit the same document to the assignment submission area.
+Careful attention should be given to source citations, and a proper listing of references.
+The paper should be well formatted and well organized with proper formatting of all graphs, images, tables etc.
+The students should submit their original work. Work prepared for other courses or use of material obtained for this course from other students, past or present, is expressly prohibited and can result in a grade of zero for an assignment and/or course failure.

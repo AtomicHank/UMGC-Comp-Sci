@@ -1,0 +1,360 @@
+CMSC 451 Homework 5
+
+1. Prim's algorithm starting at F
+
+Graph edges used:
+
+AD=2
+AG=3
+AF=7
+DG=6
+DC=1
+GI=4
+GH=7
+IF=5
+IE=2
+IH=6
+FE=6
+EB=1
+HB=3
+HC=2
+BC=5
+
+Start:
+
+Tree = {F}
+
+Initial fringe distances from F:
+
+A: 7 via F
+I: 5 via F
+E: 6 via F
+
+Step 1:
+
+Choose I with distance 5.
+Add edge FI.
+
+Updates:
+
+E: 6 -> 2 via I
+G: infinity -> 4 via I
+H: infinity -> 6 via I
+A stays 7
+
+Step 2:
+
+Choose E with distance 2.
+Add edge IE.
+
+Updates:
+
+B: infinity -> 1 via E
+
+Step 3:
+
+Choose B with distance 1.
+Add edge EB.
+
+Updates:
+
+H: 6 -> 3 via B
+C: infinity -> 5 via B
+
+Step 4:
+
+Choose H with distance 3.
+Add edge BH.
+
+Updates:
+
+C: 5 -> 2 via H
+G stays 4
+
+Step 5:
+
+Choose C with distance 2.
+Add edge HC.
+
+Updates:
+
+D: infinity -> 1 via C
+
+Step 6:
+
+Choose D with distance 1.
+Add edge CD.
+
+Updates:
+
+A: 7 -> 2 via D
+G stays 4 because D->G is 6
+
+Step 7:
+
+Choose A with distance 2.
+Add edge DA.
+
+Updates:
+
+G: 4 -> 3 via A
+
+Step 8:
+
+Choose G with distance 3.
+Add edge AG.
+
+Minimum spanning tree edges in order:
+
+FI=5
+IE=2
+EB=1
+BH=3
+HC=2
+CD=1
+DA=2
+AG=3
+
+Total weight:
+
+5 + 2 + 1 + 3 + 2 + 1 + 2 + 3 = 19
+
+
+2. Kruskal's algorithm
+
+Edges in nondecreasing order, alphabetical within equal weights:
+
+DM=1
+GH=1
+JM=1
+EJ=2
+HM=2
+DF=3
+FM=3
+KL=3
+AD=4
+BC=4
+CM=5
+EF=5
+JK=5
+GM=5
+DE=6
+IM=7
+AC=8
+GI=8
+HK=8
+BM=9
+EM=9
+LM=9
+HI=10
+KM=10
+AB=11
+BG=12
+AM=13
+
+Dynamic equivalence relation:
+
+Start:
+
+{A} {B} {C} {D} {E} {F} {G} {H} {I} {J} {K} {L} {M}
+
+1. Remove DM=1, add it
+
+{A} {B} {C} {D,M} {E} {F} {G} {H} {I} {J} {K} {L}
+
+2. Remove GH=1, add it
+
+{A} {B} {C} {D,M} {E} {F} {G,H} {I} {J} {K} {L}
+
+3. Remove JM=1, add it
+
+{A} {B} {C} {D,J,M} {E} {F} {G,H} {I} {K} {L}
+
+4. Remove EJ=2, add it
+
+{A} {B} {C} {D,E,J,M} {F} {G,H} {I} {K} {L}
+
+5. Remove HM=2, add it
+
+{A} {B} {C} {D,E,G,H,J,M} {F} {I} {K} {L}
+
+6. Remove DF=3, add it
+
+{A} {B} {C} {D,E,F,G,H,J,M} {I} {K} {L}
+
+7. Remove FM=3, skip it because F and M are already in the same set
+
+8. Remove KL=3, add it
+
+{A} {B} {C} {D,E,F,G,H,J,M} {I} {K,L}
+
+9. Remove AD=4, add it
+
+{A,D,E,F,G,H,J,M} {B} {C} {I} {K,L}
+
+10. Remove BC=4, add it
+
+{A,D,E,F,G,H,J,M} {B,C} {I} {K,L}
+
+11. Remove CM=5, add it
+
+{A,B,C,D,E,F,G,H,J,M} {I} {K,L}
+
+12. Remove EF=5, skip it
+
+13. Remove JK=5, add it
+
+{A,B,C,D,E,F,G,H,J,K,L,M} {I}
+
+At this point, one component contains all vertices that appear in the graph image except I, which is isolated in this graph, so among the connected vertices the spanning tree is complete.
+
+Minimum spanning tree edges in order:
+
+DM=1
+GH=1
+JM=1
+EJ=2
+HM=2
+DF=3
+KL=3
+AD=4
+BC=4
+CM=5
+JK=5
+
+Total weight:
+
+1 + 1 + 1 + 2 + 2 + 3 + 3 + 4 + 4 + 5 + 5 = 31
+
+
+3. Uniqueness of the minimum spanning trees
+
+Prim graph:
+
+The MST is unique.
+
+One MST:
+
+FI, IE, EB, BH, HC, CD, DA, AG
+
+Why it is unique:
+
+At each stage there is a uniquely lightest edge crossing an appropriate cut. Even though some weights repeat, no equal-weight alternative can replace one of the chosen edges without increasing the total weight or disconnecting the graph.
+
+Kruskal graph:
+
+The MST is also unique for the connected part of the graph.
+
+One MST:
+
+DM, GH, JM, EJ, HM, DF, KL, AD, BC, CM, JK
+
+Why it is unique:
+
+Although several weights repeat, the chosen edges are forced by the cut and cycle properties. For each required connection, the minimum edge that can connect two different components is unique at the moment it is selected.
+
+
+4. Dijkstra's shortest-path algorithm from A
+
+Directed adjacency lists:
+
+A: B(2), C(7), D(6)
+B: C(3), F(1)
+C: E(3)
+D: E(3)
+E: F(1)
+F: C(3), D(1)
+
+Initialization:
+
+dist(A)=0
+dist(B)=infinity
+dist(C)=infinity
+dist(D)=infinity
+dist(E)=infinity
+dist(F)=infinity
+
+pred(*) = none
+
+Step 1: settle A
+
+Relax edges from A:
+
+B: infinity -> 2 via A
+C: infinity -> 7 via A
+D: infinity -> 6 via A
+
+Current distances:
+
+A=0, B=2, C=7, D=6, E=infinity, F=infinity
+
+Step 2: settle B
+
+Add edge AB to shortest-path tree.
+
+Relax edges from B:
+
+C: 7 -> 5 via B
+F: infinity -> 3 via B
+
+Current distances:
+
+A=0, B=2, F=3, D=6, C=5, E=infinity
+
+Step 3: settle F
+
+Add edge BF to shortest-path tree.
+
+Relax edges from F:
+
+C stays 5 because 3 + 3 = 6
+D: 6 -> 4 via F
+
+Current distances:
+
+A=0, B=2, F=3, D=4, C=5, E=infinity
+
+Step 4: settle D
+
+Add edge FD to shortest-path tree.
+
+Relax edges from D:
+
+E: infinity -> 7 via D
+
+Current distances:
+
+A=0, B=2, F=3, D=4, C=5, E=7
+
+Step 5: settle C
+
+Add edge BC to shortest-path tree.
+
+Relax edges from C:
+
+E stays 7 because 5 + 3 = 8
+
+Step 6: settle E
+
+Add edge DE to shortest-path tree.
+
+Relax edges from E:
+
+F stays 3 because 7 + 1 = 8
+
+Final shortest-path distances from A:
+
+A = 0
+B = 2
+F = 3
+D = 4
+C = 5
+E = 7
+
+Shortest-path tree edges in order:
+
+AB
+BF
+FD
+BC
+DE

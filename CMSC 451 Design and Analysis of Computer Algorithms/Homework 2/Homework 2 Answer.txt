@@ -1,0 +1,236 @@
+Joe Merrill
+21 MAR 2026
+CMSC 451 Homework 2
+
+1. Asymptotic proof with L'Hospital's rule
+
+Given:
+
+f(n) = 6n^3 + 4n^2 + 2
+g(n) = 5n^2 + 9
+
+To test whether `f(n) = O(g(n))`, evaluate:
+
+lim n->infinity f(n) / g(n)
+= lim n->infinity (6n^3 + 4n^2 + 2) / (5n^2 + 9)
+
+Apply L'Hospital's rule:
+
+= lim n->infinity (18n^2 + 8n) / (10n)
+
+Apply L'Hospital's rule again:
+
+= lim n->infinity (36n + 8) / 10
+= infinity
+
+Because the limit is infinite, `f(n)` is not `O(g(n))`.
+
+To test whether `g(n) = O(f(n))`, evaluate:
+
+lim n->infinity g(n) / f(n)
+= lim n->infinity (5n^2 + 9) / (6n^3 + 4n^2 + 2)
+
+Apply L'Hospital's rule:
+
+= lim n->infinity 10n / (18n^2 + 8n)
+
+Apply L'Hospital's rule again:
+
+= lim n->infinity 10 / (36n + 8)
+= 0
+
+Because the limit is a finite constant, specifically 0, `g(n) = O(f(n))`.
+
+Conclusion:
+
+- `f(n) = O(g(n))` is false.
+- `g(n) = O(f(n))` is true.
+
+
+2. Rank from lowest asymptotic order to highest
+
+Functions:
+
+- `2 log2 n`
+- `log4 n`
+- `3 sqrt(n)`
+- `4n`
+- `4n + 10`
+- `3n log2 n`
+- `n^2 + 6n`
+- `2n^2 + 10n + 5`
+- `2n^3 + n^2 + 6`
+- `2^n`
+
+Ranking:
+
+`log4 n`, `2 log2 n`
+`3 sqrt(n)`
+`4n`, `4n + 10`
+`3n log2 n`
+`n^2 + 6n`, `2n^2 + 10n + 5`
+`2n^3 + n^2 + 6`
+`2^n`
+
+Reason:
+
+- `log4 n = (1/2) log2 n`, so both logarithmic functions are `Theta(log n)`.
+- `sqrt(n)` grows faster than `log n` but slower than `n`.
+- `4n` and `4n + 10` are both `Theta(n)`.
+- `n log n` grows faster than `n` but slower than `n^2`.
+- Both quadratic functions are `Theta(n^2)`.
+- `2n^3 + n^2 + 6` is `Theta(n^3)`.
+- `2^n` dominates every polynomial.
+
+
+3. Recursion tree for `sumSquares`
+
+Method:
+
+int sumSquares(int[] array, int first, int last) {
+  if (first == last)
+    return array[first] * array[first];
+  int mid = (first + last) / 2;
+  return sumSquares(array, first, mid) +
+         sumSquares(array, mid + 1, last);
+}
+
+For `n = 12`, one recursion tree is:
+
+sumSquares(0,11)
+|- sumSquares(0,5)
+|  |- sumSquares(0,2)
+|  |  |- sumSquares(0,1)
+|  |  |  |- sumSquares(0,0)
+|  |  |  '- sumSquares(1,1)
+|  |  '- sumSquares(2,2)
+|  '- sumSquares(3,5)
+|     |- sumSquares(3,4)
+|     |  |- sumSquares(3,3)
+|     |  '- sumSquares(4,4)
+|     '- sumSquares(5,5)
+'- sumSquares(6,11)
+   |- sumSquares(6,8)
+   |  |- sumSquares(6,7)
+   |  |  |- sumSquares(6,6)
+   |  |  '- sumSquares(7,7)
+   |  '- sumSquares(8,8)
+   '- sumSquares(9,11)
+      |- sumSquares(9,10)
+      |  |- sumSquares(9,9)
+      |  '- sumSquares(10,10)
+      '- sumSquares(11,11)
+
+Number of nodes:
+
+Each leaf corresponds to one array element, so there are `n` leaves. This is a full binary tree, so:
+
+total nodes = `2n - 1`
+
+For `n = 12`:
+
+total nodes = `2(12) - 1 = 23`
+
+Execution time:
+
+Every array element is eventually processed once, and each internal node does only constant extra work.
+So the running time is:
+
+`Theta(n)`
+
+Height of the tree:
+
+Because the problem size is cut about in half each time, the height in edges is:
+
+`ceil(log2 n)`
+
+If height is counted in levels instead, it is:
+
+`ceil(log2 n) + 1`
+
+For `n = 12`:
+
+height in edges = `ceil(log2 12) = 4`
+
+Memory:
+
+Only one root-to-leaf path is active at a time, so stack usage is proportional to the height:
+
+`Theta(log n)`
+
+Iterative solution:
+
+
+int sumSquaresIterative(int[] array) {
+    int sum = 0;
+    for (int i = 0; i < array.length; i++)
+        sum += array[i] * array[i];
+    return sum;
+}
+
+
+Comparison:
+
+- Recursive version: `Theta(n)` time, `Theta(log n)` extra memory.
+- Iterative version: `Theta(n)` time, `Theta(1)` extra memory.
+
+The iterative version is more space-efficient. Time complexity is the same.
+
+
+4. Recurrence and Little Master Theorem
+
+Work per activation:
+
+Each non-base activation does constant work:
+
+- compare `first == last`
+- compute `mid`
+- add the two recursive results
+
+So if the current subproblem has size `n`, the recurrence is:
+
+`T(n) = 2T(n/2) + c` for `n > 1`
+
+Initial condition:
+
+`T(1) = d`
+
+Recursion tree row sums:
+
+At level `i`:
+
+- number of nodes = `2^i`
+- work per node = `c`
+- row sum = `c * 2^i`
+
+There are about `log2 n + 1` levels, and the last level has `n` leaves.
+
+So the total work is:
+
+`c(1 + 2 + 4 + ... + n) = c(2n - 1) = Theta(n)`
+
+Critical exponent:
+
+For `T(n) = aT(n/b) + f(n)`:
+
+- `a = 2`
+- `b = 2`
+- `f(n) = Theta(1)`
+
+Critical exponent:
+
+`log_b a = log2 2 = 1`
+
+Apply the Little Master Theorem:
+
+`f(n) = Theta(1) = Theta(n^0)`
+
+Since `0 < 1`, `f(n)` is polynomially smaller than `n^(log_b a) = n`.
+
+Therefore:
+
+`T(n) = Theta(n)`
+
+Optimality:
+
+Yes, this algorithm is asymptotically optimal. Any algorithm that computes the sum of squares of all elements must inspect all `n` elements at least once, so the problem has a lower bound of `Omega(n)`. Since this algorithm runs in `Theta(n)`, it is optimal.

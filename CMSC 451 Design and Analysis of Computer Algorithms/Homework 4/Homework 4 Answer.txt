@@ -1,0 +1,227 @@
+CMSC 451 Homework 4
+
+Graph used in all problems
+
+Vertices:
+A, B, C, D, E, F, G, H, I, J, K
+
+Directed edges:
+A->B
+A->C
+B->E
+B->G
+C->B
+C->D
+C->F
+D->H
+E->G
+E->H
+E->J
+E->K
+F->C
+G->A
+H->I
+I->D
+K->J
+
+Adjacency lists in alphabetical order:
+
+A: B, C
+B: E, G
+C: B, D, F
+D: H
+E: G, H, J, K
+F: C
+G: A
+H: I
+I: D
+J:
+K: J
+
+
+1. Breadth-first search
+
+Starting at A and using adjacency lists in alphabetical order:
+
+Visit order:
+A, B, C, E, G, D, F, H, J, K, I
+
+BFS tree edges:
+
+A->B
+A->C
+B->E
+B->G
+C->D
+C->F
+E->H
+E->J
+E->K
+H->I
+
+BFS tree by level:
+
+Level 0:
+A
+
+Level 1:
+B, C
+
+Level 2:
+E, G, D, F
+
+Level 3:
+H, J, K
+
+Level 4:
+I
+
+
+2. Depth-first search
+
+Using alphabetical order for vertices and adjacency lists, DFS starts at A and reaches the whole graph.
+
+Discovery/finish times:
+
+A: 1/22
+B: 2/17
+E: 3/16
+G: 4/5
+H: 6/11
+I: 7/10
+D: 8/9
+J: 12/13
+K: 14/15
+C: 18/21
+F: 19/20
+
+Edge classification:
+
+A->B: tree
+A->C: tree
+B->E: tree
+B->G: forward
+C->B: cross
+C->D: cross
+C->F: tree
+D->H: back
+E->G: tree
+E->H: tree
+E->J: tree
+E->K: tree
+F->C: back
+G->A: back
+H->I: tree
+I->D: tree
+K->J: cross
+
+
+3. Remove back edges, then topological order
+
+Back edges from part 2:
+
+D->H
+F->C
+G->A
+
+Remove those edges to obtain a DAG.
+
+Remaining edges:
+
+A->B
+A->C
+B->E
+B->G
+C->B
+C->D
+C->F
+E->G
+E->H
+E->J
+E->K
+H->I
+I->D
+K->J
+
+DFS on the DAG:
+
+Discovery/finish times:
+
+A: 1/22
+B: 2/17
+E: 3/16
+G: 4/5
+H: 6/11
+I: 7/10
+D: 8/9
+J: 12/13
+K: 14/15
+C: 18/21
+F: 19/20
+
+Topological order from decreasing finish times:
+
+A, C, F, B, E, K, J, H, I, D, G
+
+One breadth-first topological order:
+
+A, C, B, F, E, G, H, K, I, J, D
+
+
+4. Strongly connected components
+
+First DFS finish order from the original graph, in decreasing finish time:
+
+A, C, F, B, E, K, J, H, I, D, G
+
+Transpose graph adjacency lists in alphabetical order:
+
+A: G
+B: A, C
+C: A, F
+D: C, I
+E: B
+F: C
+G: B, E
+H: D, E
+I: H
+J: E, K
+K: E
+
+DFS on the transpose graph in the decreasing-finish order above:
+
+Discovery/finish times:
+
+A: 1/12
+G: 2/11
+B: 3/8
+C: 4/7
+F: 5/6
+E: 9/10
+K: 13/14
+J: 15/16
+H: 17/22
+D: 18/21
+I: 19/20
+
+DFS forest on the transpose:
+
+Tree 1 root A:
+A -> G -> B -> C -> F
+         -> E
+
+Tree 2 root K:
+K
+
+Tree 3 root J:
+J
+
+Tree 4 root H:
+H -> D -> I
+
+Strongly connected components:
+
+{A, B, C, E, F, G}
+{D, H, I}
+{K}
+{J}

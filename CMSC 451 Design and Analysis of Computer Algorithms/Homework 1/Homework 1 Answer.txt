@@ -1,0 +1,146 @@
+Joe Merrill
+14 March 2026
+CMSC 451 Homework 1
+
+1. Recursive version of square, with preconditions and postconditions
+
+
+// Preconditions:
+// n >= 0
+//
+// Postconditions:
+// returns n^2
+int square(int n) {
+    if (n == 0)
+        return 0;
+    return square(n - 1) + (2 * n - 1);
+}
+
+
+Proof by induction:
+
+Claim:
+For every integer n >= 0, square(n) returns n^2.
+
+Base case:
+When n = 0, the function returns 0.
+Since 0^2 = 0, the claim holds for n = 0.
+
+Inductive hypothesis:
+Assume that for some k >= 0, square(k) = k^2.
+
+Inductive step:
+Consider square(k + 1).
+
+square(k + 1)
+= square(k) + (2(k + 1) - 1)
+= k^2 + (2k + 1)
+= k^2 + 2k + 1
+= (k + 1)^2
+
+So if the claim holds for k, it also holds for k + 1.
+
+Therefore, by mathematical induction, square(n) returns n^2 for all n >= 0.
+
+
+2. Value of n where algorithm 2 becomes more efficient
+
+Algorithm 1:
+f(n) = 3n^2 + 9
+
+Algorithm 2:
+g(n) = 51n + 17
+
+Algorithm 2 is more efficient when:
+
+51n + 17 < 3n^2 + 9
+
+0 < 3n^2 - 51n - 8
+
+Using the quadratic formula on 3n^2 - 51n - 8 = 0:
+
+n = (51 +/- sqrt(2601 + 96)) / 6
+n = (51 +/- sqrt(2697)) / 6
+
+sqrt(2697) is about 51.93, so the positive root is about
+
+n = (51 + 51.93) / 6 = 17.155...
+
+Therefore, algorithm 2 becomes more efficient for integer n > 17.155..., so the first integer value is n = 18.
+
+Check:
+f(18) = 3(18^2) + 9 = 981
+g(18) = 51(18) + 17 = 935
+
+So algorithm 2 first becomes more efficient at n = 18.
+
+
+3. Worst-case number of swaps in bubble sort
+
+The inner loop runs from j = n - 1 down to j = i + 1. For a fixed i, the number of comparisons is (n - 1) - i.
+
+In the worst case, the array is in reverse order, so every comparison causes a swap.
+
+Total swaps:
+
+sum from i = 0 to n - 1 of (n - 1 - i)
+
+= (n - 1) + (n - 2) + ... + 1 + 0
+
+= sum from k = 1 to n - 1 of k
+
+= n(n - 1) / 2
+
+So the worst-case number of swaps is:
+
+n(n - 1) / 2
+
+
+4. Recurrence for sumEvenElements and its solution
+
+Function
+
+int sumEvenElements(int array[], int i) {
+  if (i >= array.length)
+    return 0;
+  return array[i] + sumEvenElements(array, i + 2);
+}
+
+Worst-case recurrence
+Each recursive call does constant work, then calls itself on a problem reduced by 2. Let T(n) be the worst-case execution time on an array of length n.
+
+Initial conditions:
+T(0) = c
+T(1) = c
+
+Recurrence:
+T(n) = T(n - 2) + c, for n >= 2
+
+Solution:
+
+If n is even, let n = 2k.
+Then:
+
+T(2k) = T(2k - 2) + c
+      = T(2k - 4) + 2c
+      = ...
+      = T(0) + kc
+      = c + kc
+
+Since k = n / 2:
+
+T(n) = c + (n / 2)c = Theta(n)
+
+If n is odd, let n = 2k + 1.
+
+Then
+T(2k + 1) = T(2k - 1) + c
+          = ...
+          = T(1) + kc
+          = c + kc
+
+This is also Theta(n).
+
+Therefore, the solution to the recurrence is:
+
+T(n) = Theta(n)

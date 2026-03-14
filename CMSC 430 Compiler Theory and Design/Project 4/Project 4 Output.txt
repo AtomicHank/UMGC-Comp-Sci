@@ -1,0 +1,384 @@
+===== semantic1.txt =====
+
+   1  // Variable Initialization Mismatch
+   2  
+   3  function main returns integer;
+   4      value: integer is 'A';
+Semantic Error, Type Mismatch on Variable Initialization
+   5  begin
+   6      1;
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic10.txt =====
+
+   1  // List Subscript is not Integer
+   2  
+   3  function main returns integer;
+   4      aList: list of integer is (1, 2, 3);
+   5  begin
+   6      aList(1.5);
+Semantic Error, List Subscript Must Be Integer
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic11.txt =====
+
+   1  -- Mixing Numeric and Character Types with Relational Operator
+   2  
+   3  function main returns integer;
+   4  begin
+   5      if 'b' < 'c' then
+   6          1;
+   7      elsif 'b' < 1 then
+Semantic Error, Character Literals Cannot be Compared to Numeric Expressions
+   8          2;
+   9      else
+  10          3;
+  11      endif;
+  12  end;
+  13  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic12.txt =====
+
+   1  // Using Character Literal with Exponentiation Operator
+   2  //     and Negation Operator
+   3  
+   4  function main returns integer;
+   5      c: character is ~'c';
+Semantic Error, Arithmetic Operator Requires Numeric Types
+   6  begin
+   7      5 ^ 'P';
+Semantic Error, Arithmetic Operator Requires Numeric Types
+   8  end;
+   9  
+  10  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 2
+
+===== semantic13.txt =====
+
+   1  // Mixing Real Literals with the Remainder Operator
+   2  
+   3  function main returns integer;
+   4  begin
+   5      4 % 4.8;
+Semantic Error, Remainder Operator Requires Integer Operands
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic14.txt =====
+
+   1  -- If Elsif Else Mismatch
+   2  
+   3  function main returns integer;
+   4  begin
+   5      if 9 < 10 then
+   6          1;
+   7      elsif 8 = 1 then
+   8          2;
+   9      else 
+  10          3.7;
+  11      endif;
+Semantic Error, If-Elsif-Else Type Mismatch
+  12  end;
+  13  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic15.txt =====
+
+   1  // Folding a nonnumeric List
+   2  
+   3  function main returns integer;
+   4  begin
+   5      fold left + ('a', 'b', 'c') endfold;    
+Semantic Error, Fold Requires A Numeric List
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic16.txt =====
+
+   1  -- Narrowing Variable Initialization
+   2  
+   3  function main returns integer;
+   4      b: integer is 5 * 2.5;
+Semantic Error, Illegal Narrowing Variable Initialization
+   5  begin
+   6      b + 1;
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic17.txt =====
+
+   1  -- Narrowing Function Return
+   2  
+   3  function main returns integer;
+   4      b: integer is 6 * 2;
+   5  begin
+   6      if 8 < 0 then
+   7          b + 3.0;
+   8      else
+   9          b * 4.6;
+  10      endif;
+  11  end;
+Semantic Error, Illegal Narrowing Function Return
+  12  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic18.txt =====
+
+   1  -- Duplicate Scalar and List Variables
+   2  
+   3  function main returns integer;
+   4      scalar: integer is 4 * 2;
+   5      scalar: character is 'b';
+Semantic Error, Duplicate Scalar scalar
+   6      a_list: list of integer is (4, 2);
+   7      a_list: list of real is (2.3, 4.4);
+Semantic Error, Duplicate List a_list
+   8  begin
+   9      1;
+  10  end;
+  11  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 2
+
+===== semantic19.txt =====
+
+   1  // Multiple Semantic Errors
+   2  
+   3  function main returns integer;
+   4      value: integer is 4.5;
+Semantic Error, Illegal Narrowing Variable Initialization
+   5      numbers: list of real is (1, 2, 3);
+Semantic Error, List Type Does Not Match Element Types
+   6      one: integer is '1';
+Semantic Error, Type Mismatch on Variable Initialization
+   7  begin
+   8      if value > 0 then
+   9          fold left + ('a', 'b') endfold;
+Semantic Error, Fold Requires A Numeric List
+  10      elsif name = 'N' then
+Semantic Error, Undeclared Scalar name
+  11          fold right * (1, 2.5) endfold;
+Semantic Error, List Element Types Do Not Match
+  12      else
+  13          when value < 10, 1 : 1.5;
+Semantic Error, When Types Mismatch
+  14      endif;
+  15  end;
+  16  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 7
+
+===== semantic2.txt =====
+
+   1  // When Types Mismatch
+   2  
+   3  function main returns integer;
+   4  begin
+   5      when 2 < 1, 1 : 'a';
+Semantic Error, When Types Mismatch
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic3.txt =====
+
+   1  // Non Integer Switch Expression
+   2  
+   3  function main returns integer;
+   4      b: character is 'A';
+   5  begin
+   6      switch b is
+   7          case 1 => 2;
+   8          case 2 => 4;
+   9          others => 6;
+  10      endswitch;
+Semantic Error, Switch Expression Not Integer
+  11  end;
+  12  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic4.txt =====
+
+   1  // Case Types Mismatch
+   2  
+   3  function main returns integer;
+   4      b: character is 'b';
+   5  begin
+   6      switch 1 is
+   7          case 1 => 2;
+   8          case 2 => b;
+Semantic Error, Case Types Mismatch
+   9          others => 6;
+  10      endswitch;
+  11  end;
+  12  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic5.txt =====
+
+   1  // Using Character Variable with Arithmetic Operator
+   2  
+   3  function main returns integer;
+   4      b: character is 'b';
+   5  begin
+   6      b + 10;
+Semantic Error, Arithmetic Operator Requires Numeric Types
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic6.txt =====
+
+   1  // Undeclared Scalar Variable
+   2  
+   3  function main returns integer;
+   4  begin
+   5      2 * b + 3;
+Semantic Error, Undeclared Scalar b
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic7.txt =====
+
+   1  // Undeclared List Variable
+   2  
+   3  function main returns integer;
+   4  begin
+   5      primes(1) + 1;
+Semantic Error, Undeclared List primes
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic8.txt =====
+
+   1  // List with Elements of Different Types
+   2  
+   3  function main returns integer;
+   4      aList: list of integer is (1, 2, 3.5);
+Semantic Error, List Element Types Do Not Match
+   5  begin
+   6      aList(1);
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic9.txt =====
+
+   1  // List Type Does Not Match Element Types
+   2  
+   3  function main returns character;
+   4      aList: list of character is (1, 2, 3);
+Semantic Error, List Type Does Not Match Element Types
+   5  begin
+   6      aList(1);
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== valid1.txt =====
+
+   1  -- Program with a Real Variable
+   2  
+   3  function main returns real;
+   4      a: real is 4.5;
+   5  begin
+   6      a;
+   7  end;
+   8  
+     
+Compiled Successfully
+
+
+===== valid2.txt =====
+
+   1  -- Program with a Hexadecimal Literals
+   2  
+   3  function main returns integer;
+   4      a: integer is #A;
+   5  begin
+   6      a + #a;
+   7  end;
+   8  
+     
+Compiled Successfully
+
+
+===== valid3.txt =====
+
+   1  -- Program with a Real Variable
+   2  
+   3  function main returns real;
+   4      a: real is 4 + 4.5;
+   5  begin
+   6      a;
+   7  end;
+   8  
+     
+Compiled Successfully
+
+

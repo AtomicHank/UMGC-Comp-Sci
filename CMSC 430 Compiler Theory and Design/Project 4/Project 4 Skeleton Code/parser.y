@@ -46,6 +46,7 @@ function:
 
 function_header:
 	FUNCTION IDENTIFIER optional_parameters RETURNS type ';' { functionReturnType = $5; }
+	| FUNCTION IDENTIFIER error ';' { functionReturnType = MISMATCH; yyerrok; }
 	;
 
 optional_parameters:
@@ -78,6 +79,7 @@ variable:
 		insertList($1, $5);
 		$$ = NONE;
 	}
+	| IDENTIFIER error IS statement_ { $$ = MISMATCH; yyerrok; }
 	;
 
 type:
@@ -107,6 +109,7 @@ statement_:
 statement:
 	expression { $$ = $1; }
 	| WHEN condition ',' expression ':' expression { $$ = checkWhen($4, $6); }
+	| WHEN error ';' { $$ = MISMATCH; yyerrok; }
 	| SWITCH expression IS cases OTHERS ARROW statement_ ENDSWITCH { $$ = checkSwitch($2, $4, $7); }
 	| IF condition THEN statement_ elsif_clauses ELSE statement_ ENDIF { $$ = checkIf($4, $5, $7); }
 	| FOLD direction operator list_choice ENDFOLD { $$ = checkFold($4); }
@@ -124,6 +127,7 @@ cases:
 
 case:
 	CASE INT_LITERAL ARROW statement_ { $$ = $4; }
+	| CASE error ARROW statement_ { $$ = MISMATCH; yyerrok; }
 	;
 
 direction:

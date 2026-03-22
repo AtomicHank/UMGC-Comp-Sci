@@ -132,7 +132,13 @@ statement:
 	| IF condition THEN statement_ elsif_clauses ELSE statement_ ENDIF
 		{ $$ = $2 ? $4 : (!isnan($5) ? $5 : $7); }
 	| FOLD direction operator list_choice ENDFOLD
-		{ $$ = $2 == LEFT_FOLD ? foldLeft($3, *$4) : foldRight($3, *$4); }
+		{
+			if ($4 == nullptr) {
+				$$ = NAN;
+			} else {
+				$$ = $2 == LEFT_FOLD ? foldLeft($3, *$4) : foldRight($3, *$4);
+			}
+		}
 	;
 
 elsif_clauses:
@@ -256,7 +262,7 @@ vector<double>* lookup_list(CharPtr identifier) {
 	vector<double>* value;
 	if (!lists.find(identifier, value)) {
 		appendError(UNDECLARED, identifier);
-		return new vector<double>();
+		return nullptr;
 	}
 	return value;
 }

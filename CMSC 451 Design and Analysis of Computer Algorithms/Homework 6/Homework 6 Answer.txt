@@ -1,241 +1,208 @@
+Joe Merrill
+22 MAR 2026
 CMSC 451 Homework 6
 
 1. Warshall's algorithm
 
 Original relation matrix:
 
-```text
 [0 1 0 0 0
  0 0 0 1 0
  0 0 1 1 0
  0 0 0 0 1
  0 0 1 0 1]
-```
 
 Reflexive closure:
 
-```text
 R(0) =
 [1 1 0 0 0
  0 1 0 1 0
  0 0 1 1 0
  0 0 0 1 1
  0 0 1 0 1]
-```
 
-After outer loop pass `k = a`:
+After outer loop pass k = a:
 
-```text
 R(1) =
 [1 1 0 0 0
  0 1 0 1 0
  0 0 1 1 0
  0 0 0 1 1
  0 0 1 0 1]
-```
 
-After outer loop pass `k = b`:
+After outer loop pass k = b:
 
-```text
 R(2) =
 [1 1 0 1 0
  0 1 0 1 0
  0 0 1 1 0
  0 0 0 1 1
  0 0 1 0 1]
-```
 
-After outer loop pass `k = c`:
+After outer loop pass k = c:
 
-```text
 R(3) =
 [1 1 0 1 0
  0 1 0 1 0
  0 0 1 1 0
  0 0 0 1 1
  0 0 1 1 1]
-```
 
-After outer loop pass `k = d`:
+After outer loop pass k = d:
 
-```text
 R(4) =
 [1 1 0 1 1
  0 1 0 1 1
  0 0 1 1 1
  0 0 0 1 1
  0 0 1 1 1]
-```
 
-After outer loop pass `k = e`:
+After outer loop pass k = e:
 
-```text
 R(5) =
 [1 1 1 1 1
  0 1 1 1 1
  0 0 1 1 1
  0 0 1 1 1
  0 0 1 1 1]
-```
 
-So the reflexive-transitive closure is:
+Therefore the reflexive-transitive closure is:
 
-```text
 [1 1 1 1 1
  0 1 1 1 1
  0 0 1 1 1
  0 0 1 1 1
  0 0 1 1 1]
-```
 
 
-2. Floyd's algorithm on the graph from problem 1
+2. Floyd's algorithm on the graph from Problem 1
 
-Use edge length 1 for each edge, `0` on the diagonal, and `infinity` where no edge exists.
+Use edge length 1 for each edge, 0 on the diagonal, and infinity where no edge exists.
 
 Initial distance matrix:
 
-```text
-[0 1 inf inf inf
- inf 0 inf 1 inf
- inf inf 0 1 inf
- inf inf inf 0 1
- inf inf 1 inf 0]
-```
+[0   1  inf inf inf
+ inf 0  inf 1   inf
+ inf inf 0   1   inf
+ inf inf inf 0   1
+ inf inf 1   inf 0]
 
 Final Floyd result:
 
-```text
-[0 1 4 2 3
- inf 0 3 1 2
- inf inf 0 1 2
- inf inf 2 0 1
- inf inf 1 2 0]
-```
+[0   1   4   2   3
+ inf 0   3   1   2
+ inf inf 0   1   2
+ inf inf 2   0   1
+ inf inf 1   2   0]
 
 Interpretation:
 
-- From `a`, shortest paths go to all other vertices.
-- From `b`, reachable vertices are `c`, `d`, and `e`.
-- Vertices `c`, `d`, and `e` can all reach one another inside their strongly connected region.
+- From a, the shortest path reaches every other vertex.
+- From b, the reachable vertices are d, e, and c.
+- Vertices c, d, and e can all reach one another.
 
 
 3. Graph, condensation graph, topological order, and closure
 
-Graph from problem 1:
+Graph corresponding to the matrix in Problem 1:
+
+Vertices:
+a, b, c, d, e
 
 Edges:
-
-- a -> b
-- b -> d
-- c -> c
-- c -> d
-- d -> e
-- e -> c
-- e -> e
+a -> b
+b -> d
+c -> c
+c -> d
+d -> e
+e -> c
+e -> e
 
 Strongly connected components:
 
-- `{a}`
-- `{b}`
-- `{c, d, e}`
+{a}
+{b}
+{c, d, e}
 
 Condensation graph:
 
-Rename the SCC vertices as:
+Let
 
-- X = `{a}`
-- Y = `{b}`
-- Z = `{c, d, e}`
+X = {a}
+Y = {b}
+Z = {c, d, e}
 
-Edges in the condensation graph:
+Then the condensation graph has edges:
 
-- X -> Y
-- Y -> Z
+X -> Y
+Y -> Z
 
-A topological order is:
+One topological order is:
 
-`X, Y, Z`
+X, Y, Z
 
 Adjacency matrix in that topological order:
 
-```text
 [0 1 0
  0 0 1
  0 0 0]
-```
 
 Reflexive-transitive closure of that matrix:
 
-```text
 [1 1 1
  0 1 1
  0 0 1]
-```
 
 Characteristic indicating a total order:
 
-Every entry on and above the main diagonal is `1`.
-That means for every pair of distinct vertices in the chosen topological order, the earlier one is related to the later one, so every pair is comparable.
+Every entry on and above the main diagonal is 1. That means for any two vertices in this topological order, one is always related to the other, so every pair is comparable. That is the defining property of a total order.
 
 
 4. Floyd's algorithm on the weighted directed graph
 
 Initial matrix:
 
-```text
 D(0) =
-[ 0  inf   4  -2
- inf   2   3   6
- -3    2   0  inf
-  4  inf   5   0]
-```
+[ 0  inf  4  -2
+ inf  2   3   6
+ -3   2   0  inf
+  4  inf  5   0]
 
-After `k = 1`:
+After k = 1:
 
-```text
 D(1) =
-[ 0  inf   4  -2
- inf   2   3   6
- -3    2   0  -5
-  4  inf   5   0]
-```
+[ 0  inf  4  -2
+ inf  2   3   6
+ -3   2   0  -5
+  4  inf  5   0]
 
-After `k = 2`:
+After k = 2:
 
-```text
 D(2) =
-[ 0  inf   4  -2
- inf   2   3   6
- -3    2   0  -5
-  4  inf   5   0]
-```
+[ 0  inf  4  -2
+ inf  2   3   6
+ -3   2   0  -5
+  4  inf  5   0]
 
-After `k = 3`:
+After k = 3:
 
-```text
 D(3) =
 [ 0   6   4  -2
- 0   2   3  -2
- -3  2   0  -5
- 2   7   5   0]
-```
+  0   2   3  -2
+ -3   2   0  -5
+  2   7   5   0]
 
-After `k = 4`:
+After k = 4:
 
-```text
 D(4) =
 [ 0   5   3  -2
- 0   2   3  -2
- -3  2   0  -5
- 2   7   5   0]
-```
+  0   2   3  -2
+ -3   2   0  -5
+  2   7   5   0]
 
 Final distance matrix:
 
-```text
 [ 0   5   3  -2
- 0   2   3  -2
- -3  2   0  -5
- 2   7   5   0]
-```
+  0   2   3  -2
+ -3   2   0  -5
+  2   7   5   0]

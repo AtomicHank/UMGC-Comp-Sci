@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class ShowTable {
     private static final int RUNS_PER_SIZE = 40;
@@ -30,12 +32,12 @@ public class ShowTable {
 
         try {
             List<String> lines = Files.readAllLines(file.toPath());
-            Object[][] rows = new Object[lines.size()][columns.length];
+            String[][] rows = new String[lines.size()][columns.length];
             for (int row = 0; row < lines.size(); row++) {
                 rows[row] = parseRow(lines.get(row));
             }
 
-            JTable table = new JTable(rows, columns);
+            JTable table = createReportTable(rows, columns);
             JFrame frame = new JFrame(file.getName());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.add(new JScrollPane(table));
@@ -47,7 +49,30 @@ public class ShowTable {
         }
     }
 
-    private static Object[] parseRow(String line) {
+    private static JTable createReportTable(String[][] rows, String[] columns) {
+        DefaultTableModel model = new DefaultTableModel(rows, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        JTable table = new JTable(model);
+        table.setRowSelectionAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false);
+        table.setFillsViewportHeight(true);
+
+        DefaultTableCellRenderer rightAlignedRenderer = new DefaultTableCellRenderer();
+        rightAlignedRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+
+        for (int column = 0; column < table.getColumnModel().getColumnCount(); column++) {
+            table.getColumnModel().getColumn(column).setCellRenderer(rightAlignedRenderer);
+        }
+
+        return table;
+    }
+
+    private static String[] parseRow(String line) {
         String[] parts = line.trim().split("\\s+");
         int size = Integer.parseInt(parts[0]);
         List<Double> counts = new ArrayList<Double>();
@@ -67,7 +92,7 @@ public class ShowTable {
         double averageTime = average(times);
         double timeCv = coefficientOfVariation(times, averageTime);
 
-        return new Object[] {
+        return new String[] {
             Integer.toString(size),
             formatNumber(averageCount),
             formatPercent(countCv),

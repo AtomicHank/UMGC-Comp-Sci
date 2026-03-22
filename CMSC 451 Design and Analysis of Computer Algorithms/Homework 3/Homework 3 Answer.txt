@@ -1,11 +1,10 @@
 Joe Merrill
-28 MAR 2026
+22 MAR 2026
 CMSC 451 Homework 3
 
 1. Recursion tree for recursive bubble sort on an array of length 4
 
 Given:
-
 
 void bubbleSort(int array[]) {
   sort(array, 0);
@@ -29,8 +28,7 @@ void bubble(int[] array, int i, int j) {
   bubble(array, i, j - 1);
 }
 
-
-For an array of length 4 in the worst case, such as `[4, 3, 2, 1]`, the recursion tree is:
+For an array of length 4 in the worst case, such as [4, 3, 2, 1], the recursion tree is:
 
 bubbleSort(array)
 '- sort(array, 0)
@@ -49,78 +47,78 @@ bubbleSort(array)
 
 Explanation:
 
-- `bubbleSort` calls `sort(array, 0)`.
-- Each `sort(array, i)` first performs one full bubbling pass from the end of the array down to `i`.
-- Then it recursively calls `sort(array, i + 1)`.
-- The `bubble` calls form a chain, not a branching tree.
+- bubbleSort calls sort(array, 0).
+- Each sort(array, i) performs one bubbling pass, then recursively calls sort(array, i + 1).
+- Each bubble(array, i, j) call makes only one recursive call, so the bubble part is a chain rather than a branching subtree.
 
 Best-case difference:
 
-The recursion tree shape is exactly the same in the best case. The only difference is that no swaps occur inside the `if (array[j] < array[j - 1])` statement. So the number of activations does not change, but the amount of swap work is smaller.
+The recursion tree has the same shape in the best case. The method still makes the same recursive calls because there is no early stopping test. The only difference is that in the best case, the condition
+
+array[j] < array[j - 1]
+
+is always false, so no swaps occur.
+
 
 2. Node count, time, height, and memory
 
 Number of nodes:
 
-For an array of length `n`:
+For an array of length n:
 
-- There is 1 `bubbleSort` activation.
-- There are `n` `sort` activations: `sort(0)` through `sort(n - 1)`.
-- For each `i` from `0` to `n - 2`, `bubble(i, n - 1)` makes `n - i` activations, including the base case.
+- There is 1 bubbleSort activation.
+- There are n sort activations: sort(0), sort(1), ..., sort(n - 1).
+- For each i from 0 to n - 2, bubble(i, n - 1) makes n - i activations, including the base case bubble(i, i).
 
-So the number of `bubble` activations is:
+So the total number of bubble activations is:
 
 sum from i = 0 to n - 2 of (n - i)
 = n + (n - 1) + ... + 2
-= (n(n + 1) / 2) - 1
+= n(n + 1) / 2 - 1
 
-Total number of nodes:
+Therefore the total number of nodes is:
 
-1 + n + ((n(n + 1) / 2) - 1)
+1 + n + (n(n + 1) / 2 - 1)
 = n + n(n + 1) / 2
 = (n^2 + 3n) / 2
 
-So the total node count is:
-
-`(n^2 + 3n) / 2`
-
 Execution time:
 
-The recursion performs the same amount of work as ordinary bubble sort. Therefore the execution time is:
+The recursive version performs the same amount of comparison work as ordinary bubble sort, so its running time is:
 
-`Theta(n^2)`
+Theta(n^2)
 
 Height of the tree:
 
 The longest root-to-leaf path is:
 
-`bubbleSort -> sort(0) -> bubble(0, n - 1) -> bubble(0, n - 2) -> ... -> bubble(0, 0)`
+bubbleSort -> sort(0) -> bubble(0, n - 1) -> bubble(0, n - 2) -> ... -> bubble(0, 0)
 
 That path contains:
 
-- 1 `bubbleSort`
-- 1 `sort`
-- `n` `bubble` activations
+- 1 bubbleSort activation
+- 1 sort activation
+- n bubble activations
 
-So the height in nodes is:
+So the height is:
 
-`n + 2`
-
-and the height in edges is:
-
-`n + 1`
+- n + 2 nodes, or
+- n + 1 edges
 
 Thus the height is:
 
-`Theta(n)`
+Theta(n)
 
 Memory:
 
-At one time, the deepest stack comes from one `sort` activation plus a chain of `bubble` activations. So memory usage is proportional to the height:
+At any moment, the deepest call stack consists of one sort activation plus a chain of bubble activations, so the extra memory usage is:
 
-`Theta(n)`
+Theta(n)
 
-3. Java class `SortedPriorityQueue`
+
+3. Java class SortedPriorityQueue
+
+To make the implementation as efficient as possible with a sorted int array, the smallest value should be stored at the end of the used portion of the array. That allows remove() to return the smallest element in Theta(1) time with no shifting.
 
 public class SortedPriorityQueue {
     private final int[] queue;
@@ -137,7 +135,7 @@ public class SortedPriorityQueue {
         }
 
         int i = size - 1;
-        while (i >= 0 && queue[i] > value) {
+        while (i >= 0 && queue[i] < value) {
             queue[i + 1] = queue[i];
             i--;
         }
@@ -150,12 +148,8 @@ public class SortedPriorityQueue {
             throw new RuntimeException("Priority queue is empty");
         }
 
-        int result = queue[0];
-        for (int i = 1; i < size; i++) {
-            queue[i - 1] = queue[i];
-        }
         size--;
-        return result;
+        return queue[size];
     }
 
     public boolean isEmpty() {
@@ -163,15 +157,15 @@ public class SortedPriorityQueue {
     }
 }
 
-Efficiency:
+Why this is efficient:
 
-- `add`: worst case `Theta(n)` because elements may need to shift right.
-- `remove`: worst case `Theta(n)` because elements shift left after removal.
+- The array is kept in descending order.
+- The smallest element is always at index size - 1.
+- add may need to shift elements right, so its worst-case cost is Theta(n).
+- remove simply decreases size and returns the last element, so its cost is Theta(1).
 
-This keeps the array sorted at all times and is straightforward with a plain `int[]`.
 
-
-4. Efficiency of the sorting algorithm that uses `SortedPriorityQueue`
+4. Efficiency of the sorting algorithm that uses SortedPriorityQueue
 
 Algorithm:
 
@@ -186,48 +180,47 @@ void sort(int[] array)
 
 Worst-case execution time:
 
-Let `n` be the length of the input array.
+Let n be the length of the input array.
 
 Insertion phase:
 
-- First add may cost `1`
-- Second add may cost `2`
+Each add may need to shift all existing elements to keep the array sorted.
+
+- 1st add costs Theta(1)
+- 2nd add costs Theta(2)
 - ...
-- nth add may cost `n`
+- nth add costs Theta(n)
 
 Total insertion cost:
 
-`1 + 2 + ... + n = n(n + 1) / 2 = Theta(n^2)`
+1 + 2 + ... + n = n(n + 1) / 2 = Theta(n^2)
 
 Removal phase:
 
-- First remove may shift about `n - 1` elements
-- Second remove may shift about `n - 2`
-- ...
-- Last remove shifts `0`
+Because remove() just returns the last occupied entry and decrements size, each removal is Theta(1).
 
-Total removal cost:
+There are n removals, so the total removal cost is:
 
-`(n - 1) + (n - 2) + ... + 1 + 0 = n(n - 1) / 2 = Theta(n^2)`
+Theta(n)
 
 Overall time:
 
-`Theta(n^2) + Theta(n^2) = Theta(n^2)`
+Theta(n^2) + Theta(n) = Theta(n^2)
 
-Comparison with Java's priority queue:
+Comparison with Java's PriorityQueue:
 
-Java's `PriorityQueue` is heap-based.
+Java's PriorityQueue is heap-based.
 
-- `add`: `Theta(log n)`
-- `remove`: `Theta(log n)`
+- add is Theta(log n)
+- remove is Theta(log n)
 
-So sorting with Java's priority queue takes:
+So using Java's PriorityQueue to sort n values takes:
 
-`n * Theta(log n) + n * Theta(log n) = Theta(n log n)`
+n Theta(log n) + n Theta(log n) = Theta(n log n)
 
 Conclusion:
 
-The array-based `SortedPriorityQueue` implementation is less efficient than the Java priority queue implementation.
+The SortedPriorityQueue implementation above is less efficient than Java's PriorityQueue for sorting.
 
-- This implementation: `Theta(n^2)`
-- Java priority queue version: `Theta(n log n)`
+- This implementation: Theta(n^2)
+- Java PriorityQueue implementation: Theta(n log n)

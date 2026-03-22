@@ -153,6 +153,9 @@ void checkListType(Types declaredType, Types elementType) {
 }
 
 Types checkListSubscript(Types subscriptType, Types elementType) {
+	if (subscriptType == MISMATCH || elementType == MISMATCH) {
+		return MISMATCH;
+	}
 	if (subscriptType != MISMATCH && subscriptType != INT_TYPE) {
 		appendError(GENERAL_SEMANTIC, "List Subscript Must Be Integer");
 	}

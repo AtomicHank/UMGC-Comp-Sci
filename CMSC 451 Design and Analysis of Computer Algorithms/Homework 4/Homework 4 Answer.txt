@@ -1,3 +1,5 @@
+Joe Merrill
+22 MAR 2026
 CMSC 451 Homework 4
 
 Graph used in all problems
@@ -46,7 +48,7 @@ Starting at A and using adjacency lists in alphabetical order:
 Visit order:
 A, B, C, E, G, D, F, H, J, K, I
 
-BFS tree edges:
+Breadth-first search tree edges:
 
 A->B
 A->C
@@ -59,7 +61,7 @@ E->J
 E->K
 H->I
 
-BFS tree by level:
+Breadth-first tree by level:
 
 Level 0:
 A
@@ -79,9 +81,9 @@ I
 
 2. Depth-first search
 
-Using alphabetical order for vertices and adjacency lists, DFS starts at A and reaches the whole graph.
+Using alphabetical order for both vertices and adjacency lists, DFS begins at A and reaches every vertex.
 
-Discovery/finish times:
+Start and finish times:
 
 A: 1/22
 B: 2/17
@@ -116,15 +118,15 @@ I->D: tree
 K->J: cross
 
 
-3. Remove back edges, then topological order
+3. Remove back edges, then produce topological orders
 
-Back edges from part 2:
+The back edges from part 2 are:
 
 D->H
 F->C
 G->A
 
-Remove those edges to obtain a DAG.
+Removing those edges makes the graph a DAG.
 
 Remaining edges:
 
@@ -143,9 +145,7 @@ H->I
 I->D
 K->J
 
-DFS on the DAG:
-
-Discovery/finish times:
+Depth-first search on the DAG gives these start and finish times:
 
 A: 1/22
 B: 2/17
@@ -165,12 +165,12 @@ A, C, F, B, E, K, J, H, I, D, G
 
 One breadth-first topological order:
 
-A, C, B, F, E, G, H, K, I, J, D
+A, C, B, E, F, G, H, I, D, K, J
 
 
 4. Strongly connected components
 
-First DFS finish order from the original graph, in decreasing finish time:
+From the first DFS on the original graph, the vertices in decreasing finish-time order are:
 
 A, C, F, B, E, K, J, H, I, D, G
 
@@ -188,9 +188,9 @@ I: H
 J: E, K
 K: E
 
-DFS on the transpose graph in the decreasing-finish order above:
+Perform DFS on the transpose graph in the decreasing finish-time order above.
 
-Discovery/finish times:
+Start and finish times on the transpose:
 
 A: 1/12
 G: 2/11
@@ -204,19 +204,19 @@ H: 17/22
 D: 18/21
 I: 19/20
 
-DFS forest on the transpose:
+Final DFS forest on the transpose:
 
-Tree 1 root A:
+Tree 1 rooted at A:
 A -> G -> B -> C -> F
          -> E
 
-Tree 2 root K:
+Tree 2 rooted at K:
 K
 
-Tree 3 root J:
+Tree 3 rooted at J:
 J
 
-Tree 4 root H:
+Tree 4 rooted at H:
 H -> D -> I
 
 Strongly connected components:

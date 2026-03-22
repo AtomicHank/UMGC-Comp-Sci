@@ -8,20 +8,23 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 #include "listing.h"
 
 static int lineNumber;
-static string error = "";
 static int totalErrors = 0;
+static vector<string> errors;
 
 static void displayErrors();
 
 void firstLine()
 {
 	lineNumber = 1;
+	totalErrors = 0;
+	errors.clear();
 	printf("\n%4d  ",lineNumber);
 }
 
@@ -46,13 +49,13 @@ void appendError(ErrorCategories errorCategory, string message)
 		"Semantic Error, ", "Semantic Error, Duplicate ",
 		"Semantic Error, Undeclared " };
 
-	error = messages[errorCategory] + message;
+	errors.push_back(messages[errorCategory] + message);
 	totalErrors++;
 }
 
 void displayErrors()
 {
-	if (error != "")
-		printf("%s\n", error.c_str());
-	error = "";
+	for (size_t index = 0; index < errors.size(); index++)
+		printf("%s\n", errors[index].c_str());
+	errors.clear();
 }

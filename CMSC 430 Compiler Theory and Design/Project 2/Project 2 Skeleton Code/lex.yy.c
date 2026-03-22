@@ -541,7 +541,7 @@ char *yytext;
 #line 1 "scanner.l"
 /* CMSC 430 Compiler Theory and Design
    Project 2
-   Student: jamer
+   Student: Joe Merrill
    Date: March 7, 2026
    File: scanner.l
    Description: Defines the lexical analyzer for the Project 2 language. */

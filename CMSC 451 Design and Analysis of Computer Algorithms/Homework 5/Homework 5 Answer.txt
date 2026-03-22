@@ -1,8 +1,10 @@
+Joe Merrill
+22 MAR 2026
 CMSC 451 Homework 5
 
-1. Prim's algorithm starting at F
+1. Prim's minimum spanning tree algorithm starting at F
 
-Graph edges used:
+Graph edges:
 
 AD=2
 AG=3
@@ -88,7 +90,7 @@ Add edge CD.
 Updates:
 
 A: 7 -> 2 via D
-G stays 4 because D->G is 6
+G stays 4 because DG = 6
 
 Step 7:
 
@@ -136,8 +138,8 @@ AD=4
 BC=4
 CM=5
 EF=5
-JK=5
 GM=5
+JK=5
 DE=6
 IM=7
 AC=8
@@ -200,13 +202,19 @@ Start:
 
 {A,B,C,D,E,F,G,H,J,M} {I} {K,L}
 
-12. Remove EF=5, skip it
+12. Remove EF=5, skip it because E and F are already in the same set
 
-13. Remove JK=5, add it
+13. Remove GM=5, skip it because G and M are already in the same set
+
+14. Remove JK=5, add it
 
 {A,B,C,D,E,F,G,H,J,K,L,M} {I}
 
-At this point, one component contains all vertices that appear in the graph image except I, which is isolated in this graph, so among the connected vertices the spanning tree is complete.
+15. Remove DE=6, skip it because D and E are already in the same set
+
+16. Remove IM=7, add it
+
+{A,B,C,D,E,F,G,H,I,J,K,L,M}
 
 Minimum spanning tree edges in order:
 
@@ -221,37 +229,42 @@ AD=4
 BC=4
 CM=5
 JK=5
+IM=7
 
 Total weight:
 
-1 + 1 + 1 + 2 + 2 + 3 + 3 + 4 + 4 + 5 + 5 = 31
+1 + 1 + 1 + 2 + 2 + 3 + 3 + 4 + 4 + 5 + 5 + 7 = 38
 
 
 3. Uniqueness of the minimum spanning trees
 
-Prim graph:
+Graph from Problem 1:
 
-The MST is unique.
+The minimum spanning tree is unique.
 
-One MST:
+MST:
 
 FI, IE, EB, BH, HC, CD, DA, AG
 
-Why it is unique:
+Reason:
 
-At each stage there is a uniquely lightest edge crossing an appropriate cut. Even though some weights repeat, no equal-weight alternative can replace one of the chosen edges without increasing the total weight or disconnecting the graph.
+For every edge not in the tree, its weight is greater than the maximum-weight edge on the unique path between its endpoints in the tree. Therefore no non-tree edge can replace a tree edge without increasing the total weight, so there is only one MST.
 
-Kruskal graph:
+Graph from Problem 2:
 
-The MST is also unique for the connected part of the graph.
+The minimum spanning tree is not unique.
 
-One MST:
+One MST is:
 
-DM, GH, JM, EJ, HM, DF, KL, AD, BC, CM, JK
+DM, GH, JM, EJ, HM, DF, KL, AD, BC, CM, JK, IM
 
-Why it is unique:
+Another MST is:
 
-Although several weights repeat, the chosen edges are forced by the cut and cycle properties. For each required connection, the minimum edge that can connect two different components is unique at the moment it is selected.
+DM, GH, JM, EJ, HM, FM, KL, AD, BC, CM, JK, IM
+
+Reason:
+
+The non-tree edge FM has weight 3. In the MST, the path from F to M is F-D-M, whose maximum edge weight is also 3 because DF=3 and DM=1. Therefore FM can replace DF without changing the total weight. Since there is at least one different spanning tree with the same total weight, the MST is not unique.
 
 
 4. Dijkstra's shortest-path algorithm from A
@@ -274,7 +287,12 @@ dist(D)=infinity
 dist(E)=infinity
 dist(F)=infinity
 
-pred(*) = none
+pred(A)=none
+pred(B)=none
+pred(C)=none
+pred(D)=none
+pred(E)=none
+pred(F)=none
 
 Step 1: settle A
 
@@ -290,7 +308,7 @@ A=0, B=2, C=7, D=6, E=infinity, F=infinity
 
 Step 2: settle B
 
-Add edge AB to shortest-path tree.
+Add edge AB to the shortest-path tree.
 
 Relax edges from B:
 
@@ -303,7 +321,7 @@ A=0, B=2, F=3, D=6, C=5, E=infinity
 
 Step 3: settle F
 
-Add edge BF to shortest-path tree.
+Add edge BF to the shortest-path tree.
 
 Relax edges from F:
 
@@ -316,7 +334,7 @@ A=0, B=2, F=3, D=4, C=5, E=infinity
 
 Step 4: settle D
 
-Add edge FD to shortest-path tree.
+Add edge FD to the shortest-path tree.
 
 Relax edges from D:
 
@@ -328,33 +346,37 @@ A=0, B=2, F=3, D=4, C=5, E=7
 
 Step 5: settle C
 
-Add edge BC to shortest-path tree.
+Add edge BC to the shortest-path tree.
 
 Relax edges from C:
 
 E stays 7 because 5 + 3 = 8
 
+Current distances:
+
+A=0, B=2, F=3, D=4, C=5, E=7
+
 Step 6: settle E
 
-Add edge DE to shortest-path tree.
+Add edge DE to the shortest-path tree.
 
 Relax edges from E:
 
-F stays 3 because 7 + 1 = 8
+F stays 3 because E is already reached by a longer path
 
-Final shortest-path distances from A:
-
-A = 0
-B = 2
-F = 3
-D = 4
-C = 5
-E = 7
-
-Shortest-path tree edges in order:
+Final shortest-path tree edges in order:
 
 AB
 BF
 FD
 BC
 DE
+
+Final shortest-path distances from A:
+
+A=0
+B=2
+F=3
+D=4
+C=5
+E=7

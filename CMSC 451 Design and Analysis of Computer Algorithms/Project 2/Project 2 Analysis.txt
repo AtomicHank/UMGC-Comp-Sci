@@ -6,14 +6,14 @@ Sorting Algorithm Benchmark Analysis
 CMSC 451 Design and Analysis of Computer Algorithms
 Project 2
 Student: Joe Merrill
-Date: March 14, 2026
+Date: March 22, 2026
 
 
 Table of Contents
 
 I. INTRODUCTION
 A. PSEUDOCODE
-B. BIG-O
+B. BIG-THETA
 C. JVM WARM UP
 D. CRITICAL OPERATION
 
@@ -22,16 +22,16 @@ A. GRAPH
 B. PERFORMANCE COMPARISON
 C. CRITICAL OPERATION RESULTS AND TIME MEASUREMENTS
 D. COEFFICIENT OF VARIANCE
-E. RESULTS vs BIG-O
+E. RESULTS vs BIG-THETA
 
 III. CONCLUSION
 
 
 I. INTRODUCTION
 
-This study compares Quick Sort and Merge Sort using the Java benchmarking program created in Project 1. Both algorithms are efficient comparison-based sorting algorithms, but they differ in how they divide the data and in how sensitive they are to input order. Quick Sort partitions the array around a pivot and then recursively sorts the two partitions. Merge Sort recursively divides the array into halves and then merges the two sorted halves back together. In theory, Quick Sort often performs very well in practice because of strong cache behavior and low constant factors, while Merge Sort offers more predictable asymptotic behavior because its divide-and-conquer structure does not depend on pivot quality.
+This study compares Quick Sort and Merge Sort using the Java benchmark from Project 1. Both are comparison-based divide-and-conquer sorting algorithms, but they differ in how they organize work. Quick Sort partitions the array around a pivot and then recursively sorts the two partitions. Merge Sort recursively divides the array into halves and then merges sorted halves back together. In practice, Quick Sort often has strong cache behavior and low constant factors, while Merge Sort provides more predictable growth because its recursive structure does not depend on pivot quality.
 
-The benchmark program generated 12 evenly spaced input sizes from 100 through 1200. For each size, it generated 40 data sets and applied both algorithms to the exact same inputs. The program recorded a critical-operation count and elapsed time in nanoseconds for every run and verified that each sorted array was in nondecreasing order after the algorithm completed.
+The benchmark generated 12 evenly spaced input sizes from 100 through 1200. For each size, it generated 40 random data sets and used the exact same input data for both algorithms. The program recorded one critical-operation count and one elapsed time in nanoseconds for every run, and it verified after each run that the output array was sorted correctly.
 
 
 A. PSEUDOCODE
@@ -74,29 +74,31 @@ copy remaining values from unfinished half
 copy merged values back into original array
 
 
-B. BIG-O
+B. BIG-THETA
 
-Quick Sort has an average-case time complexity of O(n log n), but in the worst case it degrades to O(n^2) if repeated poor pivots produce highly unbalanced partitions. The implementation used here always chooses the last element as the pivot, so it is theoretically vulnerable to that worst case even though the randomly generated data tends to avoid it.
+Merge Sort runs in Theta(n log n) time in the best, average, and worst cases. Its recursive division pattern is fixed by the input size, so the amount of comparison work grows predictably. Its extra space usage is Theta(n) because it needs auxiliary storage during merging.
 
-Merge Sort has time complexity O(n log n) in the best, average, and worst cases. Its running time is more predictable because it always divides the array approximately in half and then performs a linear-time merge. Merge Sort does require additional auxiliary storage, so its space complexity is larger than Quick Sort’s in-place partitioning approach.
+Quick Sort has expected Theta(n log n) performance on random input, which is the behavior this benchmark is intended to observe. However, because the implementation chooses the last element as the pivot, its worst case is Theta(n^2) if repeated bad pivots create highly unbalanced partitions. Its auxiliary space usage is lower than Merge Sort's because it sorts in place except for recursion stack overhead.
 
-For both algorithms, the critical-operation count should grow on the order of n log n for randomly generated data. The time measurements should broadly follow the same trend, although JVM effects and operating-system scheduling noise can make actual timings less smooth than theoretical counts.
+For the random data used here, both algorithms should show growth consistent with Theta(n log n) in the critical-operation counts. The measured times should generally follow the same trend, although timing data is usually noisier than operation counts because of JVM and system effects.
 
 
 C. JVM WARM UP
 
-Java benchmarking is sensitive to JVM warm-up because the first executions of a method may include class loading, bytecode interpretation, and just-in-time compilation. To reduce that distortion, the Project 1 benchmark performed 200 warm-up runs before any measurements were recorded. Both Quick Sort and Merge Sort were exercised during warm-up on small random arrays so that the JIT compiler had a chance to optimize the key sorting paths before the measured runs began. This does not eliminate all measurement noise, but it reduces the effect of startup costs on the reported times.
+Java benchmarking is sensitive to JVM warm-up because early method calls may include class loading, bytecode interpretation, and just-in-time compilation overhead. To reduce that distortion, the Project 1 benchmark performed 200 warm-up runs before recording any measured data. Both Quick Sort and Merge Sort were exercised during warm-up on small random arrays so that the JVM had an opportunity to optimize the main sorting paths before the timed runs began.
+
+This warm-up process does not remove all noise, but it makes the recorded time measurements more representative of steady-state execution.
 
 
 D. CRITICAL OPERATION
 
-The critical operation counted for both algorithms was the element comparison that directly drives ordering decisions.
+The critical operation counted for both algorithms was the ordering comparison that directly determines element placement.
 
 For Quick Sort, the counter was incremented every time an array value was compared to the pivot during partitioning.
 
-For Merge Sort, the counter was incremented every time the current elements at the heads of the two subarrays were compared during merging.
+For Merge Sort, the counter was incremented every time the current front elements of the left and right subarrays were compared during merging.
 
-This was a reasonable choice because comparisons are central to the behavior of both algorithms and provide a common basis for analysis. Counting comparisons also makes it easier to compare theoretical growth against observed behavior, since both algorithms are comparison sorts and their asymptotic efficiency is largely determined by how many ordering comparisons they perform.
+This was a good choice because both algorithms are comparison sorts, and comparison count is closely tied to their asymptotic behavior. Counting the same general kind of operation for both algorithms also makes the comparison fairer and easier to interpret.
 
 
 II. ANALYSIS
@@ -104,57 +106,72 @@ II. ANALYSIS
 
 A. GRAPH
 
-The summary data used to generate the required line graphs is provided in [Project 2 Summary.csv]. The key trend is that both algorithms show steadily increasing average counts as n increases, and both remain consistent with n log n growth. The timing graph is noisier than the count graph, which is typical for JVM benchmarks, but the relative pattern still shows Quick Sort usually finishing faster than Merge Sort on these input sizes.
+The required line graphs are provided in Project 2 Graphs.svg. The numerical source data used to create those graphs is provided in Project 2 Summary.csv.
+
+The comparison-count graph shows both algorithms increasing smoothly in a pattern consistent with n log n growth. Merge Sort stays below Quick Sort in comparison count across all tested sizes. The timing graph is noisier, but Quick Sort remains faster on average at every measured size in the current benchmark results.
 
 Summary table:
 
 Size  Quick Avg Count  Quick Avg Time(ns)  Merge Avg Count  Merge Avg Time(ns)
-100   662.52           26,315.00           541.73           32,662.50
-200   1,570.45         52,440.00           1,280.55         68,302.50
-300   2,578.43         55,915.00           2,098.15         104,277.50
-400   3,666.62         16,620.00           2,960.62         78,555.00
-500   4,718.02         32,187.50           3,856.40         301,222.50
-600   6,042.65         30,790.00           4,796.23         45,842.50
-700   7,221.95         61,792.50           5,745.62         88,527.50
-800   8,475.20         124,665.00          6,718.40         171,375.00
-900   9,563.08         69,560.00           7,708.32         120,207.50
-1000  11,096.02        105,177.50          8,705.62         138,360.00
-1100  12,418.00        87,775.00           9,737.60         118,977.50
-1200  13,625.58        69,975.00           10,786.08        92,207.50
+100   662.52           10,835.00           541.73           18,777.50
+200   1,570.45         20,105.00           1,280.55         27,552.50
+300   2,578.43         21,105.00           2,098.15         44,167.50
+400   3,666.62         16,875.00           2,960.62         61,587.50
+500   4,718.02         21,670.00           3,856.40         87,702.50
+600   6,042.65         28,610.00           4,796.23         222,835.00
+700   7,221.95         37,392.50           5,745.62         49,805.00
+800   8,475.20         40,200.00           6,718.40         51,457.50
+900   9,563.08         47,252.50           7,708.32         61,417.50
+1000  11,096.02        49,762.50           8,705.62         65,452.50
+1100  12,418.00        59,052.50           9,737.60         95,780.00
+1200  13,625.58        103,625.00          10,786.08        129,677.50
 
 
 B. PERFORMANCE COMPARISON
 
-Quick Sort was generally faster in elapsed time across the measured input sizes even though its worst-case theoretical bound is weaker than Merge Sort’s. For every size in the final data set, the average execution time for Quick Sort was below the corresponding average for Merge Sort. This is consistent with the common practical observation that Quick Sort often performs better on in-memory arrays because it has low overhead and good locality of reference.
+Quick Sort was faster in average elapsed time at every tested input size in the current data set, even though Merge Sort used fewer counted comparisons. For example, at size 1000, Quick Sort averaged 49,762.50 ns while Merge Sort averaged 65,452.50 ns. At size 1200, Quick Sort averaged 103,625.00 ns while Merge Sort averaged 129,677.50 ns.
 
-Merge Sort, however, showed a more uniform pattern in the critical counts. Its average comparison counts were lower than Quick Sort’s at every measured size, which is also expected. Even so, Merge Sort’s extra memory traffic and copying work during merging likely explains why it still took more nanoseconds on average in these runs.
+Merge Sort was more efficient in terms of the chosen critical operation. At every size, its average comparison count was lower than Quick Sort's. This matches standard expectations: Merge Sort's comparison structure is highly regular, while Quick Sort's partitioning behavior depends more on how the pivot divides the input.
+
+Overall, the benchmark shows a familiar practical tradeoff. Merge Sort performs fewer counted comparisons, but Quick Sort still finishes sooner because its in-place partitioning has lower overhead than Merge Sort's repeated copying into and out of temporary storage.
 
 
 C. CRITICAL OPERATION RESULTS AND TIME MEASUREMENTS
 
-The critical-operation counts and the time measurements did not track one another perfectly. Merge Sort consistently used fewer counted comparisons than Quick Sort. For example, at size 1200, Merge Sort averaged 10,786.08 counted comparisons while Quick Sort averaged 13,625.58. Despite that, Merge Sort’s average execution time at size 1200 was 92,207.50 ns, compared with Quick Sort’s 69,975.00 ns.
+The comparison counts and time measurements tell related but not identical stories. Merge Sort consistently used fewer counted comparisons than Quick Sort, but it still took longer in elapsed nanoseconds. At size 1200, Merge Sort averaged 10,786.08 counted comparisons while Quick Sort averaged 13,625.58. Even so, Merge Sort averaged 129,677.50 ns, while Quick Sort averaged 103,625.00 ns.
 
-This difference shows why it is useful to collect both types of data. The critical count captures one central theoretical cost, but it does not reflect all implementation overhead. Merge Sort copies data into a temporary array and back into the original array during every merge. Quick Sort performs more comparisons in this benchmark, but it works in place and may benefit from lower memory overhead. The time measurements therefore reveal constant-factor and memory-behavior costs that the critical-operation metric alone does not capture.
+This difference shows why benchmarking should collect both a theoretical cost metric and a real time measurement. Comparison count tracks one central aspect of algorithmic growth, but it does not capture all of the work the implementation performs. Merge Sort repeatedly copies values into a scratch array and back into the original array. Quick Sort performs more comparisons here, but it stays in place and avoids that additional memory traffic.
+
+The time data therefore exposes constant-factor costs and memory-behavior costs that do not appear directly in the comparison counts.
 
 
 D. COEFFICIENT OF VARIANCE
 
-The coefficient of variance for the critical-operation counts was very low for Merge Sort, ranging from 0.19% to 1.21%. That result shows Merge Sort is highly insensitive to the specific random data values used in this benchmark. Its divide-and-conquer structure is almost entirely determined by array size, so the count behavior is very stable across runs.
+The coefficient of variance for Merge Sort's comparison counts was extremely low, ranging from 0.19% to 1.21%. That result shows Merge Sort was highly insensitive to the particular random values in the input data. Its recursive structure depends mainly on array size, so its comparison behavior remains very stable across runs.
 
-Quick Sort’s count variance was noticeably higher, ranging from 4.40% to 10.43%. That is still moderate, but it confirms that Quick Sort is more data-sensitive because the partition sizes depend on where the pivot falls relative to the input distribution.
+Quick Sort's count CV ranged from 4.40% to 10.43%, which is still moderate but clearly higher. That confirms that Quick Sort is more data-sensitive because the sizes of the partitions depend on where the pivot falls relative to the data.
 
-The time coefficients of variance were much larger for both algorithms. Quick Sort’s time CV ranged from 1.97% to 78.85%, and Merge Sort’s time CV ranged from 2.61% to 148.44%. This is not surprising for nanosecond-level JVM timings. Timer granularity, garbage collection, background system activity, cache state, and JIT behavior all affect elapsed time more than they affect comparison counts. The large time CV at certain sizes therefore reflects measurement noise and runtime sensitivity rather than a contradiction of the theoretical analysis.
+The time CV values were much larger for both algorithms. Quick Sort's time CV ranged from 4.17% to 56.82%, while Merge Sort's time CV ranged from 6.55% to 148.01%. Those large time CVs reflect JVM scheduling noise, cache effects, garbage collection, timer granularity, and other runtime factors that affect nanosecond measurements much more than they affect comparison counts.
+
+The coefficient-of-variance results therefore support two conclusions:
+
+1. Comparison counts are the cleaner indicator of each algorithm's structural behavior.
+2. Merge Sort is much less sensitive to input data than Quick Sort when the chosen metric is comparison count.
 
 
-E. RESULTS vs BIG-O
+E. RESULTS vs BIG-THETA
 
-The observed count trends were consistent with the expected O(n log n) growth for both algorithms on random input. Neither algorithm showed evidence of quadratic growth in the measured data. That is what should be expected for Merge Sort and also for Quick Sort on random data, where the average case dominates.
+The observed comparison counts are consistent with the expected Theta(n log n) growth for both algorithms on random input. Neither algorithm showed comparison-count growth suggesting Theta(n^2) behavior in this benchmark. That is exactly what should be expected for Merge Sort and also for Quick Sort under random data where the expected case dominates.
 
-The time results were less smooth than the counts, but the overall pattern still supports the same broad conclusion. As input size increased, the average times generally increased as well, and Quick Sort usually retained an advantage in actual runtime. The experiment therefore supports the standard theoretical claim that both algorithms are efficient O(n log n) comparison sorts in typical cases, while also highlighting that asymptotic order alone does not determine real execution speed.
+The time measurements were less smooth than the counts, but their overall trend still supported the same high-level conclusion. Average execution times generally increased as n increased, and Quick Sort maintained a practical runtime advantage throughout the tested range.
+
+The experiment therefore supports the theoretical analysis well. Merge Sort behaved like the more predictable algorithm, and Quick Sort behaved like the practically faster one on these inputs even though it has the weaker worst-case bound.
 
 
 III. CONCLUSION
 
-This study showed that Quick Sort and Merge Sort both behave consistently with O(n log n) growth on random inputs, but they differ in predictability and practical performance. Merge Sort produced lower and much more stable comparison counts, which reflects its deterministic structure and low data sensitivity. Quick Sort produced somewhat higher and more variable comparison counts, which is expected because partition quality depends on the input and pivot placement.
+This benchmark showed that both Quick Sort and Merge Sort behaved consistently with Theta(n log n) growth on random input sizes from 100 through 1200. Merge Sort produced lower and much more stable comparison counts, which reflects its deterministic recursive structure and low data sensitivity. Quick Sort produced somewhat higher and more variable comparison counts, which is expected because its partition quality depends on the input and pivot placement.
 
-Despite that, Quick Sort was usually faster in measured nanoseconds. This indicates that implementation-level costs matter: in-place partitioning and lower auxiliary-memory overhead can outweigh the advantage of fewer comparisons. The coefficient-of-variance results also showed that critical-operation counts are more stable than raw timing measurements and therefore provide a cleaner view of theoretical growth. Overall, the benchmark confirms that both algorithms are efficient, but it also shows why real performance analysis should consider theory, counted operations, and actual run time together rather than relying on only one measure.
+Despite that, Quick Sort was faster in average elapsed time at every measured input size in the current data set. That result shows that implementation-level details matter: fewer comparisons do not automatically mean lower run time. In this benchmark, Quick Sort's in-place behavior offset the fact that it performed more comparisons, while Merge Sort's extra memory movement increased its time cost.
+
+Overall, the study confirms that both algorithms are efficient comparison sorts, but it also shows why algorithm analysis is strongest when asymptotic behavior, counted operations, data sensitivity, and actual run time are all considered together.

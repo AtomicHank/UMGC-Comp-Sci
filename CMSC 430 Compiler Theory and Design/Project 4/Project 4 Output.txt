@@ -1,5 +1,6 @@
 ===== semantic1.txt =====
 
+
    1  // Variable Initialization Mismatch
    2  
    3  function main returns integer;
@@ -16,6 +17,7 @@ Semantic Errors 1
 
 ===== semantic10.txt =====
 
+
    1  // List Subscript is not Integer
    2  
    3  function main returns integer;
@@ -31,6 +33,7 @@ Syntax Errors 0
 Semantic Errors 1
 
 ===== semantic11.txt =====
+
 
    1  -- Mixing Numeric and Character Types with Relational Operator
    2  
@@ -53,6 +56,7 @@ Semantic Errors 1
 
 ===== semantic12.txt =====
 
+
    1  // Using Character Literal with Exponentiation Operator
    2  //     and Negation Operator
    3  
@@ -72,6 +76,7 @@ Semantic Errors 2
 
 ===== semantic13.txt =====
 
+
    1  // Mixing Real Literals with the Remainder Operator
    2  
    3  function main returns integer;
@@ -86,6 +91,7 @@ Syntax Errors 0
 Semantic Errors 1
 
 ===== semantic14.txt =====
+
 
    1  -- If Elsif Else Mismatch
    2  
@@ -108,6 +114,7 @@ Semantic Errors 1
 
 ===== semantic15.txt =====
 
+
    1  // Folding a nonnumeric List
    2  
    3  function main returns integer;
@@ -122,6 +129,7 @@ Syntax Errors 0
 Semantic Errors 1
 
 ===== semantic16.txt =====
+
 
    1  -- Narrowing Variable Initialization
    2  
@@ -138,6 +146,7 @@ Syntax Errors 0
 Semantic Errors 1
 
 ===== semantic17.txt =====
+
 
    1  -- Narrowing Function Return
    2  
@@ -159,6 +168,7 @@ Semantic Errors 1
 
 ===== semantic18.txt =====
 
+
    1  -- Duplicate Scalar and List Variables
    2  
    3  function main returns integer;
@@ -178,6 +188,7 @@ Syntax Errors 0
 Semantic Errors 2
 
 ===== semantic19.txt =====
+
 
    1  // Multiple Semantic Errors
    2  
@@ -209,6 +220,7 @@ Semantic Errors 7
 
 ===== semantic2.txt =====
 
+
    1  // When Types Mismatch
    2  
    3  function main returns integer;
@@ -223,6 +235,7 @@ Syntax Errors 0
 Semantic Errors 1
 
 ===== semantic3.txt =====
+
 
    1  // Non Integer Switch Expression
    2  
@@ -244,6 +257,7 @@ Semantic Errors 1
 
 ===== semantic4.txt =====
 
+
    1  // Case Types Mismatch
    2  
    3  function main returns integer;
@@ -264,6 +278,7 @@ Semantic Errors 1
 
 ===== semantic5.txt =====
 
+
    1  // Using Character Variable with Arithmetic Operator
    2  
    3  function main returns integer;
@@ -280,6 +295,7 @@ Semantic Errors 1
 
 ===== semantic6.txt =====
 
+
    1  // Undeclared Scalar Variable
    2  
    3  function main returns integer;
@@ -295,6 +311,7 @@ Semantic Errors 1
 
 ===== semantic7.txt =====
 
+
    1  // Undeclared List Variable
    2  
    3  function main returns integer;
@@ -309,6 +326,7 @@ Syntax Errors 0
 Semantic Errors 1
 
 ===== semantic8.txt =====
+
 
    1  // List with Elements of Different Types
    2  
@@ -326,6 +344,7 @@ Semantic Errors 1
 
 ===== semantic9.txt =====
 
+
    1  // List Type Does Not Match Element Types
    2  
    3  function main returns character;
@@ -342,6 +361,7 @@ Semantic Errors 1
 
 ===== valid1.txt =====
 
+
    1  -- Program with a Real Variable
    2  
    3  function main returns real;
@@ -353,8 +373,8 @@ Semantic Errors 1
      
 Compiled Successfully
 
-
 ===== valid2.txt =====
+
 
    1  -- Program with a Hexadecimal Literals
    2  
@@ -367,8 +387,8 @@ Compiled Successfully
      
 Compiled Successfully
 
-
 ===== valid3.txt =====
+
 
    1  -- Program with a Real Variable
    2  
@@ -380,5 +400,4 @@ Compiled Successfully
    8  
      
 Compiled Successfully
-
 

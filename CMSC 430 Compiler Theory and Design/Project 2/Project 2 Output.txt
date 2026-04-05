@@ -8,6 +8,7 @@
 Syntax Error, unexpected INT_LITERAL, expecting ';'
    6  end;
    7  
+
 Lexical Errors 0
 Syntax Errors 1
 Semantic Errors 0
@@ -27,6 +28,7 @@ Syntax Error, unexpected INTEGER, expecting ':'
   10      endif;
   11  end;
   12  
+
 Lexical Errors 0
 Syntax Errors 1
 Semantic Errors 0
@@ -52,6 +54,7 @@ Syntax Error, unexpected INTEGER, expecting ':'
   16      endif;
   17  end;
   18  
+
 Lexical Errors 0
 Syntax Errors 1
 Semantic Errors 0
@@ -70,6 +73,7 @@ Syntax Error, unexpected INT_LITERAL, expecting ';'
 Syntax Error, unexpected ENDSWITCH, expecting CASE or OTHERS
    9  end;
   10  
+
 Lexical Errors 0
 Syntax Errors 2
 Semantic Errors 0
@@ -97,6 +101,7 @@ Syntax Error, unexpected ENDSWITCH, expecting CASE or OTHERS
   14      endif;
   15  end;
   16  
+
 Lexical Errors 0
 Syntax Errors 5
 Semantic Errors 0
@@ -110,6 +115,7 @@ Semantic Errors 0
    5      7 + 2 * (5  + 4);
    6  end;
    7  
+
 Compiled Successfully
 
 ===== test10.txt =====
@@ -122,6 +128,7 @@ Compiled Successfully
    6      a + b * c;
    7  end;
    8  
+
 Compiled Successfully
 
 ===== test11.txt =====
@@ -133,6 +140,7 @@ Compiled Successfully
    5      9 + ~2 - (5 - 1) / 2 % 3 * 3 ^ 1 ^ 2;
    6  end;
    7  
+
 Compiled Successfully
 
 ===== test12.txt =====
@@ -144,6 +152,7 @@ Compiled Successfully
    5      when 5 > 8 & 3 = 3 | 9 < 1 & !(3 <> 7) | 6 <= 7 & 3 >= 9, 1 : 0;
    6  end;
    7  
+
 Compiled Successfully
 
 ===== test13.txt =====
@@ -170,6 +179,7 @@ Compiled Successfully
   20  end;
   21  
   22  
+
 Compiled Successfully
 
 ===== test14.txt =====
@@ -193,6 +203,7 @@ Compiled Successfully
   17      endswitch;
   18  end;
   19  
+
 Compiled Successfully
 
 ===== test2.txt =====
@@ -204,6 +215,7 @@ Compiled Successfully
    5      when 3 < 2 & 6 < 7, 7 * 2 : 7 + 2;
    6  end;
    7  
+
 Compiled Successfully
 
 ===== test3.txt =====
@@ -220,6 +232,7 @@ Compiled Successfully
   10      endswitch;    
   11  end;
   12  
+
 Compiled Successfully
 
 ===== test4.txt =====
@@ -232,6 +245,7 @@ Compiled Successfully
    6      primes(1) + primes(2);
    7  end;
    8  
+
 Compiled Successfully
 
 ===== test5.txt =====
@@ -244,6 +258,7 @@ Compiled Successfully
    6      when a < .45, '\n' : 'A';
    7  end;
    8  
+
 Compiled Successfully
 
 ===== test6.txt =====
@@ -263,6 +278,7 @@ Compiled Successfully
   13      endif; 
   14  end;
   15  
+
 Compiled Successfully
 
 ===== test7.txt =====
@@ -283,6 +299,7 @@ Compiled Successfully
   14      endswitch;
   15  end;
   16  
+
 Compiled Successfully
 
 ===== test8.txt =====
@@ -296,6 +313,7 @@ Compiled Successfully
    7      b + 1 - c;
    8  end;
    9  
+
 Compiled Successfully
 
 ===== test9.txt =====
@@ -307,4 +325,6 @@ Compiled Successfully
    5      a + 1;
    6  end;
    7  
+
 Compiled Successfully
+

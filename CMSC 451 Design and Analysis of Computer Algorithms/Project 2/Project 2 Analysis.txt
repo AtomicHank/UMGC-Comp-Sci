@@ -6,7 +6,7 @@ Sorting Algorithm Benchmark Analysis
 CMSC 451 Design and Analysis of Computer Algorithms
 Project 2
 Student: Joe Merrill
-Date: March 22, 2026
+Date: April 5, 2026
 
 
 Table of Contents
@@ -113,23 +113,23 @@ The comparison-count graph shows both algorithms increasing smoothly in a patter
 Summary table:
 
 Size  Quick Avg Count  Quick Avg Time(ns)  Merge Avg Count  Merge Avg Time(ns)
-100   662.52           10,835.00           541.73           18,777.50
-200   1,570.45         20,105.00           1,280.55         27,552.50
-300   2,578.43         21,105.00           2,098.15         44,167.50
-400   3,666.62         16,875.00           2,960.62         61,587.50
-500   4,718.02         21,670.00           3,856.40         87,702.50
-600   6,042.65         28,610.00           4,796.23         222,835.00
-700   7,221.95         37,392.50           5,745.62         49,805.00
-800   8,475.20         40,200.00           6,718.40         51,457.50
-900   9,563.08         47,252.50           7,708.32         61,417.50
-1000  11,096.02        49,762.50           8,705.62         65,452.50
-1100  12,418.00        59,052.50           9,737.60         95,780.00
-1200  13,625.58        103,625.00          10,786.08        129,677.50
+100   662.52           10,282.50           541.72           14,085.00
+200   1,570.45         20,977.50           1,280.55         28,655.00
+300   2,578.43         28,600.00           2,098.15         42,232.50
+400   3,666.62         16,000.00           2,960.62         58,205.00
+500   4,718.02         41,980.00           3,856.40         446,997.50
+600   6,042.65         57,225.00           4,796.23         80,102.50
+700   7,221.95         80,577.50           5,745.62         135,520.00
+800   8,475.20         79,747.50           6,718.40         113,540.00
+900   9,563.08         61,742.50           7,708.32         81,875.00
+1000  11,096.02        54,465.00           8,705.62         77,400.00
+1100  12,418.00        60,250.00           9,737.60         85,545.00
+1200  13,625.58        66,697.50           10,786.08        94,350.00
 
 
 B. PERFORMANCE COMPARISON
 
-Quick Sort was faster in average elapsed time at every tested input size in the current data set, even though Merge Sort used fewer counted comparisons. For example, at size 1000, Quick Sort averaged 49,762.50 ns while Merge Sort averaged 65,452.50 ns. At size 1200, Quick Sort averaged 103,625.00 ns while Merge Sort averaged 129,677.50 ns.
+Quick Sort was faster in average elapsed time at every tested input size in the current data set, even though Merge Sort used fewer counted comparisons. For example, at size 1000, Quick Sort averaged 54,465.00 ns while Merge Sort averaged 77,400.00 ns. At size 1200, Quick Sort averaged 66,697.50 ns while Merge Sort averaged 94,350.00 ns.
 
 Merge Sort was more efficient in terms of the chosen critical operation. At every size, its average comparison count was lower than Quick Sort's. This matches standard expectations: Merge Sort's comparison structure is highly regular, while Quick Sort's partitioning behavior depends more on how the pivot divides the input.
 
@@ -138,7 +138,7 @@ Overall, the benchmark shows a familiar practical tradeoff. Merge Sort performs 
 
 C. CRITICAL OPERATION RESULTS AND TIME MEASUREMENTS
 
-The comparison counts and time measurements tell related but not identical stories. Merge Sort consistently used fewer counted comparisons than Quick Sort, but it still took longer in elapsed nanoseconds. At size 1200, Merge Sort averaged 10,786.08 counted comparisons while Quick Sort averaged 13,625.58. Even so, Merge Sort averaged 129,677.50 ns, while Quick Sort averaged 103,625.00 ns.
+The comparison counts and time measurements tell related but not identical stories. Merge Sort consistently used fewer counted comparisons than Quick Sort, but it still took longer in elapsed nanoseconds. At size 1200, Merge Sort averaged 10,786.08 counted comparisons while Quick Sort averaged 13,625.58. Even so, Merge Sort averaged 94,350.00 ns, while Quick Sort averaged 66,697.50 ns.
 
 This difference shows why benchmarking should collect both a theoretical cost metric and a real time measurement. Comparison count tracks one central aspect of algorithmic growth, but it does not capture all of the work the implementation performs. Merge Sort repeatedly copies values into a scratch array and back into the original array. Quick Sort performs more comparisons here, but it stays in place and avoids that additional memory traffic.
 
@@ -151,7 +151,7 @@ The coefficient of variance for Merge Sort's comparison counts was extremely low
 
 Quick Sort's count CV ranged from 4.40% to 10.43%, which is still moderate but clearly higher. That confirms that Quick Sort is more data-sensitive because the sizes of the partitions depend on where the pivot falls relative to the data.
 
-The time CV values were much larger for both algorithms. Quick Sort's time CV ranged from 4.17% to 56.82%, while Merge Sort's time CV ranged from 6.55% to 148.01%. Those large time CVs reflect JVM scheduling noise, cache effects, garbage collection, timer granularity, and other runtime factors that affect nanosecond measurements much more than they affect comparison counts.
+The time CV values were much larger for both algorithms. Quick Sort's time CV ranged from 1.82% to 49.13%, while Merge Sort's time CV ranged from 2.29% to 116.93%. Those larger time CVs reflect JVM scheduling noise, cache effects, garbage collection, timer granularity, and other runtime factors that affect nanosecond measurements much more than they affect comparison counts.
 
 The coefficient-of-variance results therefore support two conclusions:
 

@@ -1,5 +1,6 @@
 ===== test1.txt =====
 
+
    1  // Function with Arithmetic Expression
    2  
    3  function main returns integer;
@@ -10,120 +11,8 @@
      
 Result = 25
 
-===== test2.txt =====
-
-   1  // Function with When Statement
-   2  
-   3  function main returns integer;
-   4  begin
-   5      when 3 < 2 & 6 < 7, 7 * 2 : 7 + 2;
-   6  end;
-   7  
-     
-Result = 9
-
-===== test3.txt =====
-
-   1  // Function with a Switch Statement
-   2  
-   3  function main returns character;
-   4      a: integer is 2 * 2 + 1;
-   5  begin
-   6      switch a is
-   7          case 1 => 'a';
-   8          case 2 => 'b';
-   9          others => 'c';  
-  10      endswitch;    
-  11  end;
-  12  
-     
-Result = 99
-
-===== test4.txt =====
-
-   1  // Function with a List Variable
-   2  
-   3  function main returns integer;
-   4      primes: list of integer is (2, 3, 5, 7);
-   5  begin
-   6      primes(1) + primes(2);
-   7  end;
-   8  
-     
-Result = 8
-
-===== test5.txt =====
-
-   1  // Function with Arithmetic Expression using Real Literals
-   2  //     and Hexadecimal Integer Literals
-   3  
-   4  function main returns real;
-   5  begin
-   6      .83e+2 + 2.5E-1 + (4.3E2 + #aF2) * .01;
-   7  end;
-   8  
-     
-Result = 115.57
-
-===== test6.txt =====
-
-   1  // Function with Character Literal Escape Characters
-   2  
-   3  function main returns character;
-   4      lines: integer is 60;
-   5  begin
-   6      when lines < 60, '\n' : '\f';
-   7  end;
-   8  
-     
-Result = 12
-
-===== test7.txt =====
-
-   1  // Tests All Arithmetic Operators
-   2  
-   3  function main returns integer;
-   4  begin
-   5      9 + 2 - (5 + ~1) / 2 % 3 * 3 ^ 1 ^ 2;
-   6  end;
-   7  
-     
-Result = 5
-
-===== test8.txt =====
-
-   1  // Test Logical and Relational Operators
-   2  
-   3  function main returns integer;
-   4  begin
-   5      when !(6 <> 7) & 5 + 4 >= 9 | 6 = 5,  6 + 9 * 3 : 8 - 2 ^ 3;
-   6  end;
-   7  
-     
-Result = 0
-
-===== test9.txt =====
-
-   1  // Function with an If Statement
-   2  
-   3  function main returns integer;
-   4      a: integer is 28;
-   5  begin
-   6      if a < 10 then
-   7          1;
-   8      elsif a < 20 then
-   9          2;
-  10      elsif a < 30 then
-  11          3;
-  12      else
-  13          4;
-  14      endif; 
-  15  end;
-  16  
-     
-Result = 3
-
 ===== test10.txt =====
+
 
    1  -- Multiple Variable Initializations
    2  
@@ -144,6 +33,7 @@ Result = 10
 
 ===== test11.txt 2.5 =====
 
+
    1  // Single Parameter Declaration
    2  
    3  function main a: real returns real;
@@ -155,6 +45,7 @@ Result = 10
 Result = 4
 
 ===== test12.txt 5 2.5 =====
+
 
    1  // Two parameter declarations
    2  
@@ -172,6 +63,7 @@ Result = 3.5
 
 ===== test13.txt =====
 
+
    1  // Test Right Fold
    2  
    3  function main returns integer;
@@ -185,6 +77,7 @@ Result = 2
 
 ===== test14.txt =====
 
+
    1  // Test Left Fold
    2  
    3  function main returns integer;
@@ -197,6 +90,7 @@ Result = 2
 Result = 0
 
 ===== test15.txt 2 2 65 =====
+
 
    1  // Test that Includes All Statements
    2  
@@ -225,6 +119,7 @@ Result = 0
 Result = 3
 
 ===== test16.txt 1 -1 =====
+
 
    1  // Nested if statements
    2  
@@ -257,4 +152,125 @@ Result = 3
   29  
      
 Result = 52
+
+===== test2.txt =====
+
+
+   1  // Function with When Statement
+   2  
+   3  function main returns integer;
+   4  begin
+   5      when 3 < 2 & 6 < 7, 7 * 2 : 7 + 2;
+   6  end;
+   7  
+     
+Result = 9
+
+===== test3.txt =====
+
+
+   1  // Function with a Switch Statement
+   2  
+   3  function main returns character;
+   4      a: integer is 2 * 2 + 1;
+   5  begin
+   6      switch a is
+   7          case 1 => 'a';
+   8          case 2 => 'b';
+   9          others => 'c';  
+  10      endswitch;    
+  11  end;
+  12  
+     
+Result = 99
+
+===== test4.txt =====
+
+
+   1  // Function with a List Variable
+   2  
+   3  function main returns integer;
+   4      primes: list of integer is (2, 3, 5, 7);
+   5  begin
+   6      primes(1) + primes(2);
+   7  end;
+   8  
+     
+Result = 8
+
+===== test5.txt =====
+
+
+   1  // Function with Arithmetic Expression using Real Literals
+   2  //     and Hexadecimal Integer Literals
+   3  
+   4  function main returns real;
+   5  begin
+   6      .83e+2 + 2.5E-1 + (4.3E2 + #aF2) * .01;
+   7  end;
+   8  
+     
+Result = 115.57
+
+===== test6.txt =====
+
+
+   1  // Function with Character Literal Escape Characters
+   2  
+   3  function main returns character;
+   4      lines: integer is 60;
+   5  begin
+   6      when lines < 60, '\n' : '\f';
+   7  end;
+   8  
+     
+Result = 12
+
+===== test7.txt =====
+
+
+   1  // Tests All Arithmetic Operators
+   2  
+   3  function main returns integer;
+   4  begin
+   5      9 + 2 - (5 + ~1) / 2 % 3 * 3 ^ 1 ^ 2;
+   6  end;
+   7  
+     
+Result = 5
+
+===== test8.txt =====
+
+
+   1  // Test Logical and Relational Operators
+   2  
+   3  function main returns integer;
+   4  begin
+   5      when !(6 <> 7) & 5 + 4 >= 9 | 6 = 5,  6 + 9 * 3 : 8 - 2 ^ 3;
+   6  end;
+   7  
+     
+Result = 0
+
+===== test9.txt =====
+
+
+   1  // Function with an If Statement
+   2  
+   3  function main returns integer;
+   4      a: integer is 28;
+   5  begin
+   6      if a < 10 then
+   7          1;
+   8      elsif a < 20 then
+   9          2;
+  10      elsif a < 30 then
+  11          3;
+  12      else
+  13          4;
+  14      endif; 
+  15  end;
+  16  
+     
+Result = 3
 

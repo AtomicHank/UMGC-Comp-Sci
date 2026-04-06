@@ -18,9 +18,13 @@ public class AuthenticationService {
 	}
 
 	public User registerUser(String email, String password) {
+		if (!isCredentialInputValid(email, password)) {
+			return null;
+		}
+
 		String insertUserSql = "INSERT INTO user (email, password_hash) VALUES (?, ?)";
 		try {
-			jdbcTemplate.update(insertUserSql, email.trim().toLowerCase(), hashPassword(password));
+			jdbcTemplate.update(insertUserSql, normalizeEmail(email), hashPassword(password));
 			return authenticateUser(email, password);
 		} catch (Exception e) {
 			return null;
@@ -28,6 +32,10 @@ public class AuthenticationService {
 	}
 
 	public User authenticateUser(String email, String password) {
+		if (!isCredentialInputValid(email, password)) {
+			return null;
+		}
+
 		String selectUserSql = "SELECT id, email, password_hash FROM user WHERE email = ?";
 		
 		List<User> users = jdbcTemplate.query(selectUserSql, (rs, rowNum) -> {
@@ -37,12 +45,23 @@ public class AuthenticationService {
 				return new User(rs.getInt("id"), rs.getString("email"));
 			}
 			return null;
-		}, email.trim().toLowerCase());
+		}, normalizeEmail(email));
 
 		for (User user : users) {
 			if (user != null) return user;
 		}
 		return null;
+	}
+
+	private boolean isCredentialInputValid(String email, String password) {
+		return email != null
+			&& !email.isBlank()
+			&& password != null
+			&& !password.isBlank();
+	}
+
+	private String normalizeEmail(String email) {
+		return email.trim().toLowerCase();
 	}
 
 	private String hashPassword(String password) {

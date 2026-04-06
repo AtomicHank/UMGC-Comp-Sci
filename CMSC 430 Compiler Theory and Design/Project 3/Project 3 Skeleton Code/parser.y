@@ -1,6 +1,10 @@
 /* CMSC 430 Compiler Theory and Design
    Project 3
-   File: parser.y */
+   Author: Joseph Merrill
+   Date: 2026-04-06
+   Description: Defines the Project 3 grammar and semantic actions that
+   evaluate expressions, statements, variables, lists, folds, and function
+   parameters. */
 
 %{
 
@@ -24,6 +28,7 @@ vector<double>* lookup_list(CharPtr identifier);
 void insert_scalar(CharPtr identifier, double value);
 void insert_list(CharPtr identifier, vector<double>* value);
 double parse_parameter();
+double parse_command_line_argument(const char* text);
 
 Symbols<double> scalars;
 Symbols<vector<double>*> lists;
@@ -164,6 +169,8 @@ direction:
 operator:
 	ADDOP { $$ = $1; }
 	| MULOP { $$ = $1; }
+	| MODOP { $$ = $1; }
+	| EXPOP { $$ = $1; }
 	;
 
 list_choice:
@@ -292,7 +299,80 @@ double parse_parameter() {
 		appendError(GENERAL_SEMANTIC, "Missing command line argument");
 		return NAN;
 	}
-	return atof(argumentValues[parameterIndex++]);
+	return parse_command_line_argument(argumentValues[parameterIndex++]);
+}
+
+double parse_command_line_argument(const char* text) {
+	if (text == nullptr || *text == '\0') {
+		appendError(GENERAL_SEMANTIC, "Invalid command line argument");
+		return NAN;
+	}
+
+	string argument(text);
+	size_t offset = 0;
+	double sign = 1;
+	if (argument[offset] == '+' || argument[offset] == '-') {
+		sign = argument[offset] == '-' ? -1 : 1;
+		offset++;
+	}
+
+	if (offset < argument.length() && argument[offset] == '#') {
+		char* end = nullptr;
+		long value = strtol(argument.c_str() + offset + 1, &end, 16);
+		if (end != nullptr && *end == '\0') {
+			return sign * value;
+		}
+	}
+
+	if (offset < argument.length() && argument[offset] == '\'') {
+		double value = NAN;
+		size_t remaining = argument.length() - offset;
+		if (remaining == 3 && argument[offset + 2] == '\'') {
+			value = argument[offset + 1];
+		} else if (remaining == 4 && argument[offset + 1] == '\\' &&
+				argument[offset + 3] == '\'') {
+			switch (argument[offset + 2]) {
+				case 'b':
+					value = '\b';
+					break;
+				case 't':
+					value = '\t';
+					break;
+				case 'n':
+					value = '\n';
+					break;
+				case 'r':
+					value = '\r';
+					break;
+				case 'f':
+					value = '\f';
+					break;
+				case '\\':
+					value = '\\';
+					break;
+				case '\'':
+					value = '\'';
+					break;
+				case '"':
+					value = '"';
+					break;
+				default:
+					value = argument[offset + 2];
+			}
+		}
+		if (!isnan(value)) {
+			return sign * value;
+		}
+	}
+
+	char* end = nullptr;
+	double value = strtod(text, &end);
+	if (end != nullptr && *end == '\0') {
+		return value;
+	}
+
+	appendError(GENERAL_SEMANTIC, "Invalid command line argument: " + argument);
+	return NAN;
 }
 
 int main(int argc, char *argv[]) {

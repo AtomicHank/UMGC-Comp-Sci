@@ -1,6 +1,9 @@
 /* CMSC 430 Compiler Theory and Design
    Project 3
-   File: scanner.l */
+   Author: Joseph Merrill
+   Date: 2026-04-06
+   Description: Defines the lexical analyzer for Project 3, including
+   operators, keywords, literals, identifiers, and source listing output. */
 
 %{
 #include <cstdio>
@@ -19,7 +22,7 @@ static double parseCharacterLiteral(const char* text);
 
 ws              [ \t\r]+
 line            \n
-comment         ("//"|"--")[^\n]*\n
+comment         ("//"|"--")[^\n]*(\n|$)
 id              [A-Za-z][A-Za-z0-9]*
 digit           [0-9]
 int             ({digit}+|#[0-9A-Fa-f]+)
@@ -31,7 +34,7 @@ punc            [\(\),:;]
 %%
 
 {ws}            { ECHO; }
-{comment}       { ECHO; nextLine(); }
+{comment}       { ECHO; if (yytext[yyleng - 1] == '\n') nextLine(); }
 {line}          { ECHO; nextLine(); }
 "=>"            { ECHO; return ARROW; }
 "<="            { ECHO; yylval.oper = LESS_EQUAL; return RELOP; }

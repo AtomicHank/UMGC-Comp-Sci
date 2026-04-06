@@ -1,0 +1,6 @@
+-- Function Return Type Mismatch
+
+function main returns integer;
+begin
+    'a';
+end;

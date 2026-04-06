@@ -1,0 +1,7 @@
+-- Widening from Integer to Real is Allowed
+
+function main returns real;
+    total: real is 4;
+begin
+    6;
+end;

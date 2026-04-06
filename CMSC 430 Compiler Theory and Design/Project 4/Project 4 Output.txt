@@ -15,6 +15,147 @@ Lexical Errors 0
 Syntax Errors 0
 Semantic Errors 1
 
+===== semantic2.txt =====
+
+
+   1  // When Types Mismatch
+   2  
+   3  function main returns integer;
+   4  begin
+   5      when 2 < 1, 1 : 'a';
+Semantic Error, When Types Mismatch
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic3.txt =====
+
+
+   1  // Non Integer Switch Expression
+   2  
+   3  function main returns integer;
+   4      b: character is 'A';
+   5  begin
+   6      switch b is
+   7          case 1 => 2;
+   8          case 2 => 4;
+   9          others => 6;
+  10      endswitch;
+Semantic Error, Switch Expression Not Integer
+  11  end;
+  12  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic4.txt =====
+
+
+   1  // Case Types Mismatch
+   2  
+   3  function main returns integer;
+   4      b: character is 'b';
+   5  begin
+   6      switch 1 is
+   7          case 1 => 2;
+   8          case 2 => b;
+Semantic Error, Case Types Mismatch
+   9          others => 6;
+  10      endswitch;
+  11  end;
+  12  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic5.txt =====
+
+
+   1  // Using Character Variable with Arithmetic Operator
+   2  
+   3  function main returns integer;
+   4      b: character is 'b';
+   5  begin
+   6      b + 10;
+Semantic Error, Arithmetic Operator Requires Numeric Types
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic6.txt =====
+
+
+   1  // Undeclared Scalar Variable
+   2  
+   3  function main returns integer;
+   4  begin
+   5      2 * b + 3;
+Semantic Error, Undeclared Scalar b
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic7.txt =====
+
+
+   1  // Undeclared List Variable
+   2  
+   3  function main returns integer;
+   4  begin
+   5      primes(1) + 1;
+Semantic Error, Undeclared List primes
+   6  end;
+   7  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic8.txt =====
+
+
+   1  // List with Elements of Different Types
+   2  
+   3  function main returns integer;
+   4      aList: list of integer is (1, 2, 3.5);
+Semantic Error, List Element Types Do Not Match
+   5  begin
+   6      aList(1);
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== semantic9.txt =====
+
+
+   1  // List Type Does Not Match Element Types
+   2  
+   3  function main returns character;
+   4      aList: list of character is (1, 2, 3);
+Semantic Error, List Type Does Not Match Element Types
+   5  begin
+   6      aList(1);
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
 ===== semantic10.txt =====
 
 
@@ -218,142 +359,17 @@ Lexical Errors 0
 Syntax Errors 0
 Semantic Errors 7
 
-===== semantic2.txt =====
+===== semantic20.txt =====
 
 
-   1  // When Types Mismatch
+   1  -- Function Return Type Mismatch
    2  
    3  function main returns integer;
    4  begin
-   5      when 2 < 1, 1 : 'a';
-Semantic Error, When Types Mismatch
+   5      'a';
    6  end;
+Semantic Error, Type Mismatch on Function Return
    7  
-     
-Lexical Errors 0
-Syntax Errors 0
-Semantic Errors 1
-
-===== semantic3.txt =====
-
-
-   1  // Non Integer Switch Expression
-   2  
-   3  function main returns integer;
-   4      b: character is 'A';
-   5  begin
-   6      switch b is
-   7          case 1 => 2;
-   8          case 2 => 4;
-   9          others => 6;
-  10      endswitch;
-Semantic Error, Switch Expression Not Integer
-  11  end;
-  12  
-     
-Lexical Errors 0
-Syntax Errors 0
-Semantic Errors 1
-
-===== semantic4.txt =====
-
-
-   1  // Case Types Mismatch
-   2  
-   3  function main returns integer;
-   4      b: character is 'b';
-   5  begin
-   6      switch 1 is
-   7          case 1 => 2;
-   8          case 2 => b;
-Semantic Error, Case Types Mismatch
-   9          others => 6;
-  10      endswitch;
-  11  end;
-  12  
-     
-Lexical Errors 0
-Syntax Errors 0
-Semantic Errors 1
-
-===== semantic5.txt =====
-
-
-   1  // Using Character Variable with Arithmetic Operator
-   2  
-   3  function main returns integer;
-   4      b: character is 'b';
-   5  begin
-   6      b + 10;
-Semantic Error, Arithmetic Operator Requires Numeric Types
-   7  end;
-   8  
-     
-Lexical Errors 0
-Syntax Errors 0
-Semantic Errors 1
-
-===== semantic6.txt =====
-
-
-   1  // Undeclared Scalar Variable
-   2  
-   3  function main returns integer;
-   4  begin
-   5      2 * b + 3;
-Semantic Error, Undeclared Scalar b
-   6  end;
-   7  
-     
-Lexical Errors 0
-Syntax Errors 0
-Semantic Errors 1
-
-===== semantic7.txt =====
-
-
-   1  // Undeclared List Variable
-   2  
-   3  function main returns integer;
-   4  begin
-   5      primes(1) + 1;
-Semantic Error, Undeclared List primes
-   6  end;
-   7  
-     
-Lexical Errors 0
-Syntax Errors 0
-Semantic Errors 1
-
-===== semantic8.txt =====
-
-
-   1  // List with Elements of Different Types
-   2  
-   3  function main returns integer;
-   4      aList: list of integer is (1, 2, 3.5);
-Semantic Error, List Element Types Do Not Match
-   5  begin
-   6      aList(1);
-   7  end;
-   8  
-     
-Lexical Errors 0
-Syntax Errors 0
-Semantic Errors 1
-
-===== semantic9.txt =====
-
-
-   1  // List Type Does Not Match Element Types
-   2  
-   3  function main returns character;
-   4      aList: list of character is (1, 2, 3);
-Semantic Error, List Type Does Not Match Element Types
-   5  begin
-   6      aList(1);
-   7  end;
-   8  
      
 Lexical Errors 0
 Syntax Errors 0
@@ -373,6 +389,7 @@ Semantic Errors 1
      
 Compiled Successfully
 
+
 ===== valid2.txt =====
 
 
@@ -387,6 +404,7 @@ Compiled Successfully
      
 Compiled Successfully
 
+
 ===== valid3.txt =====
 
 
@@ -400,4 +418,20 @@ Compiled Successfully
    8  
      
 Compiled Successfully
+
+
+===== valid4.txt =====
+
+
+   1  -- Widening from Integer to Real is Allowed
+   2  
+   3  function main returns real;
+   4      total: real is 4;
+   5  begin
+   6      6;
+   7  end;
+   8  
+     
+Compiled Successfully
+
 

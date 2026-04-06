@@ -2,7 +2,7 @@ Joe Merrill
 22 MAR 2026
 CMSC 451 Homework 4
 
-Graph used in all problems
+Graph used in all four problems
 
 Vertices:
 A, B, C, D, E, F, G, H, I, J, K
@@ -43,13 +43,12 @@ K: J
 
 1. Breadth-first search
 
-Starting at A and using adjacency lists in alphabetical order:
+Using alphabetical vertex order, BFS starts at A.
 
 Visit order:
 A, B, C, E, G, D, F, H, J, K, I
 
 Breadth-first search tree edges:
-
 A->B
 A->C
 B->E
@@ -61,30 +60,33 @@ E->J
 E->K
 H->I
 
-Breadth-first tree by level:
+Breadth-first search tree:
 
-Level 0:
 A
+|-- B
+|   |-- E
+|   |   |-- H
+|   |   |   `-- I
+|   |   |-- J
+|   |   `-- K
+|   `-- G
+`-- C
+    |-- D
+    `-- F
 
-Level 1:
-B, C
-
-Level 2:
-E, G, D, F
-
-Level 3:
-H, J, K
-
-Level 4:
-I
+Levels:
+Level 0: A
+Level 1: B, C
+Level 2: E, G, D, F
+Level 3: H, J, K
+Level 4: I
 
 
 2. Depth-first search
 
-Using alphabetical order for both vertices and adjacency lists, DFS begins at A and reaches every vertex.
+Using alphabetical order for both the vertices and the adjacency lists, DFS begins at A and reaches every vertex.
 
-Start and finish times:
-
+Start/finish times:
 A: 1/22
 B: 2/17
 E: 3/16
@@ -97,8 +99,19 @@ K: 14/15
 C: 18/21
 F: 19/20
 
-Edge classification:
+DFS tree edges:
+A->B
+B->E
+E->G
+E->H
+H->I
+I->D
+E->J
+E->K
+A->C
+C->F
 
+Edge classification:
 A->B: tree
 A->C: tree
 B->E: tree
@@ -118,35 +131,29 @@ I->D: tree
 K->J: cross
 
 
-3. Remove back edges, then produce topological orders
+3. Remove all back edges, then produce topological orders
 
-The back edges from part 2 are:
-
+Back edges from part 2:
 D->H
 F->C
 G->A
 
-Removing those edges makes the graph a DAG.
+Removing those three edges makes the graph a DAG.
 
-Remaining edges:
+DAG adjacency lists:
+A: B, C
+B: E, G
+C: B, D, F
+D:
+E: G, H, J, K
+F:
+G:
+H: I
+I: D
+J:
+K: J
 
-A->B
-A->C
-B->E
-B->G
-C->B
-C->D
-C->F
-E->G
-E->H
-E->J
-E->K
-H->I
-I->D
-K->J
-
-Depth-first search on the DAG gives these start and finish times:
-
+Depth-first search on the DAG gives these start/finish times:
 A: 1/22
 B: 2/17
 E: 3/16
@@ -160,22 +167,18 @@ C: 18/21
 F: 19/20
 
 Topological order from decreasing finish times:
-
 A, C, F, B, E, K, J, H, I, D, G
 
 One breadth-first topological order:
-
 A, C, B, E, F, G, H, I, D, K, J
 
 
 4. Strongly connected components
 
 From the first DFS on the original graph, the vertices in decreasing finish-time order are:
-
 A, C, F, B, E, K, J, H, I, D, G
 
 Transpose graph adjacency lists in alphabetical order:
-
 A: G
 B: A, C
 C: A, F
@@ -190,8 +193,7 @@ K: E
 
 Perform DFS on the transpose graph in the decreasing finish-time order above.
 
-Start and finish times on the transpose:
-
+Start/finish times on the transpose:
 A: 1/12
 G: 2/11
 B: 3/8
@@ -205,10 +207,12 @@ D: 18/21
 I: 19/20
 
 Final DFS forest on the transpose:
-
 Tree 1 rooted at A:
-A -> G -> B -> C -> F
-         -> E
+A->G
+G->B
+B->C
+C->F
+G->E
 
 Tree 2 rooted at K:
 K
@@ -217,11 +221,13 @@ Tree 3 rooted at J:
 J
 
 Tree 4 rooted at H:
-H -> D -> I
+H->D
+D->I
 
 Strongly connected components:
-
 {A, B, C, E, F, G}
 {D, H, I}
 {K}
 {J}
+
+Each DFS tree in the transpose corresponds to one strongly connected component, so the four SCCs are exactly the four sets listed above.

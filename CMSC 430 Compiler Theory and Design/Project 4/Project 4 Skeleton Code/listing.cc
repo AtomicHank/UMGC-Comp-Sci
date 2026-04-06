@@ -1,5 +1,12 @@
-// CMSC 430 Compiler Theory and Design
-// Project 4
+/*
+ * Student: Joe Merrill
+ * Course: CMSC 430 Compiler Theory and Design
+ * Project: Project 4
+ * Date: 2026-04-06
+ * File: listing.cc
+ * Description: Implements the compilation listing format and counts lexical,
+ * syntax, and semantic errors for each compiler run.
+ */
 
 #include <cstdio>
 #include <string>

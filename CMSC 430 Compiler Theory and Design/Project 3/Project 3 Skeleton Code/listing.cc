@@ -1,10 +1,9 @@
-// CMSC 430 Compiler Theory and Design
-// Project 3 Skeleton
-// UMGC CITE
-// Summer 2023
-
-// This file contains the bodies of the functions that produces the 
-// compilation listing
+/* CMSC 430 Compiler Theory and Design
+   Project 3
+   Author: Joseph Merrill
+   Date: 2026-04-06
+   Description: Implements the compiler listing output and error reporting
+   helpers used during parsing and interpretation. */
 
 #include <cstdio>
 #include <string>

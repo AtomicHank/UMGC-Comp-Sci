@@ -1,4 +1,9 @@
+# CMSC 430 Compiler Theory and Design
 # Project 3
+# Author: Joseph Merrill
+# Date: 2026-04-06
+# Description: Builds the Project 3 interpreter from the Flex scanner, Bison
+# grammar, and supporting C++ source files.
 
 CXX ?= g++
 BISON ?= win_bison

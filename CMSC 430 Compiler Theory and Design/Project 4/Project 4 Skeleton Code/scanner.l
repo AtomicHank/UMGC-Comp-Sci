@@ -1,5 +1,12 @@
-/* CMSC 430 Compiler Theory and Design
-   Project 4 */
+/*
+ * Student: Joe Merrill
+ * Course: CMSC 430 Compiler Theory and Design
+ * Project: Project 4
+ * Date: 2026-04-06
+ * File: scanner.l
+ * Description: Tokenizes the Project 4 source language, including numeric,
+ * character, identifier, keyword, and operator tokens for the parser.
+ */
 
 %{
 #include <cstdio>

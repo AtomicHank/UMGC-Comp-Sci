@@ -1,5 +1,12 @@
-/* CMSC 430 Compiler Theory and Design
-   Project 4 */
+/*
+ * Student: Joe Merrill
+ * Course: CMSC 430 Compiler Theory and Design
+ * Project: Project 4
+ * Date: 2026-04-06
+ * File: parser.y
+ * Description: Defines the grammar and semantic actions for Project 4,
+ * including symbol-table management and semantic error reporting.
+ */
 
 %{
 #include <string>
@@ -116,7 +123,7 @@ statement:
 	;
 
 elsif_clauses:
-	elsif_clauses ELSIF condition THEN statement_ { $$ = checkCases($1, $5); }
+	elsif_clauses ELSIF condition THEN statement_ { $$ = checkIfBranches($1, $5); }
 	| %empty { $$ = NONE; }
 	;
 

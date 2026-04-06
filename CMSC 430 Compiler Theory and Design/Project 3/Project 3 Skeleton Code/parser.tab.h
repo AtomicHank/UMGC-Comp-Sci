@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 40 "parser.y"
+#line 45 "parser.y"
 
 #include <vector>
 #include "values.h"
@@ -107,7 +107,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 45 "parser.y"
+#line 50 "parser.y"
 
 	CharPtr iden;
 	Operators oper;

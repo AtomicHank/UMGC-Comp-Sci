@@ -1,5 +1,12 @@
-// CMSC 430 Compiler Theory and Design
-// Project 4
+/*
+ * Student: Joe Merrill
+ * Course: CMSC 430 Compiler Theory and Design
+ * Project: Project 4
+ * Date: 2026-04-06
+ * File: symbols.h
+ * Description: Provides the simple symbol-table template used to store and
+ * retrieve scalar and list declarations during semantic analysis.
+ */
 
 #pragma once
 

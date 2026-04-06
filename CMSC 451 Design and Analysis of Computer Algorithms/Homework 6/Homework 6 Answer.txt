@@ -1,6 +1,9 @@
 Joe Merrill
-22 MAR 2026
+06 APR 2026
 CMSC 451 Homework 6
+
+Vertex order used in Problems 1-3: a, b, c, d, e
+
 
 1. Warshall's algorithm
 
@@ -75,14 +78,14 @@ Therefore the reflexive-transitive closure is:
  0 0 1 1 1]
 
 
-2. Floyd's algorithm on the graph from Problem 1
+2. Floyd's algorithm on the matrix from Problem 1
 
-Use edge length 1 for each edge, 0 on the diagonal, and infinity where no edge exists.
+Use edge length 1 for each edge, 0 on the diagonal, and inf where no edge exists.
 
 Initial distance matrix:
 
-[0   1  inf inf inf
- inf 0  inf 1   inf
+[0   1   inf inf inf
+ inf 0   inf 1   inf
  inf inf 0   1   inf
  inf inf inf 0   1
  inf inf 1   inf 0]
@@ -106,8 +109,20 @@ Interpretation:
 
 Graph corresponding to the matrix in Problem 1:
 
-Vertices:
-a, b, c, d, e
+Adjacency lists:
+a: b
+b: d
+c: c, d
+d: e
+e: c, e
+
+Compact sketch:
+a -> b -> d -> e
+          ^    |
+          |    |
+          c <- +
+
+Self-loops: c -> c and e -> e
 
 Edges:
 a -> b
@@ -124,18 +139,18 @@ Strongly connected components:
 {b}
 {c, d, e}
 
-Condensation graph:
-
-Let
+Condensation graph with renamed vertices:
 
 X = {a}
 Y = {b}
 Z = {c, d, e}
 
-Then the condensation graph has edges:
-
+Edges in the condensation graph:
 X -> Y
 Y -> Z
+
+Condensation graph sketch:
+X -> Y -> Z
 
 One topological order is:
 
@@ -155,7 +170,9 @@ Reflexive-transitive closure of that matrix:
 
 Characteristic indicating a total order:
 
-Every entry on and above the main diagonal is 1. That means for any two vertices in this topological order, one is always related to the other, so every pair is comparable. That is the defining property of a total order.
+Every entry on and above the main diagonal is 1. Therefore for any two vertices in the
+chosen topological order, one is always related to the other, so every pair is comparable.
+That comparability is the defining characteristic of a total order.
 
 
 4. Floyd's algorithm on the weighted directed graph

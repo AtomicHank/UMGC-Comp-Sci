@@ -1,5 +1,12 @@
-// CMSC 430 Compiler Theory and Design
-// Project 4
+/*
+ * Student: Joe Merrill
+ * Course: CMSC 430 Compiler Theory and Design
+ * Project: Project 4
+ * Date: 2026-04-06
+ * File: types.cc
+ * Description: Implements the semantic type-checking helpers that enforce
+ * the Project 4 static semantic rules and report semantic errors.
+ */
 
 #include <string>
 
@@ -16,10 +23,14 @@ void checkAssignment(Types left, Types right, string context) {
 	if (left == MISMATCH || right == MISMATCH) {
 		return;
 	}
-	if (left == INT_TYPE && right == REAL_TYPE) {
-		appendError(GENERAL_SEMANTIC, "Illegal Narrowing " + context);
+
+	if (isNumeric(left) && isNumeric(right)) {
+		if (left == INT_TYPE && right == REAL_TYPE) {
+			appendError(GENERAL_SEMANTIC, "Illegal Narrowing " + context);
+		}
 		return;
 	}
+
 	if (left != right) {
 		appendError(GENERAL_SEMANTIC, "Type Mismatch on " + context);
 	}
@@ -55,6 +66,23 @@ Types checkCases(Types left, Types right) {
 	}
 	if (left != right) {
 		appendError(GENERAL_SEMANTIC, "Case Types Mismatch");
+		return MISMATCH;
+	}
+	return left;
+}
+
+Types checkIfBranches(Types left, Types right) {
+	if (left == NONE) {
+		return right;
+	}
+	if (right == NONE) {
+		return left;
+	}
+	if (left == MISMATCH || right == MISMATCH) {
+		return MISMATCH;
+	}
+	if (left != right) {
+		appendError(GENERAL_SEMANTIC, "If-Elsif-Else Type Mismatch");
 		return MISMATCH;
 	}
 	return left;
@@ -115,15 +143,7 @@ Types checkRelational(Types left, Types right) {
 }
 
 Types checkIf(Types thenType, Types elsifType, Types elseType) {
-	Types combined = checkCases(thenType, elsifType == NONE ? thenType : elsifType);
-	if (combined == MISMATCH || elseType == MISMATCH) {
-		return MISMATCH;
-	}
-	if (combined != elseType) {
-		appendError(GENERAL_SEMANTIC, "If-Elsif-Else Type Mismatch");
-		return MISMATCH;
-	}
-	return combined;
+	return checkIfBranches(checkIfBranches(thenType, elsifType), elseType);
 }
 
 Types checkListElements(Types left, Types right) {

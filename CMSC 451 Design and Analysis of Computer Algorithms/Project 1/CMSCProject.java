@@ -11,36 +11,36 @@ public class CMSCProject {
     private static final long BASE_SEED = 4512026L;
 
     public static void main(String[] args) throws IOException {
-        SortAbstract selectionSort = new SelectionSort();
-        SortAbstract countingSort = new CountingSort();
+        SortAbstract quickSort = new QuickSort();
+        SortAbstract mergeSort = new MergeSort();
 
-        warmUp(selectionSort, countingSort);
+        warmUp(quickSort, mergeSort);
 
-        try (BufferedWriter selectionWriter = new BufferedWriter(new FileWriter("SelectionSort.txt"));
-             BufferedWriter countingWriter = new BufferedWriter(new FileWriter("CountingSort.txt"))) {
+        try (BufferedWriter quickWriter = new BufferedWriter(new FileWriter("QuickSort.txt"));
+             BufferedWriter mergeWriter = new BufferedWriter(new FileWriter("MergeSort.txt"))) {
             for (int sizeIndex = 1; sizeIndex <= SIZE_COUNT; sizeIndex++) {
                 int size = sizeIndex * SIZE_STEP;
-                selectionWriter.write(Integer.toString(size));
-                countingWriter.write(Integer.toString(size));
+                quickWriter.write(Integer.toString(size));
+                mergeWriter.write(Integer.toString(size));
 
                 for (int run = 0; run < RUNS_PER_SIZE; run++) {
                     int[] input = generateData(size, BASE_SEED + (long) size * 1000 + run);
-                    recordRun(selectionSort, input, selectionWriter);
-                    recordRun(countingSort, input, countingWriter);
+                    recordRun(quickSort, input, quickWriter);
+                    recordRun(mergeSort, input, mergeWriter);
                 }
 
-                selectionWriter.newLine();
-                countingWriter.newLine();
+                quickWriter.newLine();
+                mergeWriter.newLine();
             }
         }
     }
 
-    private static void warmUp(SortAbstract selectionSort, SortAbstract countingSort) {
+    private static void warmUp(SortAbstract quickSort, SortAbstract mergeSort) {
         for (int run = 0; run < WARMUP_RUNS; run++) {
             int size = 32 + (run % 64);
             int[] input = generateData(size, BASE_SEED + run);
-            selectionSort.sort(input.clone());
-            countingSort.sort(input.clone());
+            quickSort.sort(input.clone());
+            mergeSort.sort(input.clone());
         }
     }
 

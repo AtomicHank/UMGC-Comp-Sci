@@ -1,5 +1,9 @@
-// CMSC 430 Compiler Theory and Design
-// Project 3
+/* CMSC 430 Compiler Theory and Design
+   Project 3
+   Author: Joseph Merrill
+   Date: 2026-04-06
+   Description: Declares the operators, fold directions, and evaluation
+   helpers shared by the Project 3 interpreter. */
 
 #pragma once
 

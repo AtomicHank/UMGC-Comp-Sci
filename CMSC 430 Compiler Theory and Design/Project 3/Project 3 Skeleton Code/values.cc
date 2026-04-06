@@ -1,5 +1,9 @@
-// CMSC 430 Compiler Theory and Design
-// Project 3
+/* CMSC 430 Compiler Theory and Design
+   Project 3
+   Author: Joseph Merrill
+   Date: 2026-04-06
+   Description: Implements arithmetic, relational, logical, unary, and fold
+   evaluation helpers used by the Project 3 interpreter. */
 
 #include <cmath>
 #include <vector>

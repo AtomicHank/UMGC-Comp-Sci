@@ -41,6 +41,7 @@ syntax2.txt: malformed function header with a missing colon.\par
 syntax3.txt: malformed variable declaration with a missing colon.\par
 syntax4.txt: malformed switch with a broken case clause and missing others clause.\par
 syntax5.txt: multiple syntax errors in one program, including header, expression, case, and switch recovery.\par
+syntax6.txt: malformed when clause with a missing comma to verify when-statement recovery.\par
 \par
 \b Build verification\b0\par
 Command used: mingw32-make\par
@@ -70,6 +71,8 @@ listing.h\par
 listing.cc\par
 makefile\par
 \par
+The source submission zip was rebuilt to contain only the required source files listed above.\par
+\par
 Generated build artifacts present locally for verification but not required in the submission zip:\par
 lex.yy.c\par
 parser.tab.c\par
@@ -81,5 +84,5 @@ listing.o\par
 compile.exe\par
 \par
 \b 5. Notes\b0\par
-The rubric asks for screenshots of compiler runs. This document records the test cases and observed results in text. If image screenshots are strictly required for submission, they should be captured from the successful test and error-recovery runs already verified in the project workspace.\par
+The rubric asks for screenshots of compiler runs. This document records the test cases and observed results in text. If image screenshots are strictly required for submission, they should be captured from the successful and error-recovery runs already verified in the project workspace, such as test14.txt and syntax6.txt.\par
 }

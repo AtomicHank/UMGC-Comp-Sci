@@ -11,36 +11,36 @@ public class CMSCProject {
     private static final long BASE_SEED = 4512026L;
 
     public static void main(String[] args) throws IOException {
-        SortAbstract quickSort = new QuickSort();
-        SortAbstract mergeSort = new MergeSort();
+        SortAbstract selectionSort = new SelectionSort();
+        SortAbstract countingSort = new CountingSort();
 
-        warmUp(quickSort, mergeSort);
+        warmUp(selectionSort, countingSort);
 
-        try (BufferedWriter quickWriter = new BufferedWriter(new FileWriter("QuickSort.txt"));
-             BufferedWriter mergeWriter = new BufferedWriter(new FileWriter("MergeSort.txt"))) {
+        try (BufferedWriter selectionWriter = new BufferedWriter(new FileWriter("SelectionSort.txt"));
+             BufferedWriter countingWriter = new BufferedWriter(new FileWriter("CountingSort.txt"))) {
             for (int sizeIndex = 1; sizeIndex <= SIZE_COUNT; sizeIndex++) {
                 int size = sizeIndex * SIZE_STEP;
-                quickWriter.write(Integer.toString(size));
-                mergeWriter.write(Integer.toString(size));
+                selectionWriter.write(Integer.toString(size));
+                countingWriter.write(Integer.toString(size));
 
                 for (int run = 0; run < RUNS_PER_SIZE; run++) {
                     int[] input = generateData(size, BASE_SEED + (long) size * 1000 + run);
-                    recordRun(quickSort, input, quickWriter);
-                    recordRun(mergeSort, input, mergeWriter);
+                    recordRun(selectionSort, input, selectionWriter);
+                    recordRun(countingSort, input, countingWriter);
                 }
 
-                quickWriter.newLine();
-                mergeWriter.newLine();
+                selectionWriter.newLine();
+                countingWriter.newLine();
             }
         }
     }
 
-    private static void warmUp(SortAbstract quickSort, SortAbstract mergeSort) {
+    private static void warmUp(SortAbstract selectionSort, SortAbstract countingSort) {
         for (int run = 0; run < WARMUP_RUNS; run++) {
             int size = 32 + (run % 64);
             int[] input = generateData(size, BASE_SEED + run);
-            quickSort.sort(input.clone());
-            mergeSort.sort(input.clone());
+            selectionSort.sort(input.clone());
+            countingSort.sort(input.clone());
         }
     }
 

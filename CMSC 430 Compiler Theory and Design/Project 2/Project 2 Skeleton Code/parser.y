@@ -84,7 +84,12 @@ statement_:
 statement:
 	expression
 	| WHEN condition ',' expression ':' expression
-	| WHEN error ';' { yyerrok; }
+	| WHEN error ',' expression ':' expression { yyerrok; }
+	| WHEN condition ',' error ':' expression { yyerrok; }
+	| WHEN condition ',' expression ':' error { yyerrok; }
+	| WHEN condition error expression ':' expression { yyerrok; }
+	| WHEN condition ',' expression error { yyerrok; }
+	| WHEN error { yyerrok; }
 	| SWITCH expression IS cases OTHERS ARROW statement_ ENDSWITCH
 	| IF condition THEN statement_ elsif_clauses ELSE statement_ ENDIF
 	| FOLD direction operator list_choice ENDFOLD

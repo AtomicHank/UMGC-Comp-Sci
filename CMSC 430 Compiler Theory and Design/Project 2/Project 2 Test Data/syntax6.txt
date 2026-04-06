@@ -1,0 +1,6 @@
+// Error in When Clause, Missing Comma
+
+function main returns integer;
+begin
+    when 3 < 4 1 : 0;
+end;

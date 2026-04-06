@@ -106,6 +106,21 @@ Lexical Errors 0
 Syntax Errors 5
 Semantic Errors 0
 
+===== syntax6.txt =====
+
+   1  // Error in When Clause, Missing Comma
+   2  
+   3  function main returns integer;
+   4  begin
+   5      when 3 < 4 1 : 0;
+Syntax Error, unexpected INT_LITERAL, expecting ','
+   6  end;
+   7  
+
+Lexical Errors 0
+Syntax Errors 1
+Semantic Errors 0
+
 ===== test1.txt =====
 
    1  // Function with Arithmetic Expression

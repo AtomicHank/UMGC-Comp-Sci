@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CMSC 430 Project 4 Documentation</title>
+<style>
+  :root {
+    --ink: #1b1f23;
+    --muted: #4f5d75;
+    --line: #cfd6df;
+    --panel: #f5f7fa;
+    --accent: #0b5cab;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    color: var(--ink);
+    margin: 0;
+    background: white;
+    line-height: 1.45;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 48px 56px;
+  }
+
+  h1, h2, h3 {
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    margin-top: 0;
+    font-size: 30px;
+  }
+
+  h2 {
+    margin-top: 30px;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 6px;
+    font-size: 22px;
+  }
+
+  h3 {
+    margin-top: 24px;
+    font-size: 18px;
+  }
+
+  p, li {
+    font-size: 14px;
+  }
+
+  .meta {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    margin: 18px 0 24px;
+  }
+
+  .meta p {
+    margin: 4px 0;
+  }
+
+  .note {
+    background: #eef5ff;
+    border-left: 4px solid var(--accent);
+    padding: 12px 14px;
+    margin: 16px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 18px;
+    font-size: 13px;
+  }
+
+  th, td {
+    border: 1px solid var(--line);
+    padding: 8px 9px;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  th {
+    background: var(--panel);
+  }
+
+  code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12px;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  figure {
+    margin: 20px 0 28px;
+    page-break-inside: avoid;
+  }
+
+  figure img {
+    width: 100%;
+    border: 1px solid var(--line);
+    display: block;
+  }
+
+  figcaption {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .small {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @page {
+    margin: 0.6in;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>CMSC 430 Project 4 Documentation</h1>
+
+  <div class="meta">
+    <p><strong>Author:</strong> Joe Merrill</p>
+    <p><strong>Course:</strong> CMSC 430 Compiler Theory and Design</p>
+    <p><strong>Project:</strong> Project 4</p>
+    <p><strong>Date:</strong> April 13, 2026</p>
+  </div>
+
+  <div class="note">
+    <p>This report accompanies the cleaned source archive for Project 4. The full regression run of the supplied tests is saved in <code>Project 4 Output.txt</code>, and the full run of the custom tests created for this report is saved in <code>Project 4 Custom Output.txt</code>.</p>
+  </div>
+
+  <h2>Discussion of Approach</h2>
+  <p>I approached Project 4 by treating it as a semantic-analysis extension of the earlier compiler work. The supplied skeleton already handled the basic parse structure, so I first mapped each rubric item to the file where it belonged: token-level updates in <code>scanner.l</code>, grammar and semantic actions in <code>parser.y</code>, symbol lookups in <code>symbols.h</code>, and type checking helpers in <code>types.cc</code> and <code>types.h</code>. That let me work feature by feature without losing track of where each semantic rule should be enforced.</p>
+  <p>The first group of changes focused on the type system. I added support for real types, hexadecimal integer literals, and arithmetic coercion from integer to real inside arithmetic expressions. From there, I expanded the semantic checks so the compiler could detect mismatched variable initializations, invalid function returns, invalid list declarations and subscripts, incorrect use of arithmetic and remainder operators, invalid comparisons between characters and numeric expressions, and type mismatches across <code>when</code>, <code>switch</code>, <code>if</code>, and <code>fold</code> constructs.</p>
+  <p>The second group of changes focused on symbol-table behavior. I kept separate symbol tables for scalars and lists so the compiler could continue to distinguish the two forms of identifiers, then added duplicate-name checks before insertion. That made it possible to detect duplicate scalar declarations, duplicate list declarations, and collisions between names already used in the other table. Parameter declarations reuse the same scalar table, so duplicate parameter and local-variable names are caught the same way.</p>
+  <p>I verified the implementation in two layers. First, I rebuilt the compiler from source using Flex, Bison, and g++. Second, I ran the supplied regression tests that cover the rubric items from the project handout. After the official suite matched the expected outputs, I added custom tests of my own to cover name-collision edge cases and valid semantic behavior that was not shown directly in the provided handout output. That extra pass gave me more confidence that the semantic checks were working for both required and self-created cases.</p>
+
+  <h2>Test Plan</h2>
+  <h3>Supplied Regression Suite</h3>
+  <p>The provided Project 4 test set was used as the primary regression suite. Together these tests cover the real-type additions, arithmetic coercion, symbol-table errors, type-checking errors, and the multiple-error case required by the rubric.</p>
+
+  <table>
+    <tr>
+      <th>File</th>
+      <th>Aspect Tested</th>
+      <th>Expected Outcome</th>
+    </tr>
+    <tr><td><code>valid1.txt</code></td><td>Accepts real variables and real return types.</td><td>Compiled successfully.</td></tr>
+    <tr><td><code>valid2.txt</code></td><td>Treats hexadecimal literals as integers.</td><td>Compiled successfully.</td></tr>
+    <tr><td><code>valid3.txt</code></td><td>Performs integer-to-real coercion in arithmetic expressions.</td><td>Compiled successfully.</td></tr>
+    <tr><td><code>valid4.txt</code></td><td>Allows widening from integer to real in assignments and returns.</td><td>Compiled successfully.</td></tr>
+    <tr><td><code>semantic1.txt</code></td><td>Type mismatch on variable initialization.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic2.txt</code></td><td><code>when</code> branch type mismatch.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic3.txt</code></td><td>Non-integer <code>switch</code> expression.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic4.txt</code></td><td>Mismatched <code>case</code> result types.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic5.txt</code></td><td>Arithmetic operator used with a character value.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic6.txt</code></td><td>Undeclared scalar identifier.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic7.txt</code></td><td>Undeclared list identifier.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic8.txt</code></td><td>List elements with mixed types.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic9.txt</code></td><td>Declared list type differs from element type.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic10.txt</code></td><td>List subscript is not an integer expression.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic11.txt</code></td><td>Character literal compared to numeric expression.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic12.txt</code></td><td>Exponentiation and unary negation used with characters.</td><td>Two semantic errors.</td></tr>
+    <tr><td><code>semantic13.txt</code></td><td>Remainder operator used with a real operand.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic14.txt</code></td><td><code>if</code>, <code>elsif</code>, and <code>else</code> branches do not match in type.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic15.txt</code></td><td><code>fold</code> applied to a non-numeric list.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic16.txt</code></td><td>Narrowing during variable initialization.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic17.txt</code></td><td>Narrowing function return.</td><td>One semantic error.</td></tr>
+    <tr><td><code>semantic18.txt</code></td><td>Duplicate scalar and duplicate list declarations.</td><td>Two semantic errors.</td></tr>
+    <tr><td><code>semantic19.txt</code></td><td>Multiple semantic errors in one program.</td><td>Seven semantic errors.</td></tr>
+    <tr><td><code>semantic20.txt</code></td><td>Function return type mismatch.</td><td>One semantic error.</td></tr>
+  </table>
+
+  <h3>Custom Tests Created for This Report</h3>
+  <p>To strengthen the test plan beyond the supplied handout cases, I created four additional programs. These custom tests target name-collision edge cases and valid semantic behavior that complements the official suite.</p>
+
+  <table>
+    <tr>
+      <th>File</th>
+      <th>Aspect Tested</th>
+      <th>Expected Outcome</th>
+    </tr>
+    <tr><td><code>custom1_parameter_duplicate.txt</code></td><td>Detects a duplicate scalar when a local variable reuses a parameter name.</td><td>One semantic error: duplicate scalar.</td></tr>
+    <tr><td><code>custom2_scalar_list_collision.txt</code></td><td>Detects a duplicate identifier when a list reuses a scalar name.</td><td>One semantic error: duplicate list.</td></tr>
+    <tr><td><code>custom3_valid_character_compare.txt</code></td><td>Confirms that character-to-character relational comparisons are legal.</td><td>Compiled successfully.</td></tr>
+    <tr><td><code>custom4_valid_real_fold.txt</code></td><td>Confirms that <code>fold</code> accepts a numeric list variable of type real.</td><td>Compiled successfully.</td></tr>
+  </table>
+
+  <p class="small">The four custom test source files are stored in <code>Project 4 Test Data</code> beside the supplied suite.</p>
+
+  <h2>Representative Compiler Runs</h2>
+  <p>The screenshots below show the compiler being run on both supplied and custom tests. The custom tests are included to demonstrate self-created verification beyond the instructor-provided regression suite.</p>
+
+  <figure>
+    <img src="report_assets/valid3_type_coercion.png" alt="Compiler output for valid3.txt">
+    <figcaption><strong>Figure 1.</strong> Supplied regression case <code>valid3.txt</code>, demonstrating integer-to-real coercion in arithmetic expressions.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="report_assets/semantic19_multiple_errors.png" alt="Compiler output for semantic19.txt">
+    <figcaption><strong>Figure 2.</strong> Supplied regression case <code>semantic19.txt</code>, demonstrating recovery and reporting of multiple semantic errors in one compilation.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="report_assets/custom1_parameter_duplicate.png" alt="Compiler output for custom1_parameter_duplicate.txt">
+    <figcaption><strong>Figure 3.</strong> Custom test <code>custom1_parameter_duplicate.txt</code>, showing that a parameter name cannot be reused by a local scalar declaration.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="report_assets/custom2_scalar_list_collision.png" alt="Compiler output for custom2_scalar_list_collision.txt">
+    <figcaption><strong>Figure 4.</strong> Custom test <code>custom2_scalar_list_collision.txt</code>, showing that a list identifier cannot reuse an existing scalar name.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="report_assets/custom3_valid_character_compare.png" alt="Compiler output for custom3_valid_character_compare.txt">
+    <figcaption><strong>Figure 5.</strong> Custom test <code>custom3_valid_character_compare.txt</code>, showing a valid character comparison that compiles successfully.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="report_assets/custom4_valid_real_fold.png" alt="Compiler output for custom4_valid_real_fold.txt">
+    <figcaption><strong>Figure 6.</strong> Custom test <code>custom4_valid_real_fold.txt</code>, showing a valid fold over a real list variable.</figcaption>
+  </figure>
+
+  <h2>Lessons Learned</h2>
+  <p>The most important lesson from Project 4 is that semantic analysis is where the language rules start to feel real. The parser can accept a program that is syntactically well formed, but semantic analysis decides whether that program actually makes sense. Working through the project made the separation between syntax and meaning much clearer to me, especially in cases like valid versus invalid type coercion or valid versus invalid use of identifiers.</p>
+  <p>I also learned how useful it is to centralize semantic checks in helper functions instead of scattering complex logic throughout the grammar. Moving the semantic rules into functions such as <code>checkAssignment</code>, <code>checkArithmetic</code>, <code>checkRelational</code>, and the list-related helpers made the parser actions easier to read and made the behavior easier to verify with targeted tests. That organization reduced the chance of inconsistent error handling between similar grammar productions.</p>
+  <p>Another important lesson was that symbol-table testing needs to include collisions that are easy to overlook. The supplied tests covered duplicate scalars and duplicate lists, but adding custom tests around parameter-name reuse and scalar-list collisions helped confirm that the compiler rejects duplicates consistently across declaration contexts. That kind of targeted edge-case testing is especially valuable in compiler projects because a small oversight in scope or lookup logic can create confusing downstream errors.</p>
+
+  <h2>Improvements That Could Be Made</h2>
+  <ul>
+    <li>Add an automated regression script that runs every supplied and custom test case and compares the compiler output against expected results.</li>
+    <li>Refactor the semantic helper functions into more clearly grouped categories, such as assignment checks, control-flow checks, arithmetic checks, and list checks.</li>
+    <li>Extend the symbol-table layer to support nested scopes explicitly, which would make the design easier to reuse in later compiler phases.</li>
+    <li>Add a packaging script that rebuilds the compiler, refreshes test outputs, and recreates the final submission archive in one command.</li>
+  </ul>
+
+  <h2>Submission Contents</h2>
+  <p>The final Project 4 submission package produced for this repository includes the following deliverables:</p>
+  <ul>
+    <li><code>CMSC 430 Project 4- Joe Merrill.zip</code>: cleaned source archive containing only the required <code>.l</code>, <code>.y</code>, <code>.cc</code>, <code>.h</code>, and <code>makefile</code> files.</li>
+    <li><code>CMSC 430 Project 4-Joe Merrill.pdf</code>: exported documentation report.</li>
+    <li><code>Project 4 Custom Output.txt</code>: full console output for the custom tests created for this report.</li>
+  </ul>
+</main>
+</body>
+</html>

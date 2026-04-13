@@ -1,0 +1,8 @@
+-- Scalar and List Share One Identifier
+
+function main returns integer;
+    item: integer is 5;
+    item: list of integer is (1, 2, 3);
+begin
+    item;
+end;

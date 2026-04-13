@@ -4,6 +4,13 @@ Author: Joseph Merrill
 
 Date: 2026-04-06
 
+## Report Completion Checklist
+
+- [ ] Paste terminal screenshots into this document before export.
+- [ ] Export this file as PDF, Word, or RTF for submission.
+- [ ] Submit the source archive and the exported report as two separate files.
+- [ ] Do not submit `Project 3 Approach.pdf` as the report because that file is the instructor handout, not the student documentation.
+
 ## Discussion of Approach
 
 I approached this project by starting with the supplied interpreter skeleton and identifying which parts of the language were already implemented and which rubric items still needed to be supported. The scanner, parser, and evaluation helpers already handled some arithmetic and relational behavior, so I focused first on mapping the remaining project requirements to the correct file: lexical changes in `scanner.l`, grammar and semantic actions in `parser.y`, and runtime evaluation helpers in `values.cc`.
@@ -18,26 +25,45 @@ Finally, I verified the interpreter against the supplied test files and added ex
 
 ## Test Plan
 
-Use screenshots of each compiler run and place them under the matching test case.
+Each screenshot should show the command used, the source listing, and the final `Result = ...` line.
 
-| Test Case | Input / Args | What It Verifies | Expected Result | Screenshot |
-| --- | --- | --- | --- | --- |
-| `test1.txt` | none | Arithmetic expression evaluation | `Result = 25` | Add screenshot |
-| `test5.txt` | none | Real literals and hexadecimal integer literals | `Result = 115.57` | Add screenshot |
-| `test6.txt` | none | Character literals with escape sequences | `Result = 12` | Add screenshot |
-| `test7.txt` | none | Addition, subtraction, multiplication, division, remainder, exponentiation, negation | `Result = 5` | Add screenshot |
-| `test8.txt` | none | Relational operators and logical operators | `Result = 0` | Add screenshot |
-| `test9.txt` | none | `if` / `elsif` / `else` evaluation | `Result = 3` | Add screenshot |
-| `test13.txt` | none | Right fold | `Result = 2` | Add screenshot |
-| `test14.txt` | none | Left fold | `Result = 0` | Add screenshot |
-| `test10.txt` | none | Multiple variable declarations with mixed types | `Result = 10` | Add screenshot |
-| `test11.txt` | `2.5` | Single function parameter | `Result = 4` | Add screenshot |
-| `test12.txt` | `5 2.5` | Multiple function parameters | `Result = 3.5` | Add screenshot |
-| `test15.txt` | `2 2 65` | Combined statements, variables, lists, parameters, and operators | `Result = 3` | Add screenshot |
-| Custom parameter test | `#A` | Hexadecimal command-line parameter handling | `Result = 11` | Add screenshot |
-| Custom parameter test | `'A'` | Character command-line parameter handling | `Result = 1` | Add screenshot |
-| Custom fold test | none | Fold with exponentiation | `Result = 512` | Add screenshot |
-| Custom fold test | none | Fold with remainder | `Result = 2` | Add screenshot |
+Required screenshots for rubric coverage:
+
+- [ ] `test5.txt` with no command-line arguments. Verifies real literals and hexadecimal integer literals. Expected result: `115.57`.
+- [ ] `test6.txt` with no command-line arguments. Verifies character literals with escape sequences. Expected result: `12`.
+- [ ] `test7.txt` with no command-line arguments. Verifies subtraction, division, remainder, exponentiation, and unary negation together with operator precedence. Expected result: `5`.
+- [ ] `test8.txt` with no command-line arguments. Verifies additional relational and logical operators. Expected result: `0`.
+- [ ] `test9.txt` with no command-line arguments. Verifies `if`, `elsif`, and `else`. Expected result: `3`.
+- [ ] `test10.txt` with no command-line arguments. Verifies multiple variable declarations with mixed types. Expected result: `10`.
+- [ ] `test11.txt 6.8`. Verifies a single function parameter supplied on the command line. Expected result: `8.3`.
+- [ ] `test12.txt 16 15.9`. Verifies multiple function parameters supplied on the command line. Expected result: `14.9`.
+- [ ] `test13.txt` with no command-line arguments. Verifies right fold using a list variable. Expected result: `2`.
+- [ ] `test14.txt` with no command-line arguments. Verifies left fold using a list literal. Expected result: `0`.
+- [ ] `test15.txt 1 2.5 65`. Verifies the combined language features test case from the requirements handout. Expected result: `1`.
+
+Additional screenshots that strengthen the test plan:
+
+- [ ] `test1.txt` with no command-line arguments. Verifies the original arithmetic expression behavior. Expected result: `25`.
+- [ ] `test16.txt 1 -1`. Verifies nested `if` statements and character return values. Expected result: `52`.
+- [ ] Custom parameter test using a program such as `function main x: integer returns integer; begin x + 1; end;` with argument `#A`. Verifies hexadecimal command-line parameter handling. Expected result: `11`.
+- [ ] Custom parameter test using a program such as `function main c: character returns integer; begin if c = 'A' then 1; else 0; endif; end;` with argument `'A'`. Verifies character command-line parameter handling. Expected result: `1`.
+- [ ] Custom fold test using `function main returns integer; begin fold right ^ (2, 3, 2) endfold; end;`. Verifies right fold with exponentiation. Expected result: `512`.
+- [ ] Custom fold test using `function main returns integer; begin fold left % (20, 6, 4) endfold; end;`. Verifies left fold with remainder. Expected result: `2`.
+
+Suggested PowerShell commands for the screenshots from the supplied test set:
+
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test5.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test6.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test7.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test8.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test9.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test10.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test11.txt" | .\Project 3 Skeleton Code\compile.exe 6.8`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test12.txt" | .\Project 3 Skeleton Code\compile.exe 16 15.9`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test13.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test14.txt" | .\Project 3 Skeleton Code\compile.exe`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test15.txt" | .\Project 3 Skeleton Code\compile.exe 1 2.5 65`
+- [ ] `Get-Content -Raw ".\Project 3 Test Data\test16.txt" | .\Project 3 Skeleton Code\compile.exe 1 -1`
 
 ## Lessons Learned
 
@@ -60,6 +86,9 @@ If I were improving this project further, I would add a small automated regressi
 
 ## Submission Checklist
 
-- Export this documentation to PDF, Word, or RTF after replacing the placeholders with your final wording.
-- Insert screenshots for each test case listed above.
-- Submit the source zip and the documentation file as two separate uploads.
+- Confirm the final report contains the sections `Discussion of Approach`, `Test Plan`, `Lessons Learned`, and `Improvements That Could Be Made`.
+- Confirm every source file includes a comment block with project name, author, date, and description.
+- Insert the required screenshots listed in the test plan.
+- Export this document to PDF, Word, or RTF.
+- Submit `Project 3 Source Submission Clean 2026-04-06.zip` as the source archive.
+- Submit the exported report as the documentation file.

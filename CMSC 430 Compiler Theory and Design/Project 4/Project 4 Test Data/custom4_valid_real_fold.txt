@@ -1,0 +1,7 @@
+-- Valid Fold Over Real List Variable
+
+function main returns real;
+    values: list of real is (1.5, 2.0, 3.5);
+begin
+    fold left + values endfold;
+end;

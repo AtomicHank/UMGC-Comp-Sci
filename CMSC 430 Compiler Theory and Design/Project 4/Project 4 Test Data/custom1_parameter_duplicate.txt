@@ -1,0 +1,7 @@
+-- Duplicate Parameter and Local Variable
+
+function main value: integer returns integer;
+    value: integer is 1;
+begin
+    value;
+end;

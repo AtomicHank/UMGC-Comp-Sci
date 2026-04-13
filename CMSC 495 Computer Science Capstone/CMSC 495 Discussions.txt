@@ -67,6 +67,8 @@ How do you collaborate with team members to refine and enhance the project sourc
 How to provide constructive feedback to your group members during per review process
 Challenges and strategies for overcoming the challenges and ensure code quality
 Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+https://learning.oreilly.com/library/view/software-engineering-at/9781492082781/ch18.html?sso_link=yes&sso_link_from=umgc
+https://learning.oreilly.com/library/view/software-engineering-at/9781492082781/ch19.html?sso_link=yes&sso_link_from=umgc
 
 Unit 7
 For this unit’s discussion, complete the assigned readings for the unit on User Guide and discuss the key concepts and insights you have gained. In your discussion, include the most important aspects of a User Guide.
@@ -76,6 +78,7 @@ You can base your discussion on your group's user guide, including (but not limi
 Key takeaways from the unit readings for the User Guide
 Challenges you anticipate in developing a comprehensive User Guide for your project
 Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
+https://learning.oreilly.com/library/view/software-engineering-at/9781492082781/ch10.html?sso_link=yes&sso_link_from=umgc
 
 Unit 8
 For this week’s discussion, develop a short video (5-7 minutes in length) in which you present your project to the class. You can use slides, screenshots, voiceover, and/or live action. Your video should include your project’s title, name of all team members, and any other details that you’d like to convey to the viewers.   
@@ -86,4 +89,5 @@ The purpose and significance of your capstone project
 A quick demonstration of your capstone project 
 Lessons learned, what went well, what did not and what you could have done better.
 Engage in thoughtful debates and challenge each other's perspectives, encouraging a rich and dynamic exchange of ideas. Respond to two of your classmates' posts by providing insight into their observations.
-
+https://learning.oreilly.com/library/view/software-engineering-at/9781492082781/ch23.html?sso_link=yes&sso_link_from=umgc
+https://learning.oreilly.com/library/view/software-engineering-at/9781492082781/ch24.html?sso_link=yes&sso_link_from=umgc

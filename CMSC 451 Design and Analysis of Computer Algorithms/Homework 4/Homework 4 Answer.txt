@@ -26,6 +26,28 @@ H->I
 I->D
 K->J
 
+Mermaid.js code for the original directed graph:
+```mermaid
+flowchart LR
+    A --> B
+    A --> C
+    B --> E
+    B --> G
+    C --> B
+    C --> D
+    C --> F
+    D --> H
+    E --> G
+    E --> H
+    E --> J
+    E --> K
+    F --> C
+    G --> A
+    H --> I
+    I --> D
+    K --> J
+```
+
 Adjacency lists in alphabetical order:
 
 A: B, C
@@ -74,6 +96,21 @@ A
     |-- D
     `-- F
 
+Mermaid.js code for the BFS tree:
+```mermaid
+flowchart TD
+    A --> B
+    A --> C
+    B --> E
+    B --> G
+    C --> D
+    C --> F
+    E --> H
+    E --> J
+    E --> K
+    H --> I
+```
+
 Levels:
 Level 0: A
 Level 1: B, C
@@ -110,6 +147,21 @@ E->J
 E->K
 A->C
 C->F
+
+Mermaid.js code for the DFS tree:
+```mermaid
+flowchart TD
+    A --> B
+    B --> E
+    E --> G
+    E --> H
+    H --> I
+    I --> D
+    E --> J
+    E --> K
+    A --> C
+    C --> F
+```
 
 Edge classification:
 A->B: tree
@@ -152,6 +204,25 @@ H: I
 I: D
 J:
 K: J
+
+Mermaid.js code for the DAG after removing back edges:
+```mermaid
+flowchart LR
+    A --> B
+    A --> C
+    B --> E
+    B --> G
+    C --> B
+    C --> D
+    C --> F
+    E --> G
+    E --> H
+    E --> J
+    E --> K
+    H --> I
+    I --> D
+    K --> J
+```
 
 Depth-first search on the DAG gives these start/finish times:
 A: 1/22
@@ -223,6 +294,30 @@ J
 Tree 4 rooted at H:
 H->D
 D->I
+
+Mermaid.js code for the DFS forest on the transpose graph:
+```mermaid
+flowchart TD
+    A --> G
+    G --> B
+    B --> C
+    C --> F
+    G --> E
+    H --> D
+    D --> I
+    J[J]
+    K[K]
+
+    classDef scc1 fill:#e8f1ff,stroke:#1f4b99,stroke-width:1px;
+    classDef scc2 fill:#eaf7ea,stroke:#2f7d32,stroke-width:1px;
+    classDef scc3 fill:#fff4d6,stroke:#9a6b00,stroke-width:1px;
+    classDef scc4 fill:#fdeaea,stroke:#9f2d2d,stroke-width:1px;
+
+    class A,B,C,E,F,G scc1;
+    class D,H,I scc2;
+    class K scc3;
+    class J scc4;
+```
 
 Strongly connected components:
 {A, B, C, E, F, G}

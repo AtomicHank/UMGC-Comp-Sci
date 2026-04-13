@@ -1,0 +1,65 @@
+===== custom1_parameter_duplicate.txt =====
+
+
+   1  -- Duplicate Parameter and Local Variable
+   2  
+   3  function main value: integer returns integer;
+   4      value: integer is 1;
+Semantic Error, Duplicate Scalar value
+   5  begin
+   6      value;
+   7  end;
+   8  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== custom2_scalar_list_collision.txt =====
+
+
+   1  -- Scalar and List Share One Identifier
+   2  
+   3  function main returns integer;
+   4      item: integer is 5;
+   5      item: list of integer is (1, 2, 3);
+Semantic Error, Duplicate List item
+   6  begin
+   7      item;
+   8  end;
+   9  
+     
+Lexical Errors 0
+Syntax Errors 0
+Semantic Errors 1
+
+===== custom3_valid_character_compare.txt =====
+
+
+   1  -- Valid Character Comparison
+   2  
+   3  function main returns integer;
+   4  begin
+   5      if 'A' < 'Z' then
+   6          1;
+   7      else
+   8          0;
+   9      endif;
+  10  end;
+  11  
+     
+Compiled Successfully
+
+===== custom4_valid_real_fold.txt =====
+
+
+   1  -- Valid Fold Over Real List Variable
+   2  
+   3  function main returns real;
+   4      values: list of real is (1.5, 2.0, 3.5);
+   5  begin
+   6      fold left + values endfold;
+   7  end;
+   8  
+     
+Compiled Successfully

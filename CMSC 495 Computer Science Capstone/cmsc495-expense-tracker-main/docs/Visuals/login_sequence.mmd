@@ -1,0 +1,27 @@
+---
+title: Login Flow (Desktop Application)
+---
+sequenceDiagram
+    autonumber
+    actor U as User
+    participant LV as LoginView
+    participant AUTH as AuthenticationService
+    participant JDBC as JdbcTemplate
+    participant DB as SQLite
+
+    U->>LV: Enter email + password
+    LV->>AUTH: authenticateUser(email, password)
+    AUTH->>JDBC: SELECT user by normalized email
+    JDBC->>DB: Execute query
+    DB-->>JDBC: User row with password_hash
+    JDBC-->>AUTH: Result set
+    AUTH->>AUTH: Hash provided password and compare
+
+    alt Credentials valid
+        AUTH-->>LV: User object
+        LV->>LV: Build DashboardView
+        LV-->>U: Switch scene to dashboard
+    else Credentials invalid
+        AUTH-->>LV: null
+        LV-->>U: Display "Invalid email or password."
+    end

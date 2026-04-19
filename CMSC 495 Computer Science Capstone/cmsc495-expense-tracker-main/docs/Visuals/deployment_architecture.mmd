@@ -1,0 +1,50 @@
+---
+title: Personal Expense Tracker Desktop Architecture
+---
+flowchart LR
+    USER([End User])
+
+    subgraph DESKTOP[Desktop Application]
+        direction TB
+        MAIN[MainApp / Spring Boot Bootstrap]
+
+        subgraph UI[JavaFX Presentation Layer]
+            direction LR
+            LOGIN[LoginView]
+            DASH[DashboardView]
+            NAV[SceneNavigator]
+        end
+
+        subgraph SERVICE[Service Layer]
+            direction LR
+            AUTH[AuthenticationService]
+            CAT[CategoryService]
+            EXP[ExpenseService]
+        end
+
+        DBM[DatabaseManager]
+    end
+
+    DB[(SQLite Database File)]
+
+    USER --> LOGIN
+    LOGIN --> AUTH
+    DASH --> CAT
+    DASH --> EXP
+    LOGIN --> NAV
+    DASH --> NAV
+    MAIN --> UI
+    MAIN --> SERVICE
+    MAIN --> DBM
+    AUTH --> DB
+    CAT --> DB
+    EXP --> DB
+    DBM --> DB
+
+    classDef app fill:#eef2ff,stroke:#2563eb,stroke-width:1.5px,color:#111827;
+    classDef db fill:#ecfeff,stroke:#0891b2,stroke-width:1.5px,color:#111827;
+    classDef zone fill:#f8fafc,stroke:#94a3b8,stroke-width:1.2px,color:#0f172a;
+
+    class MAIN,LOGIN,DASH,NAV,AUTH,CAT,EXP,DBM app;
+    class DB db;
+    class DESKTOP,UI,SERVICE zone;
